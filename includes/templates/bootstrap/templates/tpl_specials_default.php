@@ -10,16 +10,6 @@
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
  * @version $Id: Author: DrByte  Sat Jan 9 13:13:41 2016 -0500 Modified in v1.5.5 $
  */
-// -----
-// For each row/column to be displayed, need to change the parameters to 'align' with
-// the bootstrap formatting.
-//
-foreach ($list_box_contents as $i => $k) {
-    foreach ($k as $j => $value) {
-        if (!is_numeric($j)) continue;
-        $list_box_contents[$i][$j]['params'] = 'class="card mb-3 p-3 centerBoxContentsListing text-center"';
-    }
-}
 ?>
 <div id="specialsDefault" class="centerColumn">
 
