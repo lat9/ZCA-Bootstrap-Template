@@ -48,6 +48,7 @@ if ($product_listing_layout_style === 'table') {
     for ($col = 0, $n = count($column_list); $col < $n; $col++) {
         $lc_align = '';
         $lc_text = '';
+        $hide_class = ' '; 
         switch ($column_list[$col]) {
             case 'PRODUCT_LIST_MODEL':
                 $lc_text = TABLE_HEADING_MODEL;
@@ -83,6 +84,8 @@ if ($product_listing_layout_style === 'table') {
                 $lc_text = '&nbsp;';
 //                $lc_text = TABLE_HEADING_IMAGE;   //-Uncomment this line if you want the "Products Image" header title
                 $lc_align = 'center';
+                // Hide the image for phones in portrait mode
+                $hide_class = ' d-none d-sm-block'; 
                 $zc_col_count_description++;
                 break;
             default:
@@ -98,7 +101,8 @@ if ($product_listing_layout_style === 'table') {
         $align_class = ($lc_align == '') ? '' : " text-$lc_align";
         $list_box_contents[0][$col] = [
             //'align' => $lc_align, // not used with Bootstrap template: converted to css class below
-            'params' => 'class="productListing-heading' . $align_class . '"',
+            'params' => 'class="productListing-heading' . $align_class . $hide_class . '"',
+            'hide_class' => $hide_class, 
             'text' => $lc_text,
         ];
     }
@@ -396,9 +400,13 @@ if ($num_products_count > 0) {
 
             if ($product_listing_layout_style === 'table') {
                 $align_class = empty($lc_align) ? '' : " text-$lc_align";
+                $hide_class = ''; 
+                if (isset($list_box_contents[0][$col]['hide_class'])) {
+                   $hide_class = $list_box_contents[0][$col]['hide_class']; 
+                }
                 $list_box_contents[$rows][] = [
                     //'align' => $lc_align, // not used with Bootstrap template: converted to css class on next line
-                    'params' => 'class="productListing-data' . $align_class . '"',
+                    'params' => 'class="productListing-data' . $align_class . $hide_class . '"',
                     'category' => $record['master_categories_id'],
                     'parent_category_name' => $record['parent_category_name'],
                     'category_name' => $record['category_name'],
