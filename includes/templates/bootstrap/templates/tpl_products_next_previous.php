@@ -37,11 +37,11 @@
 </div>
 
 <div class="btn-group d-block d-sm-none" role="group">
-<a class="p-1" href="<?php echo zen_href_link(zen_get_info_page($previous), "cPath=$cPath&products_id=$previous"); ?>"><span class="btn btn-primary"><?php echo '<i class="fas fa-angle-left"></i>'; ?></span></a>
+<a class="p-1" href="<?php echo zen_href_link(zen_get_info_page($previous), "cPath=$cPath&products_id=$previous"); ?>" aria-label="Prev"><span class="btn btn-primary"><?php echo '<i class="fas fa-angle-left"></i>'; ?></span></a>
 
 <a class="p-1" href="<?php echo zen_href_link(FILENAME_DEFAULT, "cPath=$cPath"); ?>"><?php echo zen_image_button(BUTTON_IMAGE_RETURN_TO_PROD_LIST, BUTTON_RETURN_TO_PROD_LIST_ALT); ?></a>
 
-<a class="p-1" href="<?php echo zen_href_link(zen_get_info_page($next_item), "cPath=$cPath&products_id=$next_item"); ?>"><span class="btn btn-primary"><?php echo '<i class="fas fa-angle-right"></i>'; ?></span></a>
+<a class="p-1" href="<?php echo zen_href_link(zen_get_info_page($next_item), "cPath=$cPath&products_id=$next_item"); ?>" aria-label="Next"><span class="btn btn-primary"><?php echo '<i class="fas fa-angle-right"></i>'; ?></span></a>
 </div>
 
 <?php
