@@ -4,6 +4,7 @@
 //
 // BOOTSTRAP 3.4.0.
 //
+#[AllowDynamicProperties]
 class ZcaBootstrapObserver extends base
 {
     // -----
