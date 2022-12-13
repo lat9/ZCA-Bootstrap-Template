@@ -49,7 +49,7 @@ if (isset($_GET['products_id']) && SHOW_PRODUCT_INFO_COLUMNS_ALSO_PURCHASED_PROD
             if (empty($also_purchased_products->fields['products_image']) && (int)PRODUCTS_IMAGE_NO_IMAGE_STATUS === 0) {
                 $also_purchased_products_image = '';
             } else {
-                $also_purchased_products_image = '<div class="centerBoxContentsItem-image text-center"><a href="' . $app_products_link . '">' . zen_image(DIR_WS_IMAGES . $also_purchased_products->fields['products_image'], $app_products_name, SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT) . '</a></div>';
+                $also_purchased_products_image = '<div class="centerBoxContentsItem-image text-center"><a href="' . $app_products_link . '" title="' . $app_products_name . '">' . zen_image(DIR_WS_IMAGES . $also_purchased_products->fields['products_image'], $app_products_name, SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT) . '</a></div>';
             }
             /** eof products image */
       
