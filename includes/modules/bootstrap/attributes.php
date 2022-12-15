@@ -58,7 +58,7 @@ $sql = "SELECT DISTINCT popt.products_options_id, popt.products_options_name, po
             popt.products_options_images_style,
             popt.products_options_rows
         FROM " . TABLE_PRODUCTS_OPTIONS . " popt
-        LEFT JOIN " . TABLE_PRODUCTS_ATTRIBUTES . " patrib ON (patrib.options_id = popt.products_options_id) 
+        LEFT JOIN " . TABLE_PRODUCTS_ATTRIBUTES . " patrib ON (patrib.options_id = popt.products_options_id)
         WHERE patrib.products_id= :products_id
         AND popt.language_id = :language_id " .
         $options_order_by;
@@ -175,7 +175,7 @@ while (!$products_options_names->EOF) {
             } else {
                 // discount is off do not apply
                 $new_attributes_price = $products_options->fields['options_values_price'];
-                
+
                 // -----
                 // If the attribute's price is 0, set it to an (int) 0 so that follow-on checks
                 // using empty() will find that value 'empty'.
@@ -477,7 +477,7 @@ while (!$products_options_names->EOF) {
                     $tmp_html = '<input class="form-control" type="text" name="id[' . TEXT_PREFIX . $products_options_id . ']" size="' . $products_options_names->fields['products_options_size'] .'" maxlength="' . $products_options_names->fields['products_options_length'] . '" value="' . htmlspecialchars($tmp_value, ENT_COMPAT, CHARSET, true) .'" id="' . $inputFieldId . '"'  . $data_properties . $field_disabled . '>  ';
                 }
                 $tmp_html .= $products_options_details;
-                
+
                if (defined('ATTRIBUTES_ENABLED_TEXT_PRICES') && ATTRIBUTES_ENABLED_TEXT_PRICES == 'true') { // test ATTRIBUTES_ENABLED_TEXT_PRICES
                 $tmp_word_cnt_string = '';
                 // calculate word charges
