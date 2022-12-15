@@ -1,7 +1,7 @@
 <?php
 /**
  * product_listing module
- * 
+ *
  * BOOTSTRAP v3.4.2
  *
  * @copyright Copyright 2003-2020 Zen Cart Development Team
@@ -91,7 +91,7 @@ if ($product_listing_layout_style === 'table') {
 
         // Add clickable "sort" links to column headings
         if ($column_list[$col] !== 'PRODUCT_LIST_IMAGE') {
-            $lc_text = zen_create_sort_heading(isset($_GET['sort']) ? $_GET['sort'] : '', $col + 1, $lc_text);
+            $lc_text = zen_create_sort_heading($_GET['sort'] ?? '', $col + 1, $lc_text);
         }
 
 
