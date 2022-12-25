@@ -44,6 +44,7 @@ This Zen Cart template uses a [Bootstrap](https://getbootstrap.com/docs/4.5/gett
 - Free themes for Bootstrap: https://bootswatch.com/
 - Bootstrap 4.6 browser bugs: https://getbootstrap.com/docs/4.6/browser-bugs/
 - Bootstrap Cheat Sheet: https://www.interviewbit.com/bootstrap-cheat-sheet/
+- Bootstrap Tutorial: https://www.scaler.com/topics/css/bootstrap/
 
 ## Additional Information:
 
