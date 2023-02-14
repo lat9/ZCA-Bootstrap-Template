@@ -12,7 +12,7 @@ a:hover {color: <?php echo ZCA_BUTTON_LINK_COLOR_HOVER; ?>;}
 .required-info, .alert {color: <?php echo ZCA_BODY_PLACEHOLDER; ?>;}
 
 /* Nav Bar Active Links */
-.activeLink {color: <?php echo ZCA_ACTIVE_LINK_COLOR; ?> !important;background-color: <?php echo ZCA_ACTIVE_LINK_BACKGROUND_COLOR; ?> !important;border: 2px solid <?php echo ZCA_ACTIVE_LINK_BORDER_COLOR; ?> !important;}
+.activeLink {color: <?php echo ZCA_ACTIVE_LINK_COLOR; ?> !important;background-color: <?php echo ZCA_ACTIVE_LINK_BACKGROUND_COLOR; ?> !important;}
 
 /* for button specific colors, examples are in stylesheet_css_buttons.css */
 /* buttons */
@@ -41,7 +41,7 @@ nav.navbar .navbar-toggler:hover {color: <?php echo ZCA_HEADER_NAVBAR_BUTTON_TEX
 
 /* header category tabs */
 #navCatTabs a {color: <?php echo ZCA_HEADER_TABS_TEXT_COLOR; ?>;background-color: <?php echo ZCA_HEADER_TABS_BACKGROUND_COLOR; ?>;}
-#navCatTabs a:hover {color: <?php echo ZCA_HEADER_TABS_TEXT_COLOR_HOVER; ?>;background-color: <?php echo ZCA_HEADER_TABS_BACKGROUND_COLOR_HOVER; ?>;border: 2px solid <?php echo ZCA_HEADER_TABS_BORDER_COLOR_HOVER; ?>;}
+#navCatTabs a:hover {color: <?php echo ZCA_HEADER_TABS_TEXT_COLOR_HOVER; ?>;background-color: <?php echo ZCA_HEADER_TABS_BACKGROUND_COLOR_HOVER; ?>;}
 
 /* bof items for extra navCatTabs settings */
 
