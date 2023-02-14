@@ -11,6 +11,9 @@ a:hover {color: <?php echo ZCA_BUTTON_LINK_COLOR_HOVER; ?>;}
 .form-control::placeholder {color: <?php echo ZCA_BODY_PLACEHOLDER; ?>;}
 .required-info, .alert {color: <?php echo ZCA_BODY_PLACEHOLDER; ?>;}
 
+/* Nav Bar Active Links */
+.activeLink {color: <?php echo ZCA_ACTIVE_LINK_COLOR; ?> !important;background-color: <?php echo ZCA_ACTIVE_LINK_BACKGROUND_COLOR; ?> !important;border: 2px solid <?php echo ZCA_ACTIVE_LINK_BORDER_COLOR; ?> !important;}
+
 /* for button specific colors, examples are in stylesheet_css_buttons.css */
 /* buttons */
 .btn {color: <?php echo ZCA_BUTTON_TEXT_COLOR; ?>;background-color: <?php echo ZCA_BUTTON_COLOR; ?>;border-color: <?php echo ZCA_BUTTON_BORDER_COLOR; ?>;}
@@ -34,11 +37,19 @@ nav.navbar .navbar-toggler:hover {color: <?php echo ZCA_HEADER_NAVBAR_BUTTON_TEX
 /* header ezpage bar */
 #ezpagesBarHeader {background-color: <?php echo ZCA_HEADER_EZPAGE_BACKGROUND_COLOR; ?>;}
 #ezpagesBarHeader a.nav-link {color: <?php echo ZCA_HEADER_EZPAGE_LINK_COLOR; ?>;}
-#ezpagesBarHeader a.nav-link:hover {color: <?php echo ZCA_HEADER_EZPAGE_LINK_COLOR_HOVER; ?>;}
+#ezpagesBarHeader a.nav-link:hover {color: <?php echo ZCA_HEADER_EZPAGE_LINK_COLOR_HOVER; ?>;background-color: <?php echo ZCA_HEADER_EZPAGE_BACKGROUND_COLOR_HOVER; ?>;}
 
 /* header category tabs */
-#navCatTabs a {color: <?php echo ZCA_HEADER_TABS_TEXT_COLOR; ?>;background-color: <?php echo ZCA_HEADER_TABS_COLOR; ?>;}
-#navCatTabs a:hover {color: <?php echo ZCA_HEADER_TABS_TEXT_COLOR_HOVER; ?>;background-color: <?php echo ZCA_HEADER_TABS_COLOR_HOVER; ?>;}
+#navCatTabs a {color: <?php echo ZCA_HEADER_TABS_TEXT_COLOR; ?>;background-color: <?php echo ZCA_HEADER_TABS_BACKGROUND_COLOR; ?>;}
+#navCatTabs a:hover {color: <?php echo ZCA_HEADER_TABS_TEXT_COLOR_HOVER; ?>;background-color: <?php echo ZCA_HEADER_TABS_BACKGROUND_COLOR_HOVER; ?>;border: 2px solid <?php echo ZCA_HEADER_TABS_BORDER_COLOR_HOVER; ?>;}
+
+/* bof items for extra navCatTabs settings */
+
+/*  eof items for extra navCatTabs settings */
+
+/*  bof Extra Colors for Standard Checkout  */
+.bg-success {background-color: <?php echo ZCA_STD_CHECKOUT_PROGRESS_BAR_COLOR; ?> !important;}
+/*  eof Extra Colors for Standard Checkout  */
 
 /* breadcrumbs */
 #navBreadCrumb ol {background-color: <?php echo ZCA_BODY_BREADCRUMBS_BACKGROUND_COLOR; ?>;}
@@ -91,6 +102,7 @@ a.page-link:hover {color: <?php echo ZCA_BUTTON_PAGEINATION_TEXT_COLOR_HOVER; ?>
 
 /* product reviews */
 .productReviewCard:hover {background-color: <?php echo ZCA_CENTERBOX_CARD_BACKGROUND_COLOR_HOVER; ?>;}
+.rating {color: <?php echo ZCA_RATING_STAR_COLOR; ?>;background-color: <?php echo ZCA_RATING_STAR_BACKGROUND_COLOR; ?>;}
 
 /* product prices */
 .productBasePrice {color: <?php echo ZCA_BODY_PRODUCTS_BASE_COLOR; ?>;}
@@ -107,7 +119,7 @@ a.page-link:hover {color: <?php echo ZCA_BUTTON_PAGEINATION_TEXT_COLOR_HOVER; ?>
 //
 if (defined('ZCA_ADD_TO_CART_TEXT_COLOR')) {
 ?>
-#addToCart-card-header {color: <?php echo ZCA_ADD_TO_CART_TEXT_COLOR; ?>; background-color: <?php echo ZCA_ADD_TO_CART_BACKGROUND_COLOR; ?>;}
+#addToCart-card-header {color: <?php echo ZCA_ADD_TO_CART_TEXT_COLOR; ?> !important; background-color: <?php echo ZCA_ADD_TO_CART_BACKGROUND_COLOR; ?> !important;}
 #addToCart-card {border-color: <?php echo ZCA_ADD_TO_CART_BORDER_COLOR; ?>;}
 <?php
 }
