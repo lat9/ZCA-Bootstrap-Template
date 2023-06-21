@@ -79,12 +79,12 @@ span.alert {
 ?>
 .btn {
     color: <?php echo ZCA_BUTTON_TEXT_COLOR; ?>;
-    background-color: <?php echo ZCA_BUTTON_COLOR; ?>;
+    background-color: <?php echo ZCA_BUTTON_BACKGROUND_COLOR; ?>;
     border-color: <?php echo ZCA_BUTTON_BORDER_COLOR; ?>;
 }
 .btn:hover {
     color: <?php echo ZCA_BUTTON_TEXT_COLOR_HOVER; ?>;
-    background-color: <?php echo ZCA_BUTTON_COLOR_HOVER; ?>;
+    background-color: <?php echo ZCA_BUTTON_BACKGROUND_COLOR_HOVER; ?>;
     border-color: <?php echo ZCA_BUTTON_BORDER_COLOR_HOVER; ?>;
 }
 <?php
