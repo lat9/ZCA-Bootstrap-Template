@@ -79,7 +79,7 @@ $zca_bc_colors = [
     ],
     'ZCA_BODY_BREADCRUMBS_LINK_COLOR' => [
         'configuration_title' => 'Body Breadcrumbs Link Color',
-        'configuration_value' => '#115d79',
+        'configuration_value' => '#0a3f52',
         'sort_order' => 120,
     ],
     'ZCA_BODY_BREADCRUMBS_LINK_COLOR_HOVER' => [
@@ -99,17 +99,17 @@ $zca_bc_colors = [
     ],
     'ZCA_BODY_PRODUCTS_SPECIAL_COLOR' => [
         'configuration_title' => 'Body Products Special Price',
-        'configuration_value' => '#ad0000',
+        'configuration_value' => '#a80000',
         'sort_order' => 220,
     ],
     'ZCA_BODY_PRODUCTS_DISCOUNT_COLOR' => [
         'configuration_title' => 'Body Products Price Discount Price',
-        'configuration_value' => '#ad0000',
+        'configuration_value' => '#a80000',
         'sort_order' => 230,
     ],
     'ZCA_BODY_PRODUCTS_SALE_COLOR' => [
         'configuration_title' => 'Body Products Sale Price',
-        'configuration_value' => '#ad0000',
+        'configuration_value' => '#a80000',
         'sort_order' => 240,
     ],
     'ZCA_BODY_PRODUCTS_FREE_COLOR' => [
@@ -119,12 +119,12 @@ $zca_bc_colors = [
     ],
     'ZCA_BODY_PLACEHOLDER' => [
         'configuration_title' => '<b>Body Form</b> Placeholder',
-        'configuration_value' => '#ad0000',
+        'configuration_value' => '#a80000',
         'sort_order' => 260,
     ],
     'ZCA_BODY_RATING_STAR_BACKGROUND_COLOR' => [
         'configuration_title' => '<b>Body Rating Stars</b> Background Color',
-        'configuration_value' => '#ffffff',
+        'configuration_value' => '#322424',
         'sort_order' => 500,
         'added' => '3.5.2',
     ],
@@ -149,24 +149,24 @@ $zca_bc_colors = [
         'configuration_value' => '#0056b3',
         'sort_order' => 1010,
     ],
-    'ZCA_BUTTON_COLOR' => [
+    'ZCA_BUTTON_BACKGROUND_COLOR' => [
         'configuration_title' => 'Button Color',
-        'configuration_value' => '#007faf',
+        'configuration_value' => '#13607c',
         'sort_order' => 1030,
     ],
-    'ZCA_BUTTON_COLOR_HOVER' => [
+    'ZCA_BUTTON_BACKGROUND_COLOR_HOVER' => [
         'configuration_title' => 'Button Color on Hover',
         'configuration_value' => '#ffffff',
         'sort_order' => 1040,
     ],
     'ZCA_BUTTON_BORDER_COLOR' => [
         'configuration_title' => 'Button Border Color',
-        'configuration_value' => '#007faf',
+        'configuration_value' => '#13607c',
         'sort_order' => 1050,
     ],
     'ZCA_BUTTON_BORDER_COLOR_HOVER' => [
         'configuration_title' => 'Button Border Color on Hover',
-        'configuration_value' => '#ad0000',
+        'configuration_value' => '#a80000',
         'sort_order' => 1060,
     ],
     'ZCA_BUTTON_LINK_COLOR' => [
@@ -216,7 +216,7 @@ $zca_bc_colors = [
     ],
     'ZCA_BUTTON_PAGEINATION_ACTIVE_COLOR' => [
         'configuration_title' => 'Pagination Active Button Color',
-        'configuration_value' => '#007faf',
+        'configuration_value' => '#13607c',
         'sort_order' => 1150,
     ],
 
@@ -247,6 +247,13 @@ $zca_bc_colors = [
         'configuration_title' => 'Header Nav Bar Link Color on Hover',
         'configuration_value' => '#cccccc',
         'sort_order' => 2120,
+    ],
+        'ZCA_HEADER_NAVBAR_LINK_BACKGROUND_COLOR_HOVER' => [
+        'configuration_title' => 'Header Nav Bar Link Background Color on Hover',
+        'configuration_value' => '#333333',
+        'sort_order' => 2120,
+        'added' => '3.5.3',
+        'set_default' => true,
     ],
     'ZCA_HEADER_NAVBAR_BUTTON_TEXT_COLOR' => [
         'configuration_title' => 'Header Nav Bar Button Text Color',
@@ -280,7 +287,7 @@ $zca_bc_colors = [
     ],
     'ZCA_HEADER_TABS_COLOR' => [        //- Note, misnamed, should "really" be ZCA_HEADER_TABS_BACKGROUND_COLOR
         'configuration_title' => '<b>Header Category Tabs</b> Background Color',
-        'configuration_value' => '#007faf',
+        'configuration_value' => '#13607c',
         'sort_order' => 2500,
     ],
     'ZCA_HEADER_TABS_COLOR_HOVER' => [  //- Note, misnamed, should "really" be ZCA_HEADER_TABS_BACKGROUND_COLOR_HOVER
@@ -295,24 +302,24 @@ $zca_bc_colors = [
     ],
     'ZCA_HEADER_TABS_TEXT_COLOR_HOVER' => [
         'configuration_title' => 'Header Category Tabs Text Color on Hover',
-        'configuration_value' => '#007faf',
+        'configuration_value' => '#13607c',
         'sort_order' => 2540,
     ],
     'ZCA_HEADER_TABS_BORDER_COLOR' => [
         'configuration_title' => 'Header Category Tabs Border Color',
-        'configuration_value' => '#007faf',
+        'configuration_value' => '#13607c',
         'sort_order' => 2560,
         'added' => '3.5.2',
     ],
     'ZCA_HEADER_TABS_BORDER_COLOR_HOVER' => [
         'configuration_title' => 'Header Category Tabs Border Color on Hover',
-        'configuration_value' => '#007faf',
+        'configuration_value' => '#13607c',
         'sort_order' => 2580,
         'added' => '3.5.2',
     ],
     'ZCA_HEADER_TABS_ACTIVE_BACKGROUND_COLOR' => [
         'configuration_title' => '<b>Header Category Tabs Active</b> Background Color',
-        'configuration_value' => '#ad0000',
+        'configuration_value' => '#a80000',
         'sort_order' => 2590,
         'added' => '3.5.2',
     ],
@@ -330,19 +337,19 @@ $zca_bc_colors = [
     ],
     'ZCA_HEADER_TABS_ACTIVE_COLOR_HOVER' => [
         'configuration_title' => 'Header Category Tabs Active Color on Hover',
-        'configuration_value' => '#ad0000',
+        'configuration_value' => '#a80000',
         'sort_order' => 2602,
         'added' => '3.5.2',
     ],
     'ZCA_HEADER_TABS_ACTIVE_BORDER_COLOR' => [
         'configuration_title' => 'Header Category Tabs Active Border Color',
-        'configuration_value' => '#ad0000',
+        'configuration_value' => '#a80000',
         'sort_order' => 2620,
         'added' => '3.5.2',
     ],
     'ZCA_HEADER_TABS_ACTIVE_BORDER_COLOR_HOVER' => [
         'configuration_title' => 'Header Category Tabs Active Border Color on Hover',
-        'configuration_value' => '#ad0000',
+        'configuration_value' => '#a80000',
         'sort_order' => 2622,
         'added' => '3.5.2',
     ],
@@ -468,7 +475,7 @@ $zca_bc_colors = [
     ],
     'ZCA_SIDEBOX_COUNTS_BACKGROUND_COLOR' => [
         'configuration_title' => '<b>Sidebox Category Counts</b> Background Color',
-        'configuration_value' => '#007faf',
+        'configuration_value' => '#13607c',
         'sort_order' => 4120,
     ],
     'ZCA_SIDEBOX_COUNTS_COLOR' => [
@@ -516,7 +523,7 @@ $zca_bc_colors = [
     //
     'ZCA_ADD_TO_CART_BACKGROUND_COLOR' => [
         'configuration_title' => '<b>Add-to-Cart Card</b> Background Color',
-        'configuration_value' => '#008a13',
+        'configuration_value' => '#036811',
         'sort_order' => 6000,
 
     ],
@@ -528,13 +535,13 @@ $zca_bc_colors = [
     ],
     'ZCA_ADD_TO_CART_BORDER_COLOR' => [
         'configuration_title' => 'Add-to-Cart Card Border Color',
-        'configuration_value' => '#008a13',
+        'configuration_value' => '#036811',
         'sort_order' => 6020,
         'added' => '3.1.2',
     ],
     'ZCA_BUTTON_IN_CART_BACKGROUND_COLOR' => [
         'configuration_title' => '<b>Add-to-Cart Button</b> Background Color',
-        'configuration_value' => '#008a13',
+        'configuration_value' => '#036811',
         'sort_order' => 6030,
         'added' => '3.1.2',
     ],
@@ -558,7 +565,7 @@ $zca_bc_colors = [
     ],
     'ZCA_BUTTON_ADD_SELECTED_BACKGROUND_COLOR' => [
         'configuration_title' => '<b>Add-Selected Button</b> Background Color',
-        'configuration_value' => '#008a13',
+        'configuration_value' => '#036811',
         'sort_order' => 6070,
         'added' => '3.1.2',
     ],
@@ -586,7 +593,7 @@ $zca_bc_colors = [
     //
     'ZCA_CHECKOUT_PROGRESS_BAR_BACKGROUND_COLOR' => [
         'configuration_title' => '<b>Checkout 3-Page</b> Progress Bar Background Color',
-        'configuration_value' => '#008a13',
+        'configuration_value' => '#036811',
         'sort_order' => 7000,
         'added' => '3.5.2',
         'set_default' => true,
@@ -694,7 +701,7 @@ $zca_bc_colors = [
     //
     'ZCA_PRIMARY_ADDRESS_ADDRESS_BACKGROUND_COLOR' => [
         'configuration_title' => '<b>Primary Address</b> Address Book Background Color',
-        'configuration_value' => '#008a13',
+        'configuration_value' => '#036811',
         'sort_order' => 8500,
         'added' => '3.5.2',
         'set_default' => true,
@@ -708,7 +715,7 @@ $zca_bc_colors = [
     ],
     'ZCA_PRIMARY_ADDRESS_CARD_HEADER_BACKGROUND_COLOR' => [
         'configuration_title' => 'Primary Address Card Header Background Color',
-        'configuration_value' => '#007faf',
+        'configuration_value' => '#13607c',
         'sort_order' => 8520,
         'added' => '3.5.2',
         'set_default' => true,
@@ -722,7 +729,7 @@ $zca_bc_colors = [
     ],
     'ZCA_PRIMARY_ADDRESS_CARD_BORDER_COLOR' => [
         'configuration_title' => 'Primary Address Card Border Color',
-        'configuration_value' => '#007faf',
+        'configuration_value' => '#13607c',
         'sort_order' => 8540,
         'added' => '3.5.2',
         'set_default' => true,
