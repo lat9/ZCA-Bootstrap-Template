@@ -45,6 +45,10 @@ $zca_bootstrap_colors_added = [
     'ZCA_PRIMARY_ADDRESS_CARD_HEADER_BACKGROUND_COLOR',
     'ZCA_PRIMARY_ADDRESS_CARD_HEADER_COLOR',
     'ZCA_PRIMARY_ADDRESS_CARD_BORDER_COLOR',
+    // -----
+    // Added in v3.5.3.
+    //
+    'ZCA_HEADER_NAVBAR_LINK_BACKGROUND_COLOR_HOVER',
 ];
 // -----
 // Each of the newly-added color values is saved as a lower-case variable
@@ -79,12 +83,12 @@ span.alert {
 ?>
 .btn {
     color: <?php echo ZCA_BUTTON_TEXT_COLOR; ?>;
-    background-color: <?php echo ZCA_BUTTON_COLOR; ?>;
+    background-color: <?php echo ZCA_BUTTON_BACKGROUND_COLOR; ?>;
     border-color: <?php echo ZCA_BUTTON_BORDER_COLOR; ?>;
 }
 .btn:hover {
     color: <?php echo ZCA_BUTTON_TEXT_COLOR_HOVER; ?>;
-    background-color: <?php echo ZCA_BUTTON_COLOR_HOVER; ?>;
+    background-color: <?php echo ZCA_BUTTON_BACKGROUND_COLOR_HOVER; ?>;
     border-color: <?php echo ZCA_BUTTON_BORDER_COLOR_HOVER; ?>;
 }
 <?php
@@ -107,6 +111,7 @@ nav.navbar a.nav-link {
 }
 nav.navbar a.nav-link:hover {
     color: <?php echo ZCA_HEADER_NAVBAR_LINK_COLOR_HOVER; ?>;
+    background-color: <?php echo ZCA_HEADER_NAVBAR_LINK_BACKGROUND_COLOR_HOVER; ?>;
 }
 nav.navbar .navbar-toggler {
     color: <?php echo ZCA_HEADER_NAVBAR_BUTTON_TEXT_COLOR; ?>;
