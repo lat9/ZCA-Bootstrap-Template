@@ -34,20 +34,36 @@ $preloads = [
     'jquery' => [
         'link' => 'https://code.jquery.com/jquery-3.7.1.min.js',
         'integrity' => 'sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=',
+        'type' => 'script',
     ],
     'bscss' => [
         'link' => 'https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css',
         'integrity' => 'sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N',
+        'type' => 'style',
     ],
     'bsjs' => [
         'link' => 'https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js',
         'integrity' => 'sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct',
+        'type' => 'script',
     ],
     'fa' => [
-        'link' => 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css',
-        'integrity' => 'sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==',
+        'link' => 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/fontawesome.min.css',
+        'integrity' => 'sha512-SgaqKKxJDQ/tAUAAXzvxZz33rmn7leYDYfBP+YoMRSENhf3zJyx3SBASt/OfeQwBHA1nxMis7mM3EV/oYT6Fdw==',
+        'type' => 'style',
     ],
+    'fa-solid' => [
+        'link' => 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/solid.min.css',
+        'integrity' => 'sha512-yDUXOUWwbHH4ggxueDnC5vJv4tmfySpVdIcN1LksGZi8W8EVZv4uKGrQc0pVf66zS7LDhFJM7Zdeow1sw1/8Jw==',
+        'type' => 'style',
+        ],
 ];
+if (empty($disableFontAwesomeV4Compatibility)) {
+    $preloads['fa-4shim'] = [
+        'link' => 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/v4-shims.css',
+        'integrity' => 'sha512-tqGH6Vq3kFB19sE6vx9P6Fm/f9jWoajQ05sFTf0hr3gwpfSGRXJe4D7BdzSGCEj7J1IB1MvkUf3V/xWR25+zvw==',
+        'type' => 'style',
+        ];
+} 
 ?>
 <!DOCTYPE html>
 <html <?php echo HTML_PARAMS; ?>>
@@ -63,13 +79,12 @@ $zco_notifier->notify('NOTIFY_HTML_HEAD_TAG_START', $current_page_base);
 // that it's working properly.  Just create a .php file in either /extra_configures or
 // /extra_datafiles that sets $bs4_no_preloading to a 'truthy' value.
 //
-if (!empty($bs4_no_preloading)) {
+if (empty($bs4_no_preloading)) {
+    foreach ($preloads as $load) {
 ?>
-    <link rel="preload" href="<?php echo $preloads['bscss']['link']; ?>" integrity="<?php echo $preloads['bscss']['integrity']; ?>" crossorigin="anonymous" as="style">
-    <link rel="preload" href="<?php echo $preloads['fa']['link']; ?>" integrity="<?php echo $preloads['fa']['integrity']; ?>" crossorigin="anonymous" referrerpolicy="no-referrer" as="style">
-    <link rel="preload" href="<?php echo $preloads['jquery']['link']; ?>" integrity="<?php echo $preloads['jquery']['integrity']; ?>" crossorigin="anonymous" as="script">
-    <link rel="preload" href="<?php echo $preloads['bsjs']['link']; ?>" integrity="<?php echo $preloads['bsjs']['integrity']; ?>" crossorigin="anonymous" as="script">
+    <link rel="preload" href="<?php echo $load['link']; ?>" integrity="<?php echo $load['integrity']; ?>" crossorigin="anonymous" as="<?php echo $load['type']?>">
 <?php
+    }
 }
 ?>
     <meta charset="<?php echo CHARSET; ?>">
@@ -104,12 +119,14 @@ if (!empty($bs4_no_preloading)) {
     }
     // EOF hreflang for multilingual sites
     // Important to load Bootstrap CSS First...
-    ?>
-    <link rel="stylesheet" href="<?php echo $preloads['bscss']['link']; ?>" integrity="<?php echo $preloads['bscss']['integrity']; ?>" crossorigin="anonymous">
+    foreach ($preloads as $load) {
+        if ($load['type'] === 'style') {
+?>
+    <link rel="stylesheet" href="<?php echo $load['link']; ?>" integrity="<?php echo $load['integrity']; ?>" crossorigin="anonymous">
+<?php
+        }
+    }
 
-    <link rel="stylesheet" href="<?php echo $preloads['fa']['link']; ?>" integrity="<?php echo $preloads['fa']['integrity']; ?>" crossorigin="anonymous" referrerpolicy="no-referrer">
-
-    <?php
     /**
      * load all template-specific stylesheets, named like "style*.css", alphabetically
      */
@@ -180,10 +197,13 @@ if (!empty($bs4_no_preloading)) {
     }
 
     /** CDN for jQuery core * */
+    foreach ($preloads as $load) {
+          if ($load['type'] === 'script') {
 ?>
-    <script src="<?php echo $preloads['jquery']['link']; ?>" integrity="<?php echo $preloads['jquery']['integrity']; ?>" crossorigin="anonymous"></script>
-    <script src="<?php echo $preloads['bsjs']['link']; ?>" integrity="<?php echo $preloads['bsjs']['integrity']; ?>" crossorigin="anonymous"></script>
+    <script src="<?php echo $load['link']; ?>" integrity="<?php echo $load['integrity']; ?>" crossorigin="anonymous"></script>
 <?php
+          }
+    }
     /**
      * load all site-wide jscript_*.js files from includes/templates/YOURTEMPLATE/jscript, alphabetically
      */
