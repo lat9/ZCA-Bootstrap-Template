@@ -15,7 +15,10 @@
  */
 ?>
 <div id="indexProductList" class="centerColumn">
+
+<?php if (!empty($current_categories_name)) { ?>
     <h1 id="indexProductList-pageHeading" class="pageHeading"><?php echo $current_categories_name; ?></h1>
+<?php } ?>
 
     <div id="indexProductList-cat-wrap">
 <?php

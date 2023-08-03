@@ -23,7 +23,9 @@ if ($show_welcome === true) {
     //
     $heading_title = (defined('HEADING_TITLE_NESTED')) ? HEADING_TITLE_NESTED : HEADING_TITLE;
 ?>
+<?php if (!empty($heading_title)) { ?>
     <h1 id="indexCategories-pageHeading" class="pageHeading"><?php echo $heading_title; ?></h1>
+<?php } ?>
 <?php
     if (SHOW_CUSTOMER_GREETING === '1') {
 ?>

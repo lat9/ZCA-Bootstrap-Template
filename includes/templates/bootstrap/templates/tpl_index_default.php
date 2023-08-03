@@ -16,7 +16,9 @@
 ?>
 <div id="indexDefault" class="centerColumn">
 
+<?php if (!empty(HEADING_TITLE)) { ?>
 <h1 id="indexDefault-pageHeading" class="pageHeading"><?php echo HEADING_TITLE; ?></h1>
+<?php } ?>
 
 <?php if (SHOW_CUSTOMER_GREETING == 1) { ?>
 <h2 id="indexDefault-greeting" class="greeting"><?php echo zen_customer_greeting(); ?></h2>
