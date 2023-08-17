@@ -179,7 +179,8 @@ if ($flag_show_ask_a_question) {
 
 <!--bof Attributes Module -->
 <?php
-$one_time = '';
+  $one_time = '';
+  $price_shown = false; 
   if ($pr_attr->fields['total'] > 0) {
 ?>
 
@@ -197,6 +198,7 @@ $one_time = '';
   ?>
 
 <?php
+  $price_shown = true; 
   echo $one_time . ((zen_has_product_attributes_values((int)$_GET['products_id']) and $flag_show_product_info_starting_at == 1) ? TEXT_BASE_PRICE : '') . zen_get_products_display_price((int)$_GET['products_id']);
 ?>
 </h2>
@@ -242,7 +244,7 @@ $one_time = '';
 <!--eof Quantity Discounts table -->
 
 <!--bof Product Price block -->
-<?php if (zen_get_products_display_price((int)$_GET['products_id']) > '0') { ?>
+<?php if ($price_shown === false && zen_get_products_display_price((int)$_GET['products_id']) > '0') { ?>
 <!--bof products price bottom card-->
 <div id="productsPriceBottom-card" class="card mb-3">
   <div id="productsPriceBottom-card-body" class="card-body p-3">
