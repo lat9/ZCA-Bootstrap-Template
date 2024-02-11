@@ -1,7 +1,7 @@
 <?php
 /**
  * product_listing module
- * 
+ *
  * BOOTSTRAP v3.6.3
  *
  * @copyright Copyright 2003-2020 Zen Cart Development Team
@@ -23,10 +23,13 @@ $error_categories = false;
 
 $show_submit = zen_run_normal();
 
-$columns_per_row = defined('PRODUCT_LISTING_COLUMNS_PER_ROW') ? PRODUCT_LISTING_COLUMNS_PER_ROW : 1;
-$product_listing_layout_style = (int)$columns_per_row > 1 ? 'columns' : 'table';
-if (empty($columns_per_row)) $product_listing_layout_style = 'fluid';
-if ($columns_per_row === 'fluid') $product_listing_layout_style = 'fluid';
+$columns_per_row = defined('PRODUCT_LISTING_COLUMNS_PER_ROW') ? (int)PRODUCT_LISTING_COLUMNS_PER_ROW : 1;
+if (empty($product_listing_layout_style) || !in_array($product_listing_layout_style, ['columns', 'table', 'fluid'])) {
+    $product_listing_layout_style = $columns_per_row > 1 ? 'columns' : 'table';
+    if (empty($columns_per_row)) {
+        $product_listing_layout_style = 'fluid';
+    }
+}
 
 $max_results = (int)($product_listing_max_results ?? MAX_DISPLAY_PRODUCTS_LISTING);
 if ($product_listing_layout_style === 'columns' && $columns_per_row > 1) {
@@ -195,9 +198,13 @@ if ($num_products_count > 0) {
             // Starting with v3.2.0, the $grid_classes_matrix can be specified in a separate file, enabling
             // store-by-store customizations without change to this overall module.
             //
-            if (!isset($grid_classes_matrix)) {
+            if (isset($grid_classes_matrix)) {
+                $grid_product_classes_matrix = $grid_classes_matrix;
+            }
+            if (!isset($grid_product_classes_matrix)) {
                 // this array is intentionally in reverse order, with largest index first
-                $grid_classes_matrix = [
+                $grid_product_classes_matrix = [
+                    // the array index here corresponds to $center_column-width, as defined in tpl_main_page.php
                     '12' => 'row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-6',
                     '10' => 'row-cols-1 row-cols-md-2 row-cols-lg-4 row-cols-xl-5',
                     '9' => 'row-cols-1 row-cols-md-3 row-cols-lg-4 row-cols-xl-5',
@@ -208,7 +215,7 @@ if ($num_products_count > 0) {
 
             // determine classes to use based on number of grid-columns used by "center" column
             if (isset($center_column_width)) {
-                foreach ($grid_classes_matrix as $width => $classes) {
+                foreach ($grid_product_classes_matrix as $width => $classes) {
                     if ($center_column_width >= $width) {
                         $grid_cards_classes = $classes;
                         break;
@@ -276,7 +283,7 @@ if ($num_products_count > 0) {
             } else {
                 // qty box with add to cart button
                 if (PRODUCT_LIST_PRICE_BUY_NOW === '2' && $record['products_qty_box_status'] !== '0') {
-                    $lc_button = 
+                    $lc_button =
                         zen_draw_form('cart_quantity', zen_href_link($_GET['main_page'], zen_get_all_get_params(['action']) . 'action=add_product&products_id=' . $record['products_id']), 'post', 'enctype="multipart/form-data"') .
                         '<input class="mt-2" type="text" name="cart_quantity" value="' . (zen_get_buy_now_qty($record['products_id'])) . '" maxlength="6" size="4" aria-label="' . ARIA_QTY_ADD_TO_CART . '">' .
                         '<br>' .
@@ -392,10 +399,12 @@ if ($num_products_count > 0) {
             if ($product_listing_layout_style === 'columns') {
                 $style = ' style="width:' . $col_width . '%;"';
             }
+            $grid_product_card_params = $grid_product_card_params ?? 'card mb-3 p-3 centerBoxContentsListing text-center h-100';
+            $grid_product_wrap_classes = $grid_product_wrap_classes ?? 'col mb-4';
             $list_box_contents[$rows][] = [
-                'params' => 'class="card mb-3 p-3 centerBoxContentsListing text-center h-100 "' . $style,
+                'params' => 'class="' . $grid_product_card_params . '"' . $style,
                 'text' => $lc_text,
-                'wrap_with_classes' => 'col mb-4',
+                'wrap_with_classes' => $grid_product_wrap_classes,
                 'card_type' => $product_listing_layout_style,
                 'category' => $record['master_categories_id'],
                 'parent_category_name' => $record['parent_category_name'],
