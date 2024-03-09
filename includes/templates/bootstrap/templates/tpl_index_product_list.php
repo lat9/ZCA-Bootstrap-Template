@@ -2,7 +2,7 @@
 /**
  * Page Template
  * 
- * BOOTSTRAP v3.6.4
+ * BOOTSTRAP v3.6.3
  *
  * Loaded by main_page=index
  * Displays product-listing when a particular category/subcategory is selected for browsing
@@ -79,11 +79,6 @@ if ($do_filter_list || isset($_GET['alpha_filter_id']) || (PRODUCT_LIST_ALPHA_SO
         echo zen_draw_hidden_field('manufacturers_id', $_GET['manufacturers_id']);
     }
 
-    // draw disp_order
-    if (!empty($_GET['disp_order'])) {
-        echo zen_draw_hidden_field('disp_order', $_GET['disp_order']);
-    }
-
     // draw sort
     if (!empty($_GET['sort'])) {
         echo zen_draw_hidden_field('sort', $_GET['sort']);
@@ -93,7 +88,7 @@ if ($do_filter_list || isset($_GET['alpha_filter_id']) || (PRODUCT_LIST_ALPHA_SO
     // draw filter_id (ie: category/mfg depending on $options)
     if ($do_filter_list) {
         echo '<div class="col">';
-        echo zen_draw_pull_down_menu('filter_id', $options, (isset($_GET['filter_id']) ? $_GET['filter_id'] : ''), 'onchange="this.form.submit()"');
+        echo zen_draw_pull_down_menu('filter_id', $options, (isset($_GET['filter_id']) ? $_GET['filter_id'] : ''), 'aria-label="' . TEXT_SHOW . '" onchange="this.form.submit()"');
         echo '</div>';
     } 
     echo '<div class="col">';
