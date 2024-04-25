@@ -2,7 +2,7 @@
 /**
  * Side Box Template
  *
- * BOOTSTRAP v3.0.0
+ * BOOTSTRAP v3.7.0
  *
  * @package templateSystem
  * @copyright Copyright 2003-2018 Zen Cart Development Team
@@ -10,10 +10,18 @@
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
  * @version $Id: Drbyte Sun Jan 7 21:28:50 2018 -0500 Modified in v1.5.6 $
  */
-$content = '';
+$includeAllCategories = $zca_include_zero_product_categories ?? false;
 
-$content .= '<div id="' . str_replace('_', '-', $box_id . 'Content') . '" class="list-group-flush sideBoxContent">';
+$content = '<div id="' . str_replace('_', '-', $box_id . 'Content') . '" class="list-group-flush sideBoxContent">';
 for ($i = 0, $j = count($box_categories_array); $i < $j; $i++) {
+    // -----
+    // If 0-product categories are not to be displayed (see /extra_datafiles/site-specific-bootstrap-settings.php)
+    // don't include if no products.
+    //
+    if ($includeAllCategories === false && $box_categories_array[$i]['count'] === 0) {
+        continue;
+    }
+
     switch (true) {
 // to make a specific category stand out define a new class in the stylesheet example: A.category-holiday
 // uncomment the select below and set the cPath=3 to the cPath= your_categories_id

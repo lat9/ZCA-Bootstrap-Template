@@ -2,7 +2,7 @@
 // -----
 // Part of the ZCA Bootstrap template, @zcadditions, @lat9
 //
-// BOOTSTRAP 3.6.0
+// BOOTSTRAP 3.7.0
 //
 // A collection of 'soft' configuration settings for use by the ZCA Bootstrap Template
 // and its clones.
@@ -24,7 +24,8 @@
 //
 //$zca_disable_back_to_top = false;
 
-    // this control eliminates categories from displaying if they have 0 products in them.  change to true for displaying all categories
-    // despite not having any products in them.
-    // @proseLA
-    // $zca_include_zero_product_categories = false;
+// this control eliminates categories from displaying if they have 0 products in them.  Change to true for displaying all categories
+// despite not having any products in them.
+// @proseLA
+//
+//$zca_include_zero_product_categories = false;
