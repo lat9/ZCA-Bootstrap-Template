@@ -12,8 +12,14 @@
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
  * @version $Id: Marco Ponchia 2020 May 20 Modified in v1.5.7 $
  */
+// -----
+// This variable, added in v3.7.0, enables all product_xx_info pages' templates to
+// use this common one.  The prefix value is used to designate which page is active
+// for various HTML 'id' attributes.
+//
+$html_id_prefix = $html_id_prefix ?? 'productInfo';
 ?>
-<div id="productInfo" class="centerColumn">
+<div id="<?= $html_id_prefix ?>" class="centerColumn">
     <?= zen_draw_form('cart_quantity', zen_href_link(zen_get_info_page($_GET['products_id']), zen_get_all_get_params(['action']) . 'action=add_product', $request_type), 'post', 'enctype="multipart/form-data"') . "\n" ?>
 <?php
 if ($messageStack->size('product_info') > 0) {
@@ -23,7 +29,7 @@ if ($messageStack->size('product_info') > 0) {
 if ($module_show_categories !== '0') {
 ?>
     <!--bof Category Icon -->
-    <div id="productInfo-productCategoryIcon" class="productCategoryIcon">
+    <div id="<?= $html_id_prefix ?>-productCategoryIcon" class="productCategoryIcon">
         <?php require $template->get_template_dir('/tpl_modules_category_icon_display.php', DIR_WS_TEMPLATE, $current_page_base, 'templates') . '/tpl_modules_category_icon_display.php'; ?>
     </div>
     <!--eof Category Icon -->
@@ -33,7 +39,7 @@ if ($module_show_categories !== '0') {
 if (PRODUCT_INFO_PREVIOUS_NEXT === '1' || PRODUCT_INFO_PREVIOUS_NEXT === '3') {
 ?>
     <!--bof Prev/Next top position -->
-    <div id="productInfo-productPrevNextTop" class="productPrevNextTop">
+    <div id="<?= $html_id_prefix ?>-productPrevNextTop" class="productPrevNextTop">
         <?php require $template->get_template_dir('/tpl_products_next_previous.php', DIR_WS_TEMPLATE, $current_page_base, 'templates') . '/tpl_products_next_previous.php'; ?>
     </div>
     <!--eof Prev/Next top position-->
@@ -41,17 +47,17 @@ if (PRODUCT_INFO_PREVIOUS_NEXT === '1' || PRODUCT_INFO_PREVIOUS_NEXT === '3') {
 }
 ?>
     <!--bof Product Name-->
-    <h1 id="productInfo-productName" class="productName"><?= $products_name ?></h1>
+    <h1 id="<?= $html_id_prefix ?>-productName" class="productName"><?= $products_name ?></h1>
     <!--eof Product Name-->
 
-    <div id="productInfo-displayRow" class="row">
-       <div id="productInfo-displayColLeft" class="col-sm mb-3">
+    <div id="<?= $html_id_prefix ?>-displayRow" class="row">
+       <div id="<?= $html_id_prefix ?>-displayColLeft" class="col-sm mb-3">
 
             <!--bof Main Product Image -->
 <?php
 if (!empty($products_image)) {
  ?>
-            <div id="productInfo-productMainImage" class="productMainImage pt-3 text-center">
+            <div id="<?= $html_id_prefix ?>-productMainImage" class="productMainImage pt-3 text-center">
                 <?php require $template->get_template_dir('/tpl_modules_main_product_image.php', DIR_WS_TEMPLATE, $current_page_base, 'templates') . '/tpl_modules_main_product_image.php'; ?>
             </div>
 <?php
@@ -60,7 +66,7 @@ if (!empty($products_image)) {
             <!--eof Main Product Image-->
 
             <!--bof Additional Product Images -->
-            <div id="productInfo-productAdditionalImages" class="productAdditionalImages text-center">
+            <div id="<?= $html_id_prefix ?>-productAdditionalImages" class="productAdditionalImages text-center">
 <?php
 /**
  * display the products additional images in a model carousel
@@ -94,7 +100,7 @@ if (PRODUCT_INFO_SHOW_BOOTSTRAP_MODAL_POPUPS === 'Yes' && PRODUCT_INFO_SHOW_BOOT
 <?php
 if ($products_description != '') {
 ?>
-            <div id="productInfo-productDescription" class="productDescription mb-3">
+            <div id="<?= $html_id_prefix ?>-productDescription" class="productDescription mb-3">
                 <?= stripslashes($products_description) ?>
             </div>
 <?php
@@ -108,17 +114,17 @@ if ($flag_show_product_info_reviews === '1') {
     // if more than 0 reviews, then show reviews button; otherwise, show the "write review" button
     if ($reviews->fields['count'] > 0 ) {
 ?>
-            <div id="productInfo-productReviewLink" class="productReviewLink mb-3">
+            <div id="<?= $html_id_prefix ?>-productReviewLink" class="productReviewLink mb-3">
                 <?= zca_button_link(zen_href_link(FILENAME_PRODUCT_REVIEWS, zen_get_all_get_params()), BUTTON_REVIEWS_ALT, 'button_reviews') ?>
             </div>
 
-            <p id="productInfo-productReviewCount" class="productReviewCount">
+            <p id="<?= $html_id_prefix ?>-productReviewCount" class="productReviewCount">
                 <?= ($flag_show_product_info_reviews_count === '1' ? TEXT_CURRENT_REVIEWS . ' ' . $reviews->fields['count'] : '') ?>
             </p>
 <?php
     } else {
 ?>
-            <div id="productInfo-productReviewLink" class="productReviewLink mb-3">
+            <div id="<?= $html_id_prefix ?>-productReviewLink" class="productReviewLink mb-3">
                 <?= zca_button_link(zen_href_link(FILENAME_PRODUCT_REVIEWS_WRITE, zen_get_all_get_params()), BUTTON_WRITE_REVIEW_ALT, 'button_write_review') ?>
             </div>
 <?php
@@ -128,22 +134,23 @@ if ($flag_show_product_info_reviews === '1') {
             <!--eof Reviews button and count -->
         </div>
 
-        <div id="productInfo-displayColRight"  class="col-sm mb-3">
+        <div id="<?= $html_id_prefix ?>-displayColRight"  class="col-sm mb-3">
             <!--bof Product details list  -->
 <?php
-$display_product_model = ($flag_show_product_info_model === '1' && $products_model !== '');
-$display_product_weight = ($flag_show_product_info_weight === '1' && $products_weight != 0);
-$display_product_quantity = ($flag_show_product_info_quantity === '1');
-$display_product_manufacturer = ($flag_show_product_info_manufacturer === '1' && !empty($manufacturers_name));
-if ($display_product_model === true || $display_product_weight === true || $display_product_quantity === true || $display_product_manufacturer === true) {
-?>
-            <ul id="productInfo-productDetailsList" class="productDetailsList list-group mb-3">
-                <?= (($display_product_model === true) ? '<li class="list-group-item">' . TEXT_PRODUCT_MODEL . $products_model . '</li>' : '') . "\n" ?>
-                <?= (($display_product_weight === true) ? '<li class="list-group-item">' . TEXT_PRODUCT_WEIGHT .  $products_weight . TEXT_PRODUCT_WEIGHT_UNIT . '</li>'  : '') . "\n" ?>
-                <?= (($display_product_quantity === true) ? '<li class="list-group-item">' . $products_quantity . TEXT_PRODUCT_QUANTITY . '</li>'  : '') . "\n" ?>
-                <?= (($display_product_manufacturer === true) ? '<li class="list-group-item">' . TEXT_PRODUCT_MANUFACTURER . $manufacturers_name . '</li>' : '') . "\n" ?>
-            </ul>
-<?php
+// -----
+// Starting with v3.7.0, the product-info display is common to all product
+// types.  Some types, like product_music_info, might supply their own version
+// of the product-details list.
+//
+// If such a file, based on the current type, is available, use that override
+// instead of the base processing.
+//
+$product_details_filename = '/tpl_' . $current_page_base . '_display_details.php';
+$product_details_filepath = $template->get_template_dir($product_details_filename, DIR_WS_TEMPLATE, $current_page_base, 'templates') . $product_details_filename;
+if (file_exists($product_details_filepath)) {
+    require $product_details_filepath;
+} else {
+    require $template->get_template_dir('/tpl_product_info_display_details.php', DIR_WS_TEMPLATE, $current_page_base, 'templates') . '/tpl_product_info_display_details.php';
 }
 ?>
             <!--eof Product details list -->
@@ -158,6 +165,14 @@ if ($flag_show_ask_a_question === true) {
             <div class="p-2"></div>
             <!-- eof Ask a Question -->
 <?php
+}
+
+// -----
+// Starting with v3.7.0, a product type's base template can identify additional
+// formatting for the specific product type, e.g. product-music.
+//
+if (isset($product_info_display_extra)) {
+    require $template->get_template_dir($product_info_display_extra, DIR_WS_TEMPLATE, $current_page_base, 'templates') . $product_info_display_extra;
 }
 ?>
             <!--bof Attributes Module -->
@@ -202,7 +217,7 @@ if ($pr_attr->fields['total'] > 0) {
  if ($flag_show_product_info_free_shipping === '1' && zen_get_product_is_always_free_shipping($products_id_current)) {
 ?>
             <!--bof free ship icon  -->
-            <div id="productInfo-productFreeShippingIcon" class="productFreeShippingIcon text-center m-3">
+            <div id="<?= $html_id_prefix ?>-productFreeShippingIcon" class="productFreeShippingIcon text-center m-3">
                 <?= TEXT_PRODUCT_FREE_SHIPPING_ICON ?>
             </div>
             <!--eof free ship icon  -->
@@ -212,7 +227,7 @@ if ($pr_attr->fields['total'] > 0) {
 if ($products_discount_type !== '0') {
 ?>
             <!--bof Quantity Discounts table -->
-            <div id="productInfo-productQuantityDiscounts" class="productQuantityDiscounts">
+            <div id="<?= $html_id_prefix ?>-productQuantityDiscounts" class="productQuantityDiscounts">
                 <?php require $template->get_template_dir('/tpl_modules_products_quantity_discounts.php',DIR_WS_TEMPLATE, $current_page_base,'templates') . '/tpl_modules_products_quantity_discounts.php'; ?>
             </div>
             <!--eof Quantity Discounts table -->
@@ -267,7 +282,7 @@ if (CUSTOMERS_APPROVAL === '3' && TEXT_LOGIN_FOR_PRICE_BUTTON_REPLACE_SHOWROOM =
     }
     $display_button = zen_get_buy_now_button($_GET['products_id'], $the_button);
 
-    if ($display_qty !== '' || $display_button !== '') {
+    if ($display_qty !== '' || !empty($display_button)) {
 ?>
             <!--bof add to cart card-->
             <div id="addToCart-card" class="card mb-3">
@@ -285,12 +300,12 @@ if (CUSTOMERS_APPROVAL === '3' && TEXT_LOGIN_FOR_PRICE_BUTTON_REPLACE_SHOWROOM =
         </div>
     </div>
 
-    <div id="productInfo-moduledDisplayRow" class="row">
+    <div id="<?= $html_id_prefix ?>-moduledDisplayRow" class="row">
 <?php
 if (PRODUCT_INFO_SHOW_NOTIFICATIONS_BOX === '1') {
 ?>
         <!--bof Products Notification Module-->
-        <div id="productInfo-moduleDisplayColLeft" class="col-sm">
+        <div id="<?= $html_id_prefix ?>-moduleDisplayColLeft" class="col-sm">
             <?php require DIR_WS_MODULES . zen_get_module_directory('centerboxes/product_notifications.php'); ?>
         </div>
         <!--eof Products Notification Module-->
@@ -300,7 +315,7 @@ if (PRODUCT_INFO_SHOW_NOTIFICATIONS_BOX === '1') {
 if (PRODUCT_INFO_SHOW_MANUFACTURER_BOX === '1') {
 ?>
         <!--bof Products Manufacturer Info Module-->
-        <div id="productInfo-moduleDisplayColRight" class="col-sm">
+        <div id="<?= $html_id_prefix ?>-moduleDisplayColRight" class="col-sm">
             <?php require DIR_WS_MODULES . zen_get_module_directory('centerboxes/manufacturer_info.php'); ?>
         </div>
         <!--eof Products Manufacturer Info Module-->
@@ -315,14 +330,14 @@ if (PRODUCT_INFO_SHOW_MANUFACTURER_BOX === '1') {
 if ($products_date_available > date('Y-m-d H:i:s')) {
     if ($flag_show_product_info_date_available === '1') {
 ?>
-    <p id="productInfo-productDateAvailable" class="productDateAvailable text-center">
+    <p id="<?= $html_id_prefix ?>-productDateAvailable" class="productDateAvailable text-center">
          <?= sprintf(TEXT_DATE_AVAILABLE, zen_date_long($products_date_available)) ?>
     </p>
 <?php
     }
 } elseif ($flag_show_product_info_date_added === '1') {
 ?>
-    <p id="productInfo-productDateAdded" class="productDateAdded text-center">
+    <p id="<?= $html_id_prefix ?>-productDateAdded" class="productDateAdded text-center">
         <?= sprintf(TEXT_DATE_ADDED, zen_date_long($products_date_added)) ?>
     </p>
 <?php
@@ -334,7 +349,7 @@ if ($products_date_available > date('Y-m-d H:i:s')) {
 <?php
   if ($flag_show_product_info_url === '1' && !empty($products_url)) {
 ?>
-    <p id="productInfo-productUrl" class="productUrl text-center">
+    <p id="<?= $html_id_prefix ?>-productUrl" class="productUrl text-center">
         <?= sprintf(TEXT_MORE_INFORMATION, zen_href_link(FILENAME_REDIRECT, 'action=product&products_id=' . zen_output_string_protected($_GET['products_id']), 'NONSSL', true, false)) ?>
     </p>
 <?php
@@ -352,7 +367,7 @@ if ($products_date_available > date('Y-m-d H:i:s')) {
 <?php
 if (PRODUCT_INFO_PREVIOUS_NEXT === '2' || PRODUCT_INFO_PREVIOUS_NEXT === '3') {
 ?>
-    <div id="productInfo-productPrevNextBottom" class="productPrevNextBottom">
+    <div id="<?= $html_id_prefix ?>-productPrevNextBottom" class="productPrevNextBottom">
         <?php require $template->get_template_dir('/tpl_products_next_previous.php', DIR_WS_TEMPLATE, $current_page_base, 'templates') . '/tpl_products_next_previous.php'; ?>
     </div>
 <?php
