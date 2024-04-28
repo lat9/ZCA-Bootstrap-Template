@@ -2,7 +2,7 @@
 /**
  * Page Template
  * 
- * BOOTSTRAP v3.5.0
+ * BOOTSTRAP v3.7.0
  *
  * Loaded automatically by index.php?main_page=checkout_shipping.<br>
  * Displays allowed shipping modules for selection by customer.
@@ -52,14 +52,9 @@ if ($displayAddressEdit) {
         </div>
 <?php
 if (zen_count_shipping_modules() > 0) {
-    // -----
-    // zc158 replaces 'TABLE_HEADING_SHIPPING_METHOD' with simply 'HEADING_SHIPPING_METHOD'.  Use
-    // that definition, if present, otherwise falling back to the legacy definition.
-    //
-    $shipping_method_heading = defined('HEADING_SHIPPING_METHOD') ? HEADING_SHIPPING_METHOD : TABLE_HEADING_SHIPPING_METHOD;
 ?>
         <div id="shippingMethod-card" class="card mb-3">
-            <h2 class="card-header"><?php echo $shipping_method_heading; ?></h2>
+            <h2 class="card-header"><?php echo HEADING_SHIPPING_METHOD; ?></h2>
             <div class="card-body p-3">
 <?php
     if (count($quotes) > 1 && count($quotes[0]) > 1) {
@@ -154,15 +149,10 @@ if (zen_count_shipping_modules() > 0) {
 <?php
 }
 
-// -----
-// zc158 replaces 'TABLE_HEADING_COMMENTS' with 'HEADING_ORDER_COMMENTS'.  Use
-// that definition, if present, otherwise falling back to the legacy definition.
-//
-$comments_heading = defined('HEADING_ORDER_COMMENTS') ? HEADING_ORDER_COMMENTS : TABLE_HEADING_COMMENTS;
 $comments = (isset($comments)) ? $comments : '';
 ?>
         <div id="orderComments-card" class="card mb-3">
-            <h2 class="card-header"><?php echo $comments_heading; ?></h2>
+            <h2 class="card-header"><?php echo HEADING_ORDER_COMMENTS; ?></h2>
             <div class="card-body p-3">
                 <?php echo zen_draw_textarea_field('comments', '45', '3', $comments, 'aria-label="' . $comments_heading . '"'); ?>
             </div>

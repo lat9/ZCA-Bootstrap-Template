@@ -2,7 +2,7 @@
 /**
  * Page Template
  * 
- * BOOTSTRAP v3.5.0
+ * BOOTSTRAP v3.7.0
  *
  * Template used to collect/display details of sending a GV to a friend from own GV balance. <br />
  *
@@ -94,19 +94,13 @@ if ($action === 'doneprocess') {
     if ($messageStack->size('gv_send') > 0) {
         echo $messageStack->output('gv_send');
     }
-
-    // -----
-    // zc158 defines a new label for the recipient's name; use that if present, otherwise
-    // fall-back to the previous label name.
-    //
-    $to_name_label = (defined('ENTRY_RECIPIENT_NAME')) ? ENTRY_RECIPIENT_NAME : ENTRY_NAME;
 ?>
             <?php echo zen_draw_form('gv_send_send', zen_href_link(FILENAME_GV_SEND, 'action=send', 'SSL', false)); ?>
                 <div class="required-info text-right"><?php echo FORM_REQUIRED_INFORMATION; ?></div>
 
                 <div id="sendGiftCertificate-content" class="content mb-3"><?php echo HEADING_TEXT; ?></div>
 
-                <label class="inputLabel" for="to-name"><?php echo $to_name_label; ?></label>
+                <label class="inputLabel" for="to-name"><?php echo ENTRY_RECIPIENT_NAME; ?></label>
                 <?php echo zen_draw_input_field('to_name', $to_name, 'size="40" id="to-name" placeholder="' . ENTRY_FIRST_NAME_TEXT . '"' . ((int)ENTRY_FIRST_NAME_MIN_LENGTH > 0 ? ' required' : '')); ?>
                 <div class="p-2"></div>
 

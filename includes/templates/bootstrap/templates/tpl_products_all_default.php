@@ -2,7 +2,7 @@
 /**
  * Page Template
  * 
- * BOOTSTRAP 3.6.4
+ * BOOTSTRAP 3.7.0
  *
  * @package templateSystem
  * @copyright Copyright 2003-2016 Zen Cart Development Team
@@ -19,10 +19,7 @@ if (PRODUCT_LIST_ALPHA_SORTER === 'true') {
 ?>
         <div class="col">
 <?php
-    // -----
-    // Search-results page is different for zc157 vs. zc158+.
-    //
-    echo zen_draw_form('filter', zen_href_link((defined('FILENAME_SEARCH_RESULT') ? FILENAME_SEARCH_RESULT : FILENAME_ADVANCED_SEARCH_RESULT)), 'get', 'class="form-inline"');
+    echo zen_draw_form('filter', zen_href_link(FILENAME_SEARCH_RESULT), 'get', 'class="form-inline"');
     echo '<label class="inputLabel mx-2">' . TEXT_SHOW . '</label>';
 
     /* Redisplay all $_GET variables, except currency */

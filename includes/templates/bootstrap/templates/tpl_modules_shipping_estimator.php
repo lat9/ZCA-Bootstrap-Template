@@ -2,7 +2,7 @@
 /**
  * Module Template - for shipping-estimator display
  *
- * BOOTSTRAP v3.5.1
+ * BOOTSTRAP v3.7.0
  *
  * @copyright Copyright 2003-2022 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
@@ -62,25 +62,9 @@ if ($_SESSION['cart']->count_contents() !== 0) {
         }
         if ($_SESSION['cart']->get_content_type() !== 'virtual') {
             $flag_show_pulldown_states = (ACCOUNT_STATE_DRAW_INITIAL_DROPDOWN === 'true');
-
-            // -----
-            // zc158 introduces a common jQuery handler for the dropdown states' selection based
-            // on the country chosen.  When running on a zc158 (or later) 'core', use that handler instead
-            // of the legacy one provided by the Bootstrap template.
-            //
-            // When running a Zen Cart version prior to zc158, make sure that the 'stateLabel' field contains
-            // the required text; the value is pre-set for zc158 and later.
-            //
-            if (zen_get_zcversion() >= '1.5.8') {
-                $onchange_for_zc158 = ($flag_show_pulldown_states === true) ? ' onchange="update_zone(this.form);"' : '';
-                $state_field_label = isset($state_field_label) ? $state_field_label : '';
-            } else {
-                $onchange_for_zc158 = '';
-                $state_field_label = ENTRY_STATE;
-            }
 ?>
     <label class="inputLabel" for="country"><?php echo ENTRY_COUNTRY; ?></label>
-    <?php echo zen_get_country_list('zone_country_id', $selected_country, 'id="country"' . $onchange_for_zc158); ?>
+    <?php echo zen_get_country_list('zone_country_id', $selected_country, 'id="country"' . (($flag_show_pulldown_states === true) ? ' onchange="update_zone(this.form);"' : '')); ?>
     <div class="p-2"></div>
 <?php
             if ($flag_show_pulldown_states === true) {
@@ -91,22 +75,14 @@ if ($_SESSION['cart']->count_contents() !== 0) {
 <?php
             }
 ?>
-    <label class="inputLabel" for="state" id="stateLabel"><?php echo $state_field_label; ?></label>
+    <label class="inputLabel" for="state" id="stateLabel"><?php echo $state_field_label ?? ''; ?></label>
     <?php echo zen_draw_input_field('state', $selectedState, zen_set_field_length(TABLE_ADDRESS_BOOK, 'entry_state', '40') . ' id="state"'); ?>
     <div class="p-2"></div>
 <?php
             if (CART_SHIPPING_METHOD_ZIP_REQUIRED === 'true') {
-                // -----
-                // zc158 has changed the name of the input as well as the sanitized variable to
-                // postcode/$postcode, respectively, from the legacy variable zip_code/$zip_code.
-                //
-                // Since this template currently supports both zc157 and zc158, we'll do some
-                // 'fiddling' based on the version of Zen Cart on which we're running.
-                //
-                $postcode_name = (zen_get_zcversion() >= '1.5.8') ? 'postcode' : 'zip_code';
 ?>
     <label class="inputLabel" for="postcode"><?php echo ENTRY_POST_CODE; ?></label>
-    <?php echo zen_draw_input_field($postcode_name, ${$postcode_name}, 'size="7" id="postcode"'); ?>
+    <?php echo zen_draw_input_field('postcode', ${'postcode'}, 'size="7" id="postcode"'); ?>
     <div class="p-2"></div>
 <?php
             }

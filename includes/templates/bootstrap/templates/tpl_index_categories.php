@@ -2,7 +2,7 @@
 /**
  * Page Template
  * 
- * BOOTSTRAP v3.6.1
+ * BOOTSTRAP v3.7.0
  *
  * Loaded by main_page=index
  * Displays category/sub-category listing
@@ -17,11 +17,7 @@
 <div id="indexCategories" class="centerColumn">
 <?php
 if ($show_welcome === true) {
-    // -----
-    // zc158 introduces the HEADING_TITLE_NESTED constant.  Use that, if defined,
-    // otherwise fall-back to the legacy title.
-    //
-    $heading_title = (defined('HEADING_TITLE_NESTED')) ? HEADING_TITLE_NESTED : HEADING_TITLE;
+    $heading_title = HEADING_TITLE_NESTED;
 
     // -----
     // For accessibility, an <h1> tag can't contain an empty string.  If that's the case, use

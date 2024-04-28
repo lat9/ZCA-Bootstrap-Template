@@ -2,7 +2,7 @@
 /**
  * Page Template
  * 
- * BOOTSTRAP v3.5.0
+ * BOOTSTRAP v3.7.0
  *
  * Loaded by index.php?main_page=site_map
  * Displays site-map and some hard-coded navigation components
@@ -47,15 +47,8 @@ if (SHOW_ACCOUNT_LINKS_ON_SITE_MAP === 'Yes') {
         <li class="list-group-item"><?php echo '<a href="' . zen_href_link(FILENAME_CHECKOUT_SHIPPING, '', 'SSL') . '">' . PAGE_CHECKOUT_SHIPPING . '</a>'; ?></li>
 <?php
 }
-
-// -----
-// zc158 redefines the 'advanced_search' page as simply 'searcht.  If that
-// new page's definition is present, the search will be sent there for viewing;
-// otherwise, it'll be sent to the legacy page.
-//
-$search_page = (defined('FILENAME_SEARCH')) ? FILENAME_SEARCH : FILENAME_ADVANCED_SEARCH;
 ?>
-        <li class="list-group-item"><?php echo '<a href="' . zen_href_link($search_page) . '">' . PAGE_ADVANCED_SEARCH . '</a>'; ?></li>
+        <li class="list-group-item"><?php echo '<a href="' . zen_href_link(FILENAME_SEARCH) . '">' . PAGE_ADVANCED_SEARCH . '</a>'; ?></li>
         <li class="list-group-item"><?php echo '<a href="' . zen_href_link(FILENAME_PRODUCTS_NEW) . '">' . PAGE_PRODUCTS_NEW . '</a>'; ?></li>
         <li class="list-group-item"><?php echo '<a href="' . zen_href_link(FILENAME_SPECIALS) . '">' . PAGE_SPECIALS . '</a>'; ?></li>
         <li class="list-group-item"><?php echo '<a href="' . zen_href_link(FILENAME_REVIEWS) . '">' . PAGE_REVIEWS . '</a>'; ?></li>

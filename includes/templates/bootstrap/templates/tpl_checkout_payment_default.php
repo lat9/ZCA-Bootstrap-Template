@@ -2,7 +2,7 @@
 /**
  * Page Template
  *
- * BOOTSTRAP v3.5.2
+ * BOOTSTRAP v3.7.0
  *
  * Loaded automatically by index.php?main_page=checkout_payment.<br />
  * Displays the allowed payment modules, for selection by customer.
@@ -146,16 +146,10 @@ if (!$payment_modules->in_special_checkout()) {
     }
 // ** BEGIN PAYPAL EXPRESS CHECKOUT **
     if (!$payment_modules->in_special_checkout()) {
-        // -----
-        // zc158 removes 'TABLE_HEADING_PAYMENT_METHOD' and replaces it with
-        // 'HEADING_PAYMENT_METHOD'.  Use the former if defines, otherwise fall
-        // back to the legacy definition.
-        //
-        $payment_method_heading = (defined('HEADING_PAYMENT_METHOD')) ? HEADING_PAYMENT_METHOD : TABLE_HEADING_PAYMENT_METHOD;
 // ** END PAYPAL EXPRESS CHECKOUT **
 ?>
             <div id="paymentMethod-card" class="card mb-3">
-                <h4 class="card-header"><?php echo $payment_method_heading; ?></h4>
+                <h4 class="card-header"><?php echo HEADING_PAYMENT_METHOD; ?></h4>
                 <div class="card-body p-3">
 <?php
         if (SHOW_ACCEPTED_CREDIT_CARDS !== '0') {
@@ -250,15 +244,9 @@ if (!$payment_modules->in_special_checkout()) {
 <?php
       }
       // ** END PAYPAL EXPRESS CHECKOUT **
-
-      // -----
-      // zc158 removes 'TABLE_HEADING_COMMENTS' and uses 'HEADING_ORDER_COMMENTS' instead.
-      // Use the new definition, if present, otherwise fall back to the legacy definition.
-      //
-      $comments_heading = (defined('HEADING_ORDER_COMMENTS')) ? HEADING_ORDER_COMMENTS : TABLE_HEADING_COMMENTS;
 ?>
             <div id="orderComments-card" class="card mb-3">
-                <h4 class="card-header"><?php echo $comments_heading; ?></h4>
+                <h4 class="card-header"><?php echo HEADING_ORDER_COMMENTS; ?></h4>
                 <div class="card-body p-3">
                     <?php echo zen_draw_textarea_field('comments', '45', '3', (isset($comments) ? $comments : ''), 'aria-label="' . $comments_heading . '"'); ?>
                 </div>

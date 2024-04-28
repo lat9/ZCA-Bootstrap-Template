@@ -2,7 +2,7 @@
 /**
  * Page Template
  * 
- * BOOTSTRAP v3.6.2
+ * BOOTSTRAP v3.7.0
  *
  * Loaded automatically by index.php?main_page=account_edit.
  * Displays information related to a single specific order
@@ -63,11 +63,6 @@ if (is_array($extra_headings)) {
 ?>
                     </tr>
 <?php
-// -----
-// zc158 replaces the 'QUANTITY_SUFFIX' definition with 'CART_QUANTITY_SUFFIX'.  Use
-// the zc158 definition, if present.
-//
-$quantity_suffix = (defined('CART_QUANTITY_SUFFIX')) ? CART_QUANTITY_SUFFIX : QUANTITY_SUFFIX;
 foreach ($order->products as $product) {
     // -----
     // Give a watching observer the ability to include additional data for the header-columns
@@ -77,7 +72,7 @@ foreach ($order->products as $product) {
     $zco_notifier->notify('NOTIFY_ACCOUNT_HISTORY_INFO_EXTRA_COLUMN_DATA', ['order' => $order, 'orders_product' => $product], $extra_data);
 ?>
                     <tr>
-                        <td class="qtyCell"><?php echo $product['qty'] . $quantity_suffix; ?></td>
+                        <td class="qtyCell"><?php echo $product['qty'] . CART_QUANTITY_SUFFIX; ?></td>
                         <td class="productCell"<?php echo $products_colspan; ?>><?php echo $product['name']; ?>
 <?php
     if (!empty($product['attributes'])) {

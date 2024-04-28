@@ -1,6 +1,6 @@
 <?php
 /**
- * BOOTSTRAP v3.5.0
+ * BOOTSTRAP v3.7.0
  *
  * Displays the FAQ pages for the Gift-Certificate/Voucher system.<br />
  *
@@ -16,14 +16,6 @@
 if (!empty($customer_has_gv_balance)) {
     require $template->get_template_dir('tpl_modules_send_or_spend.php', DIR_WS_TEMPLATE, $current_page_base, 'templates') . '/tpl_modules_send_or_spend.php';
 }
-
-// -----
-// zc158+ now determines the sub-heading title/text and supplies a variable
-// containing the value; previous versions provided the information via
-// a language define.
-//
-$subHeadingTitle = (isset($subHeadingTitle)) ? $subHeadingTitle : SUB_HEADING_TITLE;
-$subHeadingText = (isset($subHeadingText)) ? $subHeadingText : SUB_HEADING_TEXT;
 ?>
     <div id="giftCertificateFaq-card" class="card mb-3">
         <h4 id="giftCertificateFaq-card-header" class="card-header"><?php echo HEADING_TITLE; ?></h4>

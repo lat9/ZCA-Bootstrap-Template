@@ -2,7 +2,7 @@
 /**
  * Page Template
  * 
- * BOOTSTRAP v3.5.0
+ * BOOTSTRAP v3.7.0
  *
  * Loaded automatically by index.php?main_page=contact_us.<br />
  * Displays contact us page form.
@@ -53,12 +53,6 @@ if (isset($_GET['action']) && $_GET['action'] === 'success') {
 <?php
     // show dropdown if set
     if (CONTACT_US_LIST !== '') {
-        // -----
-        // This value is set by the zc158 processing, mimic the value provided there if it's not set, i.e. running on a previous Zen Cart version.
-        //
-        if (!isset($send_to_default)) {
-            $send_to_default = count($send_to_array) + 1;
-        }
 ?>
             <label class="inputLabel" for="send-to"><?php echo SEND_TO_TEXT; ?></label><?php echo '<span class="alert">' . ENTRY_REQUIRED_SYMBOL . '</span>'; ?>
             <?php echo zen_draw_pull_down_menu('send_to',  $send_to_array, $send_to_default, 'id="send-to" required size="' . count($send_to_array) . '"'); ?>
@@ -73,13 +67,8 @@ if (isset($_GET['action']) && $_GET['action'] === 'success') {
             <label class="inputLabel" for="email-address"><?php echo ENTRY_EMAIL; ?></label>
             <?php echo zen_draw_input_field('email', ($email_address), ' size="40" id="email-address" autocomplete="off" placeholder="' . ENTRY_REQUIRED_SYMBOL . '" required', 'email'); ?>
             <div class="p-2"></div>
-<?php
-    // -----
-    // zc158 no longer uses the 'ENTRY_TELEPHONE' define, replacing it with 'ENTRY_TELEPHONE_NUMBER'.
-    //
-    $telephone_label = (defined('ENTRY_TELEPHONE_NUMBER')) ? ENTRY_TELEPHONE_NUMBER : ENTRY_TELEPHONE;
-?>
-            <label class="inputLabel" for="telephone"><?php echo $telephone_label; ?></label>
+
+            <label class="inputLabel" for="telephone"><?php echo ENTRY_TELEPHONE_NUMBER; ?></label>
             <?php echo zen_draw_input_field('telephone', ($telephone), ' size="20" id="telephone" autocomplete="off"', 'tel'); ?>
             <div class="p-2"></div>
 

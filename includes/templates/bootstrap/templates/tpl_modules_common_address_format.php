@@ -2,7 +2,7 @@
 /**
  * Module Template
  * 
- * BOOTSTRAP v3.5.0
+ * BOOTSTRAP v3.7.0
  *
  * Displays address-book details/selection
  *
@@ -99,20 +99,8 @@ if (ACCOUNT_SUBURB === 'true') {
 <?php echo zen_draw_input_field('city', $entry->fields['entry_city'], zen_set_field_length(TABLE_ADDRESS_BOOK, 'entry_city', '40') . ' id="city" placeholder="' . ENTRY_CITY_TEXT . '"' . ((int)ENTRY_CITY_MIN_LENGTH > 0 ? ' required' : '')); ?>
 <div class="p-2"></div>
 
-<?php
-// -----
-// zc158 introduces a common jQuery handler for the dropdown states' selection based
-// on the country chosen.  When running on a zc158 (or later) 'core', use that handler instead
-// of the legacy one provided by the Bootstrap template.
-//
-// When running a Zen Cart version prior to zc158, make sure that the 'stateLabel' field contains
-// the required text.
-//
-$onchange_for_zc158 = ($flag_show_pulldown_states === true && zen_get_zcversion() >= '1.5.8') ? ' onchange="update_zone(this.form);"' : '';
-$state_field_label = (zen_get_zcversion() >= '1.5.8') ? $state_field_label : ENTRY_STATE;
-?>
 <label class="inputLabel" for="country"><?php echo ENTRY_COUNTRY; ?></label>
-<?php echo zen_get_country_list('zone_country_id', $entry->fields['entry_country_id'], 'id="country"' . $onchange_for_zc158); ?>
+<?php echo zen_get_country_list('zone_country_id', $entry->fields['entry_country_id'], 'id="country"' . (($flag_show_pulldown_states === true) ? ' onchange="update_zone(this.form);"' : '')); ?>
 <div class="p-2"></div>
 
 <?php
