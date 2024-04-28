@@ -47,20 +47,20 @@ $preloads = [
         'type' => 'script',
     ],
     'fa' => [
-        'link' => 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/fontawesome.min.css',
-        'integrity' => 'sha512-SgaqKKxJDQ/tAUAAXzvxZz33rmn7leYDYfBP+YoMRSENhf3zJyx3SBASt/OfeQwBHA1nxMis7mM3EV/oYT6Fdw==',
+        'link' => 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/fontawesome.min.css',
+        'integrity' => 'sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==',
         'type' => 'style',
     ],
     'fa-solid' => [
-        'link' => 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/solid.min.css',
-        'integrity' => 'sha512-yDUXOUWwbHH4ggxueDnC5vJv4tmfySpVdIcN1LksGZi8W8EVZv4uKGrQc0pVf66zS7LDhFJM7Zdeow1sw1/8Jw==',
+        'link' => 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/solid.min.css',
+        'integrity' => 'sha512-Hp+WwK4QdKZk9/W0ViDvLunYjFrGJmNDt6sCflZNkjgvNq9mY+0tMbd6tWMiAlcf1OQyqL4gn2rYp7UsfssZPA==',
         'type' => 'style',
         ],
 ];
 if (empty($disableFontAwesomeV4Compatibility)) {
     $preloads['fa-4shim'] = [
-        'link' => 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/v4-shims.css',
-        'integrity' => 'sha512-tqGH6Vq3kFB19sE6vx9P6Fm/f9jWoajQ05sFTf0hr3gwpfSGRXJe4D7BdzSGCEj7J1IB1MvkUf3V/xWR25+zvw==',
+        'link' => 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/v4-shims.css',
+        'integrity' => 'sha512-veZLkufL0qjcloU3GqyNh2cOqjduXLgni09I72g783Fyudzxcm2A7lxj6Qxn4YrnhJdD8rB9vkR+rOtfF4TZ1g==',
         'type' => 'style',
         ];
 } 
