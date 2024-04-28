@@ -2,7 +2,7 @@
 /**
  * Common Template
  *
- * BOOTSTRAP v3.6.3
+ * BOOTSTRAP v3.7.0
  *
  * outputs the html header. i,e, everything that comes before the </head> tag.
  *
@@ -76,13 +76,14 @@ $zco_notifier->notify('NOTIFY_HTML_HEAD_TAG_START', $current_page_base);
 
 // -----
 // Provide an easy way for a site to disable the preload, if they want to ensure
-// that it's working properly.  Just create a .php file in either /extra_configures or
-// /extra_datafiles that sets $bs4_no_preloading to a 'truthy' value.
+// that it's working properly.  If  includes/extra_datafiles/site-specific-bootstrap-settings.php does not exist 
+// copy dist.site-specific-bootstrap-settings.php to site-specific-bootstrap-settings.php 
+// and uncomment "// $zca_no_preloading = true;".
 //
-if (empty($bs4_no_preloading)) {
+if (empty($zca_no_preloading)) {
     foreach ($preloads as $load) {
 ?>
-    <link rel="preload" href="<?php echo $load['link']; ?>" integrity="<?php echo $load['integrity']; ?>" crossorigin="anonymous" as="<?php echo $load['type']?>">
+    <link rel="preload" href="<?= $load['link'] ?>" integrity="<?= $load['integrity'] ?>" crossorigin="anonymous" as="<?= $load['type'] ?>">
 <?php
     }
 }
@@ -122,7 +123,7 @@ if (empty($bs4_no_preloading)) {
     foreach ($preloads as $load) {
         if ($load['type'] === 'style') {
 ?>
-    <link rel="stylesheet" href="<?php echo $load['link']; ?>" integrity="<?php echo $load['integrity']; ?>" crossorigin="anonymous">
+    <link rel="stylesheet" href="<?= $load['link'] ?>" integrity="<?= $load['integrity'] ?>" crossorigin="anonymous">
 <?php
         }
     }
@@ -200,7 +201,7 @@ if (empty($bs4_no_preloading)) {
     foreach ($preloads as $load) {
           if ($load['type'] === 'script') {
 ?>
-    <script src="<?php echo $load['link']; ?>" integrity="<?php echo $load['integrity']; ?>" crossorigin="anonymous"></script>
+    <script src="<?= $load['link'] ?>" integrity="<?= $load['integrity'] ?>" crossorigin="anonymous"></script>
 <?php
           }
     }

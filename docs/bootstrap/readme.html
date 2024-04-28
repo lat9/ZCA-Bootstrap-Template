@@ -194,11 +194,13 @@ img {
     <h2>Version History</h2>
     <p>This section identifies the template's version history and changes, starting with its v2.0.0c release.  Prior version changes can be found in the root of the template's distribution zip-file (<code>CHANGELOG.txt</code>).</p>
     <ul>
-        <li>v3.7.0-beta1, 2024-04-26 (lat9, proseLA)<ul>
+        <li>v3.7.0-beta1, 2024-04-26 (lat9, proseLA, brittainmark)<ul>
             <li>CHANGE: Add 'soft' configuration setting to exclude categories with no products from the display.</li>
             <li>BUGFIX: Correct layout for products' listings and category-row when displaying in 'columns'.</li>
             <li>BUGFIX: Incorporate Zen Cart base changes for attributes' module.</li>
             <li>BUGFIX: Correct MySQL ANSI-mode issues.</li>
+            <li>BUGFIX: Make pre-loading of style sand scripts work</li>
+            <li>INTROP: Load font-awesome 6.4.0 and v4-shims.css if required</li>
             <li>The following files were changed:<ol>
                 <li>/includes/extra_datafiles/disc.site-specific-bootstrap-settings.php</li>
                 <li>/includes/modules/bootstrap/attributes.php</li>
@@ -207,6 +209,7 @@ img {
                 <li>/includes/modules/bootstrap/product_listing.php</li>
                 <li>/includes/templates/bootstrap/modalboxes/tpl_attributes_qty_prices.php</li>
                 <li>/includes/templates/bootstrap/sideboxes/tpl_categories.php</li>
+                <li>/includes/templates/bootstrap/templates/common/html_header.php</li>
                 <li>/YOUR_ADMIN/includes/init_includes/init_zca_bootstrap_template_admin.php</li>
             </ol></li>
         </ul></li>
