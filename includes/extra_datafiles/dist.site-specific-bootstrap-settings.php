@@ -30,3 +30,9 @@
 // @proseLA
 //
 //$zca_include_zero_product_categories = true;
+
+//
+// ----
+// This controls preloading of fontawesome, jquery and boostrap css
+// if you don't want to preload the scrips and css uncomment line below
+//$zca_no_preloading = true;

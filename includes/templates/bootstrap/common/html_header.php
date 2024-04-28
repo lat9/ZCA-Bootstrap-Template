@@ -2,7 +2,7 @@
 /**
  * Common Template
  *
- * BOOTSTRAP v3.6.3
+ * BOOTSTRAP v3.7.0
  *
  * outputs the html header. i,e, everything that comes before the </head> tag.
  *
@@ -34,20 +34,36 @@ $preloads = [
     'jquery' => [
         'link' => 'https://code.jquery.com/jquery-3.7.1.min.js',
         'integrity' => 'sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=',
+        'type' => 'script',
     ],
     'bscss' => [
         'link' => 'https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css',
         'integrity' => 'sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N',
+        'type' => 'style',
     ],
     'bsjs' => [
         'link' => 'https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js',
         'integrity' => 'sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct',
+        'type' => 'script',
     ],
     'fa' => [
-        'link' => 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css',
-        'integrity' => 'sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==',
+        'link' => 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/fontawesome.min.css',
+        'integrity' => 'sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==',
+        'type' => 'style',
     ],
+    'fa-solid' => [
+        'link' => 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/solid.min.css',
+        'integrity' => 'sha512-Hp+WwK4QdKZk9/W0ViDvLunYjFrGJmNDt6sCflZNkjgvNq9mY+0tMbd6tWMiAlcf1OQyqL4gn2rYp7UsfssZPA==',
+        'type' => 'style',
+        ],
 ];
+if (empty($disableFontAwesomeV4Compatibility)) {
+    $preloads['fa-4shim'] = [
+        'link' => 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/v4-shims.css',
+        'integrity' => 'sha512-veZLkufL0qjcloU3GqyNh2cOqjduXLgni09I72g783Fyudzxcm2A7lxj6Qxn4YrnhJdD8rB9vkR+rOtfF4TZ1g==',
+        'type' => 'style',
+        ];
+} 
 ?>
 <!DOCTYPE html>
 <html <?php echo HTML_PARAMS; ?>>
@@ -60,16 +76,16 @@ $zco_notifier->notify('NOTIFY_HTML_HEAD_TAG_START', $current_page_base);
 
 // -----
 // Provide an easy way for a site to disable the preload, if they want to ensure
-// that it's working properly.  Just create a .php file in either /extra_configures or
-// /extra_datafiles that sets $bs4_no_preloading to a 'truthy' value.
+// that it's working properly.  If  includes/extra_datafiles/site-specific-bootstrap-settings.php does not exist 
+// copy dist.site-specific-bootstrap-settings.php to site-specific-bootstrap-settings.php 
+// and uncomment "// $zca_no_preloading = true;".
 //
-if (!empty($bs4_no_preloading)) {
+if (empty($zca_no_preloading)) {
+    foreach ($preloads as $load) {
 ?>
-    <link rel="preload" href="<?php echo $preloads['bscss']['link']; ?>" integrity="<?php echo $preloads['bscss']['integrity']; ?>" crossorigin="anonymous" as="style">
-    <link rel="preload" href="<?php echo $preloads['fa']['link']; ?>" integrity="<?php echo $preloads['fa']['integrity']; ?>" crossorigin="anonymous" referrerpolicy="no-referrer" as="style">
-    <link rel="preload" href="<?php echo $preloads['jquery']['link']; ?>" integrity="<?php echo $preloads['jquery']['integrity']; ?>" crossorigin="anonymous" as="script">
-    <link rel="preload" href="<?php echo $preloads['bsjs']['link']; ?>" integrity="<?php echo $preloads['bsjs']['integrity']; ?>" crossorigin="anonymous" as="script">
+    <link rel="preload" href="<?= $load['link'] ?>" integrity="<?= $load['integrity'] ?>" crossorigin="anonymous" as="<?= $load['type'] ?>">
 <?php
+    }
 }
 ?>
     <meta charset="<?php echo CHARSET; ?>">
@@ -104,12 +120,14 @@ if (!empty($bs4_no_preloading)) {
     }
     // EOF hreflang for multilingual sites
     // Important to load Bootstrap CSS First...
-    ?>
-    <link rel="stylesheet" href="<?php echo $preloads['bscss']['link']; ?>" integrity="<?php echo $preloads['bscss']['integrity']; ?>" crossorigin="anonymous">
+    foreach ($preloads as $load) {
+        if ($load['type'] === 'style') {
+?>
+    <link rel="stylesheet" href="<?= $load['link'] ?>" integrity="<?= $load['integrity'] ?>" crossorigin="anonymous">
+<?php
+        }
+    }
 
-    <link rel="stylesheet" href="<?php echo $preloads['fa']['link']; ?>" integrity="<?php echo $preloads['fa']['integrity']; ?>" crossorigin="anonymous" referrerpolicy="no-referrer">
-
-    <?php
     /**
      * load all template-specific stylesheets, named like "style*.css", alphabetically
      */
@@ -180,10 +198,13 @@ if (!empty($bs4_no_preloading)) {
     }
 
     /** CDN for jQuery core * */
+    foreach ($preloads as $load) {
+          if ($load['type'] === 'script') {
 ?>
-    <script src="<?php echo $preloads['jquery']['link']; ?>" integrity="<?php echo $preloads['jquery']['integrity']; ?>" crossorigin="anonymous"></script>
-    <script src="<?php echo $preloads['bsjs']['link']; ?>" integrity="<?php echo $preloads['bsjs']['integrity']; ?>" crossorigin="anonymous"></script>
+    <script src="<?= $load['link'] ?>" integrity="<?= $load['integrity'] ?>" crossorigin="anonymous"></script>
 <?php
+          }
+    }
     /**
      * load all site-wide jscript_*.js files from includes/templates/YOURTEMPLATE/jscript, alphabetically
      */
