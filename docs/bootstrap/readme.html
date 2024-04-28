@@ -161,11 +161,13 @@ img {
     <h2>Version History</h2>
     <p>This section identifies the template's version history and changes, starting with its v2.0.0c release.  Prior version changes can be found in the root of the template's distribution zip-file (<code>CHANGELOG.txt</code>).</p>
     <ul>
-        <li>v3.7.0-beta2, 2024-04-28 (lat9, proseLA)<ul>
+        <li>v3.7.0-beta1, 2024-04-26 (lat9, proseLA, brittainmark)<ul>
             <li>CHANGE: Add 'soft' configuration setting to exclude categories with no products from the display.</li>
             <li>BUGFIX: Correct layout for products' listings and category-row when displaying in 'columns'.</li>
             <li>BUGFIX: Incorporate Zen Cart base changes for attributes' module.</li>
             <li>BUGFIX: Correct MySQL ANSI-mode issues.</li>
+            <li>BUGFIX: Make pre-loading of styles and scripts work.</li>
+            <li>CHANGE: Load font-awesome 6.4.0 and v4-shims.css if required</li>
             <li>CHANGE: Drop support for Zen Cart versions <em>prior to</em> 1.5.8.</li>
             <li>The following files were changed or <span class="removed">removed</span>:<ol>
                 <li>/includes/extra_datafiles/dist.site-specific-bootstrap-settings.php</li>
@@ -175,6 +177,7 @@ img {
                 <li>/includes/modules/bootstrap/category_row.php</li>
                 <li>/includes/modules/bootstrap/categories_tabs.php</li>
                 <li>/includes/modules/bootstrap/product_listing.php</li>
+                <li>/includes/templates/bootstrap/common/html_header.php</li>
                 <li><span class="removed">/includes/templates/bootstrap/jscript/jscript_addr_pulldowns_zca_bootstrap.php</span></li>
                 <li>/includes/templates/bootstrap/modalboxes/tpl_ajax_search.php</li>
                 <li>/includes/templates/bootstrap/modalboxes/tpl_attributes_qty_prices.php</li>
