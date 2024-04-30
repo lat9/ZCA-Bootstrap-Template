@@ -66,6 +66,8 @@ switch (true) {
 
                 ('Product Info Pricing Location', 'BS4_PRICING_LOCATION', 'Both', 'When a product has attributes, where should a product\'s pricing be displayed relative to the attributes\' display? Default: <samp>Both</samp>.', $cgi, now(), 400, NULL, 'zen_cfg_select_option([\'Both\', \'Above Only\', \'Below Only\'],'),
 
+                ('Sideboxes as Carousels', 'BS4_SIDEBOXES_DISPLAY_CAROUSEL', '', 'Choose which sideboxes to display using a carousel, using a comma-separated list.  Currently supported: <samp>best_sellers</samp>, <samp>featured</samp>, <samp>reviews</samp>, <samp>specials</samp> and <samp>whats_new</samp>.<br>', $cgi, now(), 500, NULL, 'zen_cfg_textarea_small('),
+
                 ('Home Slider: &quot;Banner Manager&quot; Group', 'BS4_SLIDER_BANNER_GROUP', 'HomeSlider', 'Identify the <em>Banner Manager</em> group containing the home-page slider images. Refer to <a href=\"https://github.com/lat9/ZCA-Bootstrap-Template/wiki/Using-the-Home%E2%80%90Page-Slider-Feature\" target=\"_blank\" rel=\"noreferrer noopener\">this</a> GitHub Wiki article for additional information about the <em>Home Slider</em> settings.', $cgi, now(), 1100, NULL, NULL),
 
                 ('Home Slider: Image Width', 'BS4_SLIDER_WIDTH', '1170!', 'What image-width should be applied to the home-page slider images?', $cgi, now(), 1110, NULL, NULL),
