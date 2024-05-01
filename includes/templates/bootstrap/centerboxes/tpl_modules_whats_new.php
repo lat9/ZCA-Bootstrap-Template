@@ -2,7 +2,7 @@
 /**
  * Module Template
  * 
- * BOOTSTRAP v3.6.4
+ * BOOTSTRAP v3.7.0
  *
  * @package templateSystem
  * @copyright Copyright 2003-2005 Zen Cart Development Team
@@ -23,6 +23,17 @@ $card_body_id = 'newCenterbox-card-body';
 ?>
 <!-- bof: whats_new -->
 <?php
-require $template->get_template_dir('tpl_columnar_display.php', DIR_WS_TEMPLATE, $current_page_base, 'common') . '/tpl_columnar_display.php';
+if (BS4_NEW_CENTERBOX_CAROUSEL === '') {
+    // -----
+    // If not rendering as a carousel, output the columnar display.
+    //
+    require $template->get_template_dir('tpl_columnar_display.php', DIR_WS_TEMPLATE, $current_page_base, 'common') . '/tpl_columnar_display.php';
+} else {
+    // -----
+    // Otherwise, rendering as a carousel.
+    //
+    $carousel_config = BS4_NEW_CENTERBOX_CAROUSEL;
+    require $template->get_template_dir('tpl_columnar_display_carousel.php', DIR_WS_TEMPLATE, $current_page_base, 'common') . '/tpl_columnar_display_carousel.php';
+}
 ?>
 <!-- eof: whats_new -->
