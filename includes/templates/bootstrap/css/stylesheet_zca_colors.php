@@ -455,9 +455,9 @@ a.button_checkout:hover {
     <?php echo ($zca_checkout_continue_border_color_hover !== '') ? "border-color: $zca_checkout_continue_border_color_hover;" : ''; ?>
 }
 button.button_confirm_order {
-    <?php echo ($zca_checkout_confirm_background_color !== '') ? "background-color: $zca_checkout_continue_background_color;" : ''; ?>
-    <?php echo ($zca_checkout_confirm_color !== '') ? "color: $zca_checkout_continue_color;" : ''; ?>
-    <?php echo ($zca_checkout_confirm_border_color !== '') ? "border-color: $zca_checkout_continue_border_color;" : ''; ?>
+    <?php echo ($zca_checkout_confirm_background_color !== '') ? "background-color: $zca_checkout_confirm_background_color;" : ''; ?>
+    <?php echo ($zca_checkout_confirm_color !== '') ? "color: $zca_checkout_confirm_color;" : ''; ?>
+    <?php echo ($zca_checkout_confirm_border_color !== '') ? "border-color: $zca_checkout_confirm_border_color;" : ''; ?>
 }
 button.button_confirm_order:hover {
     <?php echo ($zca_checkout_confirm_background_color_hover !== '') ? "background-color: $zca_checkout_confirm_background_color_hover;" : ''; ?>
