@@ -442,24 +442,24 @@ a:hover > .fa-cart-plus {
 }
 //- Checkout buttons and progress-bar
 ?>
-button.button_continue_checkout,
+.button.button_continue_checkout,
 a.button_checkout {
     <?= ($zca_checkout_continue_background_color !== '') ? "background-color: $zca_checkout_continue_background_color;" : '' ?>
     <?= ($zca_checkout_continue_color !== '') ? "color: $zca_checkout_continue_color;" : '' ?>
     <?= ($zca_checkout_continue_border_color !== '') ? "border-color: $zca_checkout_continue_border_color;" : '' ?>
 }
-button.button_continue_checkout:hover,
+.button.button_continue_checkout:hover,
 a.button_checkout:hover {
     <?= ($zca_checkout_continue_background_color_hover !== '') ? "background-color: $zca_checkout_continue_background_color_hover;" : '' ?>
     <?= ($zca_checkout_continue_color_hover !== '') ? "color: $zca_checkout_continue_color_hover;" : '' ?>
     <?= ($zca_checkout_continue_border_color_hover !== '') ? "border-color: $zca_checkout_continue_border_color_hover;" : '' ?>
 }
-button.button_confirm_order {
+.button.button_confirm_order {
     <?= ($zca_checkout_confirm_background_color !== '') ? "background-color: $zca_checkout_confirm_background_color;" : '' ?>
     <?= ($zca_checkout_confirm_color !== '') ? "color: $zca_checkout_confirm_color;" : '' ?>
     <?= ($zca_checkout_confirm_border_color !== '') ? "border-color: $zca_checkout_confirm_border_color;" : '' ?>
 }
-button.button_confirm_order:hover {
+.button.button_confirm_order:hover {
     <?= ($zca_checkout_confirm_background_color_hover !== '') ? "background-color: $zca_checkout_confirm_background_color_hover;" : '' ?>
     <?= ($zca_checkout_confirm_color_hover !== '') ? "color: $zca_checkout_confirm_color_hover;" : '' ?>
     <?= ($zca_checkout_confirm_border_color_hover !== '') ? "border-color: $zca_checkout_confirm_border_color_hover;" : '' ?>
