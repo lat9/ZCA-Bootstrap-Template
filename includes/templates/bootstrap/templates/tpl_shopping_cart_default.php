@@ -70,24 +70,27 @@ if ($flagHasCartContents) {
         <table id="shoppingCartDefault-cartTableDisplay" class="cartTableDisplay table table-bordered table-striped table-sm">
             <tr>
                 <th scope="col" id="cartTableDisplay-qtyHeading"><?php echo TABLE_HEADING_QUANTITY; ?></th>
-                <th scope="col" class="d-none d-sm-table-cell" id="cartTableDisplay-qtyUpdateHeading">&nbsp;</th>
+<?php if (SHOW_SHOPPING_CART_UPDATE == 1 || SHOW_SHOPPING_CART_UPDATE == 3) { ?>
+                <th scope="col" class="d-none d-sm-table-cell" id="cartTableDisplay-qtyUpdateHeading"><span aria-label="<?php echo TEXT_CART_ARIA_HEADING_UPDATE_COLUMN; ?>">&nbsp;</span></th>
+<?php } ?>
                 <th scope="col" id="cartTableDisplay-productsHeading"><?php echo TABLE_HEADING_PRODUCTS; ?></th>
                 <th scope="col" id="cartTableDisplay-priceHeading"><?php echo TABLE_HEADING_PRICE; ?></th>
                 <th scope="col" id="cartTableDisplay-totalsHeading"><?php echo TABLE_HEADING_TOTAL; ?></th>
-                <th scope="col" class="d-none d-sm-table-cell" id="cartTableDisplay-removeHeading">&nbsp;</th>
+                <th scope="col" class="d-none d-sm-table-cell" id="cartTableDisplay-removeHeading"><span aria-label="<?php echo TEXT_CART_ARIA_HEADING_DELETE_COLUMN; ?>">&nbsp;</span></th>
             </tr>
 <?php
     foreach ($productArray as $product) {
 ?>
             <tr>
                 <td class="qtyCell text-center pb-4">
-<?php
+                    <?php
         if ($product['flagShowFixedQuantity']) {
             echo $product['showFixedQuantityAmount'] . ' ' . $product['flagStockCheck'] . ' ' . $product['showMinUnits'];
         } else {
             echo $product['quantityField'] . ' ' . $product['flagStockCheck'] . ' ' . $product['showMinUnits'];
         }
 ?>
+
                     <div class="d-sm-none mt-1">
 <?php
         if ($product['buttonDelete']) {
@@ -108,7 +111,9 @@ if ($flagHasCartContents) {
 ?>
                     </div>
                 </td>
+<?php if (SHOW_SHOPPING_CART_UPDATE == 1 || SHOW_SHOPPING_CART_UPDATE == 3) { ?>
                 <td class="qtyUpdateCell text-center d-none d-sm-table-cell"><?php echo (!empty($product['buttonUpdate'])) ? $product['buttonUpdate'] : ''; ?></td>
+<?php } ?>
                 <td class="productsCell">
                     <a href="<?php echo $product['linkProductsName']; ?>">
                         <span class="d-none d-sm-block float-left mr-3"><?php echo $product['productsImage']; ?></span>
