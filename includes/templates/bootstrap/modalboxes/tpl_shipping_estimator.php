@@ -9,7 +9,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="shippingEstimatorModalLabel"><?php echo 'Shipping Estimator'; ?></h5>
+                <h5 class="modal-title" id="shippingEstimatorModalLabel"><?php echo CART_SHIPPING_OPTIONS; ?></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="<?php echo TEXT_MODAL_CLOSE; ?>">
                     <span aria-hidden="true">&times;</span>
                 </button>
