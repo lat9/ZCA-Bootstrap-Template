@@ -33,6 +33,12 @@ if (SHOW_SHIPPING_ESTIMATOR_BUTTON === '2') {
     <h2><?php echo CART_SHIPPING_OPTIONS; ?></h2>
 <?php
 }
+
+if (!empty($totalsDisplay)) {
+?>
+    <div class="text-center"><?php echo $totalsDisplay; ?></div>
+<?php 
+}
 ?>
     <?php echo zen_draw_form('estimator', zen_href_link(FILENAME_SHOPPING_CART . '#seView', '', $request_type), 'post'); ?>
 <?php
@@ -42,11 +48,6 @@ if (is_array($selected_shipping)) {
 echo zen_draw_hidden_field('action', 'submit');
 
 if (zen_is_logged_in() && !zen_in_guest_checkout()) {
-    if (!empty($totalsDisplay)) {
-?>
-    <div class="text-center"><?php echo $totalsDisplay; ?></div>
-<?php 
-    }
     // only display addresses if more than 1
     if ($addresses->RecordCount() > 1) {
 ?>
@@ -59,11 +60,6 @@ if (zen_is_logged_in() && !zen_in_guest_checkout()) {
     <address><?php echo zen_address_format($order->delivery['format_id'], $order->delivery, 1, ' ', '<br>'); ?></address>
 <?php
 } else {
-    if (!empty($totalsDisplay)) { 
-?>
-    <div class="text-center"><?php echo $totalsDisplay; ?></div>
-<?php
-    }
     if ($_SESSION['cart']->get_content_type() !== 'virtual') {
         $flag_show_pulldown_states = (ACCOUNT_STATE_DRAW_INITIAL_DROPDOWN === 'true');
 ?>
