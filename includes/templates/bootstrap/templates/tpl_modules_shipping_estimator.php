@@ -26,6 +26,14 @@ if (empty($extra)) {
 //
 ?>
 <div id="shippingEstimatorContent">
+    <a id="seView"></a>
+<?php
+if (SHOW_SHIPPING_ESTIMATOR_BUTTON === '2') {
+?>
+    <h2><?php echo CART_SHIPPING_OPTIONS; ?></h2>
+<?php
+}
+?>
     <?php echo zen_draw_form('estimator', zen_href_link(FILENAME_SHOPPING_CART . '#seView', '', $request_type), 'post'); ?>
 <?php
 if (is_array($selected_shipping)) {
@@ -34,9 +42,6 @@ if (is_array($selected_shipping)) {
 echo zen_draw_hidden_field('action', 'submit');
 
 if (zen_is_logged_in() && !zen_in_guest_checkout()) {
-?>
-    <h2><?php echo CART_SHIPPING_OPTIONS; ?></h2>
-<?php 
     if (!empty($totalsDisplay)) {
 ?>
     <div class="text-center"><?php echo $totalsDisplay; ?></div>
@@ -54,11 +59,6 @@ if (zen_is_logged_in() && !zen_in_guest_checkout()) {
     <address><?php echo zen_address_format($order->delivery['format_id'], $order->delivery, 1, ' ', '<br>'); ?></address>
 <?php
 } else {
-?>
-    <a id="seView"></a>
-
-    <h2><?php echo CART_SHIPPING_OPTIONS; ?></h2>
-<?php 
     if (!empty($totalsDisplay)) { 
 ?>
     <div class="text-center"><?php echo $totalsDisplay; ?></div>
