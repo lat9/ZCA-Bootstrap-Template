@@ -84,6 +84,18 @@ switch (true) {
 
                 ('Home Slider: Image Height', 'BS4_SLIDER_HEIGHT', '400!', 'What image-height should be applied to the home-page slider images?', $cgi, now(), 1115, NULL, NULL)"
         );
+    // -----
+    // v3.7.2:
+    //
+    // - Add setting to identify whether/not a product's description is included in the AJAX search.
+    //
+    case version_compare(ZCA_BOOTSTRAP_VERSION, '3.7.2', '<'):  //- Fall through from above
+        $db->Execute(
+            "INSERT IGNORE INTO " . TABLE_CONFIGURATION . "
+                (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, date_added, sort_order, use_function, set_function)
+             VALUES
+                ('AJAX Search: Include descriptions?', 'BS4_AJAX_SEARCH_INC_DESC', 'false', 'Include product descriptions when using the AJAX search?  Default: <samp>false</samp>.', $cgi, now(), 1022, NULL, 'zen_cfg_select_option([\'false\', \'true\',],')"
+        );
     default:                                                    //- Fall through from above
         break;
 }

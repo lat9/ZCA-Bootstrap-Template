@@ -31,8 +31,15 @@ class zcAjaxBootstrapSearch extends base
 
                 $where_clause =
                     ' WHERE p.products_status = 1 ';
+                $search_fields = [
+                    'pd.products_name',
+                    'p.products_model',
+                ];
+                if (defined('BS4_AJAX_SEARCH_INC_DESC') && BS4_AJAX_SEARCH_INC_DESC === 'true') {
+                    $search_fields[] = 'pd.products_description';
+                }
                 if (function_exists('zen_build_keyword_where_clause')) {
-                    $where_clause .= zen_build_keyword_where_clause(['pd.products_name', 'pd.products_description', 'p.products_model'], $keywords);
+                    $where_clause .= zen_build_keyword_where_clause($search_fields, $keywords);
                 } else {
                     $where_clause .= 'AND (' . $this->buildWhereClause($search_keywords) . ' )';
                 }

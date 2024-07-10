@@ -162,20 +162,22 @@ img {
     <h2>Version History</h2>
     <p>This section identifies the template's version history and changes, starting with its v2.0.0c release.  Prior version changes can be found in the root of the template's distribution zip-file (<code>CHANGELOG.txt</code>).</p>
     <ul>
-        <li>v3.7.2-beta4, 2024-07-09 (lat9, retched)<ul>
+        <li>v3.7.2-beta5, 2024-07-10 (lat9, retched)<ul>
             <li>BUGFIX: AJAX search's product count can be 'off' (again); variant-managed products might again 'explode' the count!</li>
             <li>BUGFIX: Correct HTML <samp>id</samp> parameter in shipping-estimator modal.</li>
             <li>BUGFIX: Use language-constant for modal shipping-estimator instead of hard-coded English.</li>
             <li>BUGFIX: Reformat shipping-estimator layout to use 2-column display on medium and above viewports.</li>
-            <li>BUGFIX: Correct AJAX search not including keywords in a product's description.</li>
+            <li>BUGFIX: Correct AJAX search not including keywords in a product's description; note, new configuration setting added!.</li>
             <li>BUGFIX: Correct accessibility issue with <samp>shopping_cart</samp> page's template.</li>
             <li>The following files were changed or <span class="added">added</span>:<ol>
                 <li>/includes/classes/ajax/zcAjaxBootstrapSearch.php</li>
                 <li>/includes/languages/english/extra_definitions/bootstrap/lang.zca_bootstrap_common.php</li>
+                <li>/includes/templates/bootstrap/modalboxes/tpl_ajax_search.php</li>
                 <li>/includes/templates/bootstrap/modalboxes/tpl_shipping_estimator.php</li>
                 <li>/includes/templates/bootstrap/templates/tpl_modules_shipping_estimator.php</li>
                 <li>/includes/templates/bootstrap/templates/tpl_shopping_cart_default.php</li>
                 <li>/YOUR_ADMIN/includes/init_includes/init_zca_bootstrap_template_admin.php</li>
+                <li>/YOUR_ADMIN/includes/init_includes/init_zca_bootstrap_template_admin_update.php</li>
             </ol></li>
         </ul></li>
         <li>v3.7.1, 2024-06-21 (lat9, brittainmark)<ul>
