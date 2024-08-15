@@ -126,47 +126,55 @@ if ($_SESSION['cart']->get_content_type() === 'virtual') {
                 </thead>
                 <tbody>
 <?php
-    for ($i = 0, $n = count($quotes); $i < $n; $i++) {
+    foreach ($quotes as $next_module) {
         $thisquoteid = '';
-        if (isset($quotes[$i]['id'], $quotes[$i]['methods'][0]['id']) && count($quotes[$i]['methods']) === 1) {
+        if (isset($next_module['id'], $next_module['methods'][0]['id']) && count($next_module['methods']) === 1) {
             // simple shipping method (e.g. 'flat')
-            $thisquoteid = $quotes[$i]['id'] . '_' . $quotes[$i]['methods'][0]['id'];
+            $thisquoteid = $next_module['id'] . '_' . $next_module['methods'][0]['id'];
 ?>
                     <tr<?= $extra ?>>
 <?php
-            if (!empty($quotes[$i]['error'])) {
+            if (!empty($next_module['error'])) {
 ?>
-                        <td colspan="2"><?= $quotes[$i]['module'] ?>&nbsp;(<?= $quotes[$i]['error'] ?>)</td>
+                        <td colspan="2"><?= $next_module['module'] ?>&nbsp;(<?= $next_module['error'] ?>)</td>
 <?php
             } else {
                 $extra_class = ($selected_shipping['id'] == $thisquoteid) ? 'font-weight-bold' : '';
 ?>
-                        <td class="<?= $extra_class ?>"><?= $quotes[$i]['module'] ?>&nbsp;(<?= $quotes[$i]['methods'][0]['title'] ?>)</td>
-                        <td class="cartTotalDisplay text-right <?= $extra_class ?>"><?= $currencies->format(zen_add_tax($quotes[$i]['methods'][0]['cost'], $quotes[$i]['tax'] ?? 0)) ?></td>
+                        <td class="<?= $extra_class ?>">
+                            <?= $next_module['module'] ?>&nbsp;(<?= $next_module['methods'][0]['title'] ?>)
+                        </td>
+                        <td class="cartTotalDisplay text-right <?= $extra_class ?>">
+                            <?= $currencies->format(zen_add_tax($next_module['methods'][0]['cost'], $next_module['tax'] ?? 0)) ?>
+                        </td>
 <?php
             }
 ?>
                     </tr>
 <?php
-        } else {
+        } elseif (!empty($next_module['methods']) && is_array($next_module['methods'])) {
             // shipping method with sub methods (e.g. UPS, USPS, multipickup, etc)
-            for ($j = 0, $n2 = (empty($quotes[$i]['methods']) ? 0 : count($quotes[$i]['methods'])); $j < $n2; $j++) {
+            foreach ($next_module['methods'] as $next_method) {
                 $thisquoteid = '';
-                if (isset($quotes[$i]['id'], $quotes[$i]['methods'][$j]['id'])) {
-                    $thisquoteid = $quotes[$i]['id'] . '_' . $quotes[$i]['methods'][$j]['id'];
+                if (isset($next_module['id'], $next_method['id'])) {
+                    $thisquoteid = $next_module['id'] . '_' . $next_method['id'];
                 }
 ?>
                     <tr<?= $extra ?>>
 <?php
-               if (!empty($quotes[$i]['error'])) {
+               if (!empty($next_module['error'])) {
 ?>
-                        <td colspan="2"><?= $quotes[$i]['module'] ?>&nbsp;(<?= $quotes[$i]['error'] ?>)</td>
+                        <td colspan="2"><?= $next_module['module'] ?>&nbsp;(<?= $next_module['error'] ?>)</td>
 <?php
                 } else {
                     $extra_class = ($selected_shipping['id'] == $thisquoteid) ? 'font-weight-bold' : '';
 ?>
-                        <td class="<?= $extra_class ?>"><?= $quotes[$i]['module'] ?>&nbsp;(<?= $quotes[$i]['methods'][$j]['title'] ?>)</td>
-                        <td class="cartTotalDisplay text-right <?= $extra_class ?>"><?= $currencies->format(zen_add_tax($quotes[$i]['methods'][$j]['cost'], $quotes[$i]['tax'] ?? 0)) ?></td>
+                        <td class="<?= $extra_class ?>">
+                            <?= $next_module['module'] ?>&nbsp;(<?= $next_method['title'] ?>)
+                        </td>
+                        <td class="cartTotalDisplay text-right <?= $extra_class ?>">
+                            <?= $currencies->format(zen_add_tax($next_method['cost'], $next_module['tax'] ?? 0)) ?>
+                        </td>
 <?php
                 }
 ?>
