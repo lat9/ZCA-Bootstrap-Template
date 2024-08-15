@@ -128,47 +128,32 @@ if ($_SESSION['cart']->get_content_type() === 'virtual') {
 <?php
     foreach ($quotes as $next_module) {
         $thisquoteid = '';
-        if (isset($next_module['id'], $next_module['methods'][0]['id']) && count($next_module['methods']) === 1) {
-            // simple shipping method (e.g. 'flat')
-            $thisquoteid = $next_module['id'] . '_' . $next_module['methods'][0]['id'];
+        if (empty($next_module['module'])) {
+            continue;
+        }
+
+        if (!empty($next_module['error'])) {
 ?>
                     <tr<?= $extra ?>>
-<?php
-            if (!empty($next_module['error'])) {
-?>
-                        <td colspan="2"><?= $next_module['module'] ?>&nbsp;(<?= $next_module['error'] ?>)</td>
-<?php
-            } else {
-                $extra_class = ($selected_shipping['id'] == $thisquoteid) ? 'font-weight-bold' : '';
-?>
-                        <td class="<?= $extra_class ?>">
-                            <?= $next_module['module'] ?>&nbsp;(<?= $next_module['methods'][0]['title'] ?>)
+                        <td colspan="2">
+                            <?= $next_module['module'] ?>
+                            <?= !empty($next_module['icon']) ? $next_module['icon'] : '' ?>
+                            &nbsp<?= $next_module['error'] ?>
                         </td>
-                        <td class="cartTotalDisplay text-right <?= $extra_class ?>">
-                            <?= $currencies->format(zen_add_tax($next_module['methods'][0]['cost'], $next_module['tax'] ?? 0)) ?>
-                        </td>
-<?php
-            }
-?>
                     </tr>
 <?php
-        } elseif (!empty($next_module['methods']) && is_array($next_module['methods'])) {
-            // shipping method with sub methods (e.g. UPS, USPS, multipickup, etc)
-            foreach ($next_module['methods'] as $next_method) {
-                $thisquoteid = '';
-                if (isset($next_module['id'], $next_method['id'])) {
-                    $thisquoteid = $next_module['id'] . '_' . $next_method['id'];
-                }
+            continue;
+        }
+
+        if (empty($next_module['methods']) || !is_array($next_module['methods'])) {
+            continue;
+        }
+
+        foreach ($next_module['methods'] as $next_method) {
+            $thisquoteid = $next_module['id'] . '_' . $next_method['id'];
+            $extra_class = ($selected_shipping['id'] === $thisquoteid) ? 'font-weight-bold' : '';
 ?>
                     <tr<?= $extra ?>>
-<?php
-               if (!empty($next_module['error'])) {
-?>
-                        <td colspan="2"><?= $next_module['module'] ?>&nbsp;(<?= $next_module['error'] ?>)</td>
-<?php
-                } else {
-                    $extra_class = ($selected_shipping['id'] == $thisquoteid) ? 'font-weight-bold' : '';
-?>
                         <td class="<?= $extra_class ?>">
                             <?= $next_module['module'] ?>&nbsp;(<?= $next_method['title'] ?>)
                         </td>
@@ -176,12 +161,10 @@ if ($_SESSION['cart']->get_content_type() === 'virtual') {
                             <?= $currencies->format(zen_add_tax($next_method['cost'], $next_module['tax'] ?? 0)) ?>
                         </td>
 <?php
-                }
+        }
 ?>
                     </tr>
 <?php
-            }
-        }
     }
 ?>
                 </tbody>
