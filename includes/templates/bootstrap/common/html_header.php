@@ -100,50 +100,54 @@ if (empty($zca_no_preloading)) {
     <?php if (isset($canonicalLink) && $canonicalLink != '') { ?>
       <link href="<?php echo $canonicalLink; ?>" rel="canonical">
     <?php } ?>
-    <?php
-    // BOF hreflang for multilingual sites
-    if (!isset($lng) || (isset($lng) && !is_object($lng))) {
-      $lng = new language;
-    }
+<?php
+// BOF hreflang for multilingual sites
+if (!isset($lng) || !is_object($lng)) {
+    $lng = new language;
+}
 
-    if (count($lng->catalog_languages) > 1) {
-      foreach ($lng->catalog_languages as $key => $value) {
-        echo '<link href="' . ($this_is_home_page ? zen_href_link(FILENAME_DEFAULT, 'language=' . $key, $request_type, false) : $canonicalLink . (strpos($canonicalLink, '?') ? '&amp;' : '?') . 'language=' . $key) . '" hreflang="' . $key . '" rel="alternate">' . "\n";
-      }
+if (count($lng->catalog_languages) > 1) {
+    foreach ($lng->catalog_languages as $key => $value) {
+        if ($this_is_home_page) {
+            $hreflang_link = zen_href_link(FILENAME_DEFAULT, 'language=' . $key, $request_type, false);
+        } else {
+            $hreflang_link = $canonicalLink . (strpos($canonicalLink, '?') !== false ? '&amp;' : '?') . 'language=' . $key;
+        }
+        echo '<link href="' . $hreflang_link . '" hreflang="' . $key . '" rel="alternate">' . "\n";
     }
-    // EOF hreflang for multilingual sites
-    // Important to load Bootstrap CSS First...
-    foreach ($preloads as $load) {
-        if ($load['type'] === 'style') {
+}
+// EOF hreflang for multilingual sites
+
+// Important to load Bootstrap CSS First...
+foreach ($preloads as $load) {
+    if ($load['type'] === 'style') {
 ?>
     <link rel="stylesheet" href="<?= $load['link'] ?>" integrity="<?= $load['integrity'] ?>" crossorigin="anonymous">
 <?php
-        }
     }
+}
 
 /**
  * Load all template-specific stylesheets, via the common CSS loader.
  */
 require $template->get_template_dir('html_header_css_loader.php', DIR_WS_TEMPLATE, $current_page_base, 'common') . '/html_header_css_loader.php';
 
-    /** CDN for jQuery core * */
-    foreach ($preloads as $load) {
-          if ($load['type'] === 'script') {
+/** CDN for jQuery core * */
+foreach ($preloads as $load) {
+    if ($load['type'] === 'script') {
 ?>
     <script src="<?= $load['link'] ?>" integrity="<?= $load['integrity'] ?>" crossorigin="anonymous"></script>
 <?php
-          }
     }
+}
 
 /**
  * Load all template-specific jscript files, via the common jscript loader.
  */
 require $template->get_template_dir('html_header_js_loader.php', DIR_WS_TEMPLATE, $current_page_base, 'common') . '/html_header_js_loader.php';
-    ?>
 
-  <?php
-  $zco_notifier->notify('NOTIFY_HTML_HEAD_END', $current_page_base);
-  ?>
+$zco_notifier->notify('NOTIFY_HTML_HEAD_END', $current_page_base);
+?>
   </head>
 
 <?php // NOTE: Blank line following is intended:   ?>
