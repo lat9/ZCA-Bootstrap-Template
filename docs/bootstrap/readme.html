@@ -166,9 +166,12 @@ img {
             <li>BUGFIX: AJAX search's keywords submitted must be of type <samp>string</samp>.</li>
             <li>BUGFIX: Display shipping-module errors in the shipping-estimator.</li>
             <li>INTROP: Use <code>$template</code> class to locate 'site_specific_styles.php' (zc201+ <em>only</em>)</li>
-            <li>The following files were changed:<ol>
+            <li>INTROP: Use Zen Cart 'base' CSS/JS loading, when available (i.e. zc210+).</li>
+            <li>The following files were changed or <span class="added">added</span>:<ol>
                 <li>/includes/classes/ajax/zcAjaxBootstrapSearch.php</li>
                 <li>/includes/templates/bootstrap/common/html_header.php</li>
+                <li><span class="added">/includes/templates/bootstrap/common/html_header_css_loader.php</span></li>
+                <li><span class="added">/includes/templates/bootstrap/common/html_header_js_loader.php</span></li>
                 <li>/includes/templates/bootstrap/templates/tpl_modules_shipping_estimator.php</li>
                 <li>/YOUR_ADMIN/includes/init_includes/init_zca_bootstrap_template_admin.php</li>
             </ol></li>
