@@ -1,17 +1,31 @@
 <?php
 // -----
 // Part of the One-Page Checkout plugin, provided under GPL 2.0 license by lat9 (cindy@vinosdefrutastropicales.com).
-// Copyright (C) 2018-2022, Vinos de Frutas Tropicales.  All rights reserved.
+// Copyright (C) 2018-2024, Vinos de Frutas Tropicales.  All rights reserved.
 //
 // Adapted from the like-named page handling with the following history:
 // - Integrated COWAA v1.0 (@davewest)
 //
-// Last updated: OPC v2.4.2/Bootstrap v3.4.0
+// Last updated: OPC v2.5.4/Bootstrap v3.7.3
 //
-//use the following defines if you want to turn off payment, products, shipping
-define('DISPLAY_PAYMENT', true);
-define('DISPLAY_SHIPPING', true);
-define('DISPLAY_PRODUCTS', true);
+// -----
+// v3.7.3 and later, constants now have a 'ORDER_STATUS_' prefix to align with
+// the zc210+ incorporation!
+//
+// Note that these definition-overrides can be dropped once Bootstrap requires zc210+.
+//
+zen_define_default('ORDER_STATUS_DISPLAY_PAYMENT', true);
+zen_define_default('ORDER_STATUS_DISPLAY_SHIPPING', true);
+zen_define_default('ORDER_STATUS_DISPLAY_PRODUCTS', true);
+
+// -----
+// Determine which blocks are to be displayed; they're currently set by
+// init_includes/init_non_db_settings.php.
+//
+$display_payment = in_array(ORDER_STATUS_DISPLAY_PAYMENT, ['true', true]);
+$display_shipping = in_array(ORDER_STATUS_DISPLAY_SHIPPING, ['true', true]);
+$display_products = in_array(ORDER_STATUS_DISPLAY_PRODUCTS, ['true', true]);
+
 ?>
 <div class="centerColumn" id="orderStatus">
     <h1 id="orderHistoryHeading"><?php echo HEADING_TITLE; ?></h1>
@@ -29,11 +43,11 @@ if (isset($order)) {
         <div class="card-body">
             <div class="text-right"><?php echo HEADING_ORDER_DATE . ' ' . zen_date_long($order->info['date_purchased']); ?></div>
 <?php 
-    if (DISPLAY_PRODUCTS === true) { 
+    if ($display_products === true) { 
         $display_tax_column = (count($order->info['tax_groups']) > 1);
 ?>
             <div class="table-responsive">
-                <table class="table table-bordered table-striped">
+                <table id="orderHistoryHeading" class="table table-bordered table-striped">
                     <tr class="tableHeading">
                         <th scope="col" id="myAccountQuantity"><?php echo HEADING_QUANTITY; ?></th>
                         <th scope="col" id="myAccountProducts"><?php echo HEADING_PRODUCTS; ?></th>
@@ -114,7 +128,7 @@ if (isset($order)) {
     if (!empty($statusArray)) {
 ?>
             <h3 class="text-center"><?php echo HEADING_ORDER_HISTORY; ?></h3>
-            <table class="table table-bordered table-striped">
+            <table id="myAccountOrdersStatus" class="table table-bordered table-striped">
                 <tr class="tableHeading">
                     <th scope="col" id="myAccountStatusDate"><?php echo TABLE_HEADING_STATUS_DATE; ?></th>
                     <th scope="col" id="myAccountStatus"><?php echo TABLE_HEADING_STATUS_ORDER_STATUS; ?></th>
@@ -142,12 +156,12 @@ if (isset($order)) {
 <?php 
     }
 
-    $display_card_group = ((DISPLAY_SHIPPING === true && !empty($order->info['shipping_method'])) || DISPLAY_PAYMENT === true);
+    $display_card_group = (($display_shipping === true && !empty($order->info['shipping_method'])) || $display_payment === true);
     if ($display_card_group === true) {
 ?>
             <div class="card-deck row">
 <?php
-        if (DISPLAY_SHIPPING === true && !empty($order->info['shipping_method'])) { 
+        if ($display_shipping === true && !empty($order->info['shipping_method'])) { 
 ?>
                 <div id="myAccountShipInfo" class="card col-md-6 p-0">
                     <h5 class="card-header"><?php echo HEADING_SHIPPING_METHOD; ?></h5>
@@ -158,7 +172,7 @@ if (isset($order)) {
 <?php 
         }
 
-        if (DISPLAY_PAYMENT === true) { 
+        if ($display_payment === true) { 
 ?>
                 <div id="myAccountPaymentInfo" class="card col-md-6 p-0">
                     <h5 class="card-header"><?php echo HEADING_PAYMENT_METHOD; ?></h5>
