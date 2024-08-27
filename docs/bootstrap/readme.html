@@ -162,19 +162,22 @@ img {
     <h2>Version History</h2>
     <p>This section identifies the template's version history and changes, starting with its v2.0.0c release.  Prior version changes can be found in the root of the template's distribution zip-file (<code>CHANGELOG.txt</code>).</p>
     <ul>
-        <li>v3.7.3-beta3, 2024-08-20 (lat9)<ul>
+        <li>v3.7.3-beta4, 2024-08-27 (lat9)<ul>
             <li>BUGFIX: AJAX search's keywords submitted must be of type <samp>string</samp>.</li>
             <li>BUGFIX: Display shipping-module errors in the shipping-estimator.</li>
             <li>INTROP: Use <code>$template</code> class to locate 'site_specific_styles.php' (zc201+ <em>only</em>)</li>
             <li>INTROP: Use Zen Cart 'base' CSS/JS loading, when available (i.e. zc210+).</li>
             <li>INTROP: Add notification added to <samp>account_history_info</samp> page's template in zc210.</li>
+            <li>INTROP: Replace usage of <code>ezpages::page_is_ssl</code> with <code>'SSL'</code>; the field's being removed in zc210.</li>
             <li>The following files were changed or <span class="added">added</span>:<ol>
                 <li>/includes/classes/ajax/zcAjaxBootstrapSearch.php</li>
                 <li>/includes/templates/bootstrap/common/html_header.php</li>
                 <li><span class="added">/includes/templates/bootstrap/common/html_header_css_loader.php</span></li>
                 <li><span class="added">/includes/templates/bootstrap/common/html_header_js_loader.php</span></li>
+                <li>/includes/templates/bootstrap/common/tpl_offcanvas_menu.php</li>
                 <li>/includes/templates/bootstrap/templates/tpl_account_history_info_default.php</li>
                 <li>/includes/templates/bootstrap/templates/tpl_modules_shipping_estimator.php</li>
+                <li>/includes/templates/bootstrap/templates/tpl_site_map_default.php</li>
                 <li>/YOUR_ADMIN/includes/init_includes/init_zca_bootstrap_template_admin.php</li>
             </ol></li>
         </ul></li>
