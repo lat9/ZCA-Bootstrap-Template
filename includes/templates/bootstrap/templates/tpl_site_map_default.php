@@ -2,7 +2,7 @@
 /**
  * Page Template
  * 
- * BOOTSTRAP v3.7.0
+ * BOOTSTRAP v3.7.3
  *
  * Loaded by index.php?main_page=site_map
  * Displays site-map and some hard-coded navigation components
@@ -126,9 +126,9 @@ $pages_query = $db->Execute(
         AND ec.languages_id = " . (int)$_SESSION['languages_id'] . "
         AND
           (
-            (e.status_sidebox = 1 AND e.sidebox_sort_order > 0) OR 
-            (e.status_header = 1 AND e.header_sort_order > 0) OR 
-            (e.status_footer = 1 AND e.footer_sort_order > 0) OR 
+            (e.status_sidebox = 1 AND e.sidebox_sort_order > 0) OR
+            (e.status_header = 1 AND e.header_sort_order > 0) OR
+            (e.status_footer = 1 AND e.footer_sort_order > 0) OR
             (e.status_visible = 1)
           )
       ORDER BY e.sidebox_sort_order, ec.pages_title"
@@ -141,7 +141,6 @@ if (!$pages_query->EOF) {
         $page_query_list[$rows]['id'] = $page_query['pages_id'];
         $page_query_list[$rows]['name'] = $page_query['pages_title'];
         $page_query_list[$rows]['altURL'] = '';
-        $page_request_type = ($page_query['page_is_ssl'] === '0') ? 'NONSSL' : 'SSL';
         $page_alt_url_http = (stripos($page_query['alt_url'], 'http') === 0);
         switch (true) {
             // external link new window or same window
@@ -150,7 +149,7 @@ if (!$pages_query->EOF) {
                 break;
             // internal link new window or same window
             case ($page_query['alt_url'] !== ''):
-                $page_query_list[$rows]['altURL']  = ($page_alt_url_http === true) ? $page_query['alt_url'] : zen_href_link($page_query['alt_url'], '', $page_request_type, true, true, true);
+                $page_query_list[$rows]['altURL']  = ($page_alt_url_http === true) ? $page_query['alt_url'] : zen_href_link($page_query['alt_url'], '', 'SSL', true, true, true);
                 break;
             default:
                 break;
@@ -158,11 +157,11 @@ if (!$pages_query->EOF) {
 
         // if altURL is specified, use it; otherwise, use EZPage ID to create link
         $page_query_list[$rows]['link'] = ($page_query_list[$rows]['altURL'] === '') ?
-            zen_href_link(FILENAME_EZPAGES, 'id=' . $page_query['pages_id'] . ($page_query['toc_chapter'] > 0 ? '&chapter=' . $page_query['toc_chapter'] : ''), $page_request_type) :
+            zen_href_link(FILENAME_EZPAGES, 'id=' . $page_query['pages_id'] . ($page_query['toc_chapter'] > 0 ? '&chapter=' . $page_query['toc_chapter'] : ''), 'SSL') :
             $page_query_list[$rows]['altURL'];
         $page_query_list[$rows]['link'] .= ($page_query['page_open_new_window'] === '1' ? '" rel="noreferrer noopener" target="_blank' : '');
     }
-    if (!empty($page_query_list)) { 
+    if (!empty($page_query_list)) {
 ?>
         <li class="list-group-item"><?php echo BOX_HEADING_MORE_INFORMATION; ?>
             <ul class="list-group">

@@ -2,7 +2,7 @@
 /**
  * Template for Mobile Header Drop Down
  * 
- * BOOTSTRAP v3.5.0
+ * BOOTSTRAP v3.7.3
  *
  * @copyright Copyright 2003-2020 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
@@ -197,7 +197,7 @@ if (EZPAGES_STATUS_SIDEBOX === '1' || (EZPAGES_STATUS_SIDEBOX === '2' && zen_is_
                     if (strpos($next_page['alt_url'], 'http') === 0) {
                         $offcanvasAltURL = $next_page['alt_url'];
                     } else {
-                        $offcanvasAltURL =  zen_href_link($next_page['alt_url'], '', ($next_page['page_is_ssl'] === '0') ? 'NONSSL' : 'SSL', true, true, true);
+                        $offcanvasAltURL =  zen_href_link($next_page['alt_url'], '', 'SSL', true, true, true);
                     }
                     break;
 
@@ -209,7 +209,7 @@ if (EZPAGES_STATUS_SIDEBOX === '1' || (EZPAGES_STATUS_SIDEBOX === '2' && zen_is_
             // if altURL is specified, use it; otherwise, use EZPage ID to create link
             if ($offcanvasAltURL === '') {
                 $toc_chapter = ($next_page['toc_chapter'] > 0) ? ('&chapter=' . $next_page['toc_chapter']) : '';
-                $next_page_entry['link'] = zen_href_link(FILENAME_EZPAGES, 'id=' . $next_page['pages_id'] . $toc_chapter, ($next_page['page_is_ssl'] === '0') ? 'NONSSL' : 'SSL');
+                $next_page_entry['link'] = zen_href_link(FILENAME_EZPAGES, 'id=' . $next_page['pages_id'] . $toc_chapter, 'SSL');
             } else {
                 $next_page_entry['link'] = $offcanvasAltURL;
             }
