@@ -11,7 +11,7 @@
 ?>
 <li class="nav-item dropdown d-lg-none">
     <a class="nav-link dropdown-toggle" href="#" id="categoryDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <?php echo BOX_HEADING_CATEGORIES; ?>
+        <?= BOX_HEADING_CATEGORIES ?>
     </a>
     <div class="dropdown-menu" aria-labelledby="categoryDropdown">
         <ul class="m-0 p-0">
@@ -34,7 +34,7 @@ foreach ($categories_tab as $category_tab) {
         $cat_tab_name = '<span class="category-subs-selected">' . $cat_tab_name . '</span>';
     }
 ?>
-            <li><a class="dropdown-item" href="<?php echo $cat_tab_link; ?>"><?php echo $cat_tab_name; ?></a></li>
+            <li><a class="dropdown-item" href="<?= $cat_tab_link ?>"><?= $cat_tab_name ?></a></li>
 <?php
 }
 ?>
@@ -44,7 +44,10 @@ if (SHOW_CATEGORIES_BOX_SPECIALS === 'true') {
     $show_this = $db->Execute("SELECT s.products_id FROM " . TABLE_SPECIALS . " s WHERE s.status = 1 LIMIT 1");
     if (!$show_this->EOF) {
 ?>
-        <div class="dropdown-divider"></div><a class="dropdown-item" href="<?php echo zen_href_link(FILENAME_SPECIALS); ?>'"><?php echo CATEGORIES_BOX_HEADING_SPECIALS; ?></a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="<?= zen_href_link(FILENAME_SPECIALS) ?>'">
+            <?= CATEGORIES_BOX_HEADING_SPECIALS ?>
+        </a>
 <?php
     }
 }
@@ -55,7 +58,10 @@ if (SHOW_CATEGORIES_BOX_PRODUCTS_NEW === 'true') {
     $show_this = $db->Execute("SELECT p.products_id FROM " . TABLE_PRODUCTS . " p WHERE p.products_status = 1 " . $display_limit . " LIMIT 1");
     if (!$show_this->EOF) { 
 ?>
-        <div class="dropdown-divider"></div><a class="dropdown-item" href="<?php echo zen_href_link(FILENAME_PRODUCTS_NEW); ?>"><?php echo CATEGORIES_BOX_HEADING_WHATS_NEW; ?></a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="<?= zen_href_link(FILENAME_PRODUCTS_NEW) ?>">
+            <?= CATEGORIES_BOX_HEADING_WHATS_NEW ?>
+        </a>
 <?php
     }
 }
@@ -64,14 +70,20 @@ if (SHOW_CATEGORIES_BOX_FEATURED_PRODUCTS === 'true') {
     $show_this = $db->Execute("SELECT products_id FROM " . TABLE_FEATURED . " WHERE status = 1 LIMIT 1");
     if (!$show_this->EOF) {
 ?>
-        <div class="dropdown-divider"></div><a class="dropdown-item" href="<?php echo zen_href_link(FILENAME_FEATURED_PRODUCTS); ?>"><?php echo CATEGORIES_BOX_HEADING_FEATURED_PRODUCTS; ?></a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="<?= zen_href_link(FILENAME_FEATURED_PRODUCTS) ?>">
+            <?= CATEGORIES_BOX_HEADING_FEATURED_PRODUCTS ?>
+        </a>
 <?php
     }
 }
 
 if (SHOW_CATEGORIES_BOX_PRODUCTS_ALL === 'true') {
 ?>
-        <div class="dropdown-divider"></div><a class="dropdown-item" href="<?php echo zen_href_link(FILENAME_PRODUCTS_ALL); ?>"><?php echo CATEGORIES_BOX_HEADING_PRODUCTS_ALL; ?></a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="<?= zen_href_link(FILENAME_PRODUCTS_ALL) ?>">
+            <?= CATEGORIES_BOX_HEADING_PRODUCTS_ALL ?>
+        </a>
 <?php
 }
 ?>
@@ -101,14 +113,14 @@ if (!$information_sidebox->EOF) {
 ?>
 <li class="nav-item dropdown d-lg-none">
     <a class="nav-link dropdown-toggle" href="#" id="infoDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <?php echo BOX_HEADING_INFORMATION; ?>
+        <?= BOX_HEADING_INFORMATION ?>
     </a>
     <div class="dropdown-menu" aria-labelledby="infoDropdown">
         <ul class="m-0 p-0">
 <?php
             foreach ($information as $next_information_link) {
 ?>
-            <li><?php echo $next_information_link; ?></li>
+            <li><?= $next_information_link ?></li>
 <?php
             }
 ?>
@@ -143,14 +155,14 @@ if (!$more_information_sidebox->EOF) {
 ?>
 <li class="nav-item dropdown d-lg-none">
     <a class="nav-link dropdown-toggle" href="#" id="moreInfoDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <?php echo BOX_HEADING_MORE_INFORMATION; ?>
+        <?= BOX_HEADING_MORE_INFORMATION ?>
     </a>
     <div class="dropdown-menu" aria-labelledby="moreInfoDropdown">
         <ul class="m-0 p-0">
 <?php
             foreach ($more_information as $next_information_link) {
 ?>
-            <li><?php echo $next_information_link; ?></li>
+            <li><?= $next_information_link ?></li>
 <?php
             }
 ?>
@@ -227,20 +239,20 @@ if (EZPAGES_STATUS_SIDEBOX === '1' || (EZPAGES_STATUS_SIDEBOX === '2' && zen_is_
 ?>
 <li class="nav-item dropdown d-lg-none">
     <a class="nav-link dropdown-toggle" href="#" id="ezpagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <?php echo BOX_HEADING_EZPAGES; ?>
+        <?= BOX_HEADING_EZPAGES ?>
     </a>
     <div class="dropdown-menu mb-2" aria-labelledby="ezpagesDropdown">
         <ul class="m-0 p-0">
 <?php
         foreach ($page_query_list_sidebox as $next_entry) {
 ?>
-            <li><a class="dropdown-item" href="<?php echo $next_entry['link']; ?>"><?php echo $next_entry['name']; ?></a></li>
+            <li><a class="dropdown-item" href="<?= $next_entry['link'] ?>"><?= $next_entry['name'] ?></a></li>
 <?php
         } // end FOR loop
 ?>
         </ul>
     </div>
-</li>  
+</li>
 <?php
     }
 } // eof ezpages
