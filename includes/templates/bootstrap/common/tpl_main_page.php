@@ -92,8 +92,9 @@ $sidebox_carousels = explode(',', str_replace([' ', "\n", "\r"], '', BS4_SIDEBOX
 $sidebox_carousels_to_fade = explode(',', str_replace([' ', "\n", "\r"], '', BS4_SIDEBOXES_FADE_CAROUSEL));
 
 $body_id = ($this_is_home_page) ? 'indexHome' : str_replace('_', '', $_GET['main_page']);
+$body_onload = ($zv_onload !== '') ? ' onload="' . $zv_onload . '"' : '';
 ?>
-<body id="<?php echo $body_id . 'Body'; ?>"<?php if ($zv_onload !== '') echo ' onload="' . $zv_onload . '"'; ?>>
+<body id="<?=  $body_id . 'Body' ?>"<?= $body_onload ?>>
 <?php
 if (defined('BS4_AJAX_SEARCH_ENABLE') && BS4_AJAX_SEARCH_ENABLE === 'true') {
     require $template->get_template_dir('tpl_ajax_search.php', DIR_WS_TEMPLATE, $current_page_base, 'modalboxes') . '/tpl_ajax_search.php';
@@ -158,7 +159,7 @@ if (COLUMN_LEFT_STATUS === '0' || (CUSTOMERS_APPROVAL === '1' && !zen_is_logged_
 }
 if (empty($flag_disable_left)) {
 ?> 
-        <div id="navColumnOne" class="<?php echo $box_width_left_new; ?>">
+        <div id="navColumnOne" class="<?=  $box_width_left_new ?>">
 <?php
  /**
   * prepares and displays left column sideboxes
@@ -172,7 +173,7 @@ if (empty($flag_disable_left)) {
 <?php
 }
 ?>
-        <div class="col-12 col-lg-<?php echo $center_column_width; ?>">
+        <div class="col-12 col-lg-<?=  $center_column_width ?>">
 <?php
 if (!$breadcrumb->isEmpty() && (DEFINE_BREADCRUMB_STATUS === '1' || (DEFINE_BREADCRUMB_STATUS === '2' && !$this_is_home_page))) {
 ?>
@@ -256,7 +257,7 @@ if (COLUMN_RIGHT_STATUS === '0' || (CUSTOMERS_APPROVAL === '1' && !zen_is_logged
 }
 if (empty($flag_disable_right)) {
 ?>    
-        <div id="navColumnTwo" class="<?php echo $box_width_right_new; ?>">
+        <div id="navColumnTwo" class="<?=  $box_width_right_new ?>">
 <?php
  /**
   * prepares and displays right column sideboxes
@@ -289,7 +290,7 @@ require $template->get_template_dir('tpl_footer.php', DIR_WS_TEMPLATE, $current_
 if (defined('DISPLAY_PAGE_PARSE_TIME') && DISPLAY_PAGE_PARSE_TIME === 'true') {
 ?>
             <div class="text-center">
-                Parse Time: <?php echo $parse_time ?? 'n/a'; ?> - Number of Queries: <?php echo $db->queryCount(); ?> - Query Time: <?php echo $db->queryTime(); ?>
+                Parse Time: <?=  $parse_time ?? 'n/a' ?> - Number of Queries: <?=  $db->queryCount() ?> - Query Time: <?= $db->queryTime() ?>
             </div>
 <?php
 }
@@ -328,7 +329,7 @@ $zco_notifier->notify('NOTIFY_FOOTER_END', $current_page);
 //
 if (empty($zca_disable_back_to_top)) {
 ?>
-    <a href="#" id="back-to-top" class="btn d-none d-lg-inline-block" title="<?php echo BUTTON_BACK_TO_TOP_TITLE ?>" aria-label="<?php echo BUTTON_BACK_TO_TOP_TITLE ?>" role="button">
+    <a href="#" id="back-to-top" class="btn d-none d-lg-inline-block" title="<?=  BUTTON_BACK_TO_TOP_TITLE ?>" aria-label="<?=  BUTTON_BACK_TO_TOP_TITLE ?>" role="button">
         <i aria-hidden="true" class="fas fa-chevron-circle-up"></i>
     </a>
 <?php
