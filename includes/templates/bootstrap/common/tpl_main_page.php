@@ -322,7 +322,7 @@ $zco_notifier->notify('NOTIFY_FOOTER_END', $current_page);
 //
 if (empty($zca_disable_back_to_top)) {
 ?>
-    <a href="#" id="back-to-top" class="btn" title="<?php echo BUTTON_BACK_TO_TOP_TITLE ?>" aria-label="<?php echo BUTTON_BACK_TO_TOP_TITLE ?>" role="button"><i aria-hidden="true" class="fas fa-chevron-circle-up"></i></a>
+    <a href="#" id="back-to-top" class="btn d-none d-lg-inline-block" title="<?php echo BUTTON_BACK_TO_TOP_TITLE ?>" aria-label="<?php echo BUTTON_BACK_TO_TOP_TITLE ?>" role="button"><i aria-hidden="true" class="fas fa-chevron-circle-up"></i></a>
 <?php
 }
 ?>

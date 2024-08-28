@@ -169,11 +169,13 @@ img {
             <li>INTROP: Use Zen Cart 'base' CSS/JS loading, when available (i.e. zc210+).</li>
             <li>INTROP: Add notification added to <samp>account_history_info</samp> page's template in zc210.</li>
             <li>INTROP: Replace usage of <code>ezpages::page_is_ssl</code> with <code>'SSL'</code>; the field's being removed in zc210.</li>
+            <li>BUGFIX: Don't display back-to-top on small/medium screens; those devices <em>normally</em> have a touchscreen.</li>
             <li>The following files were changed or <span class="added">added</span>:<ol>
                 <li>/includes/classes/ajax/zcAjaxBootstrapSearch.php</li>
                 <li>/includes/templates/bootstrap/common/html_header.php</li>
                 <li><span class="added">/includes/templates/bootstrap/common/html_header_css_loader.php</span></li>
                 <li><span class="added">/includes/templates/bootstrap/common/html_header_js_loader.php</span></li>
+                <li>/includes/templates/bootstrap/common/tpl_main_page.php</li>
                 <li>/includes/templates/bootstrap/common/tpl_offcanvas_menu.php</li>
                 <li>/includes/templates/bootstrap/templates/tpl_account_history_info_default.php</li>
                 <li>/includes/templates/bootstrap/templates/tpl_modules_shipping_estimator.php</li>
