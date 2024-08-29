@@ -15,25 +15,27 @@ $mi_name = $manufacturer_info_sidebox->fields['manufacturers_name'];
 ?>
 <div id="manufacturerInfo-centerBoxContents" class="card mb-3 text-center">
     <div id="manufacturerInfo-centerBoxHeading" class="centerBoxHeading card-header h4">
-        <?php echo BOX_HEADING_MANUFACTURER_INFO; ?>
+        <?= BOX_HEADING_MANUFACTURER_INFO ?>
     </div>
     <div id="manufacturerInfo-card-body" class="card-body p-3 text-center">
-        <div class="text-center mb-3"><?php echo zen_image(DIR_WS_IMAGES . $manufacturer_info_sidebox->fields['manufacturers_image'], $mi_name); ?></div>
+        <div class="text-center mb-3">
+            <?= zen_image(DIR_WS_IMAGES . $manufacturer_info_sidebox->fields['manufacturers_image'], $mi_name) ?>
+        </div>
         <ul class="list-group">
 <?php
 if (!empty($manufacturer_info_sidebox->fields['manufacturers_url'])) {
 ?>
             <li class="list-group-item">
-                <a href="<?php echo zen_href_link(FILENAME_REDIRECT, 'action=manufacturer&manufacturers_id=' . $mi_id); ?>" target="_blank">
-                    <?php echo sprintf(BOX_MANUFACTURER_INFO_HOMEPAGE, $mi_name); ?>
+                <a href="<?= zen_href_link(FILENAME_REDIRECT, 'action=manufacturer&manufacturers_id=' . $mi_id) ?>" target="_blank">
+                    <?= sprintf(BOX_MANUFACTURER_INFO_HOMEPAGE, $mi_name) ?>
                 </a>
             </li>
 <?php
 }
 ?>
             <li class="list-group-item">
-                <a href="<?php echo zen_href_link(FILENAME_DEFAULT, 'manufacturers_id=' . $mi_id); ?>">
-                    <?php echo BOX_MANUFACTURER_INFO_OTHER_PRODUCTS; ?>
+                <a href="<?= zen_href_link(FILENAME_DEFAULT, 'manufacturers_id=' . $mi_id) ?>">
+                    <?= BOX_MANUFACTURER_INFO_OTHER_PRODUCTS ?>
                 </a>
             </li>
         </ul>
