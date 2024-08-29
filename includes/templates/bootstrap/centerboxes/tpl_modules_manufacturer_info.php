@@ -2,7 +2,7 @@
 /**
  * Side Box Template
  * 
- * BOOTSTRAP v3.4.0
+ * BOOTSTRAP v3.7.3
  *
  * @package templateSystem
  * @copyright Copyright 2003-2005 Zen Cart Development Team
@@ -14,7 +14,9 @@ $mi_id = $manufacturer_info_sidebox->fields['manufacturers_id'];
 $mi_name = $manufacturer_info_sidebox->fields['manufacturers_name'];
 ?>
 <div id="manufacturerInfo-centerBoxContents" class="card mb-3 text-center">
-    <h4 id="manufacturerInfo-centerBoxHeading" class="centerBoxHeading card-header"><?php echo BOX_HEADING_MANUFACTURER_INFO; ?></h4>
+    <div id="manufacturerInfo-centerBoxHeading" class="centerBoxHeading card-header h4">
+        <?php echo BOX_HEADING_MANUFACTURER_INFO; ?>
+    </div>
     <div id="manufacturerInfo-card-body" class="card-body p-3 text-center">
         <div class="text-center mb-3"><?php echo zen_image(DIR_WS_IMAGES . $manufacturer_info_sidebox->fields['manufacturers_image'], $mi_name); ?></div>
         <ul class="list-group">
