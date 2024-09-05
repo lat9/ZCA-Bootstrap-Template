@@ -7,9 +7,10 @@
  *
  */
 // -----
-// Filter the banners query if desired
+// If the current page is running on SSL, ensure that the banner can
+// be run on SSL, too!
 //
-$my_banner_filter = '';
+$my_banner_filter = ($request_type === 'SSL') ? ' AND banners_on_ssl = 1' : '';
 
 // -----
 // The $find_banners value is presumed to be set by the invoking script and is the
