@@ -2,7 +2,7 @@
 // -----
 // Part of the ZCA Bootstrap template, @zcadditions, @lat9, @marco-pm
 //
-// BOOTSTRAP 3.6.3
+// BOOTSTRAP 3.7.4
 //
 class ZcaBootstrapObserver extends base
 {
@@ -178,7 +178,7 @@ class ZcaBootstrapObserver extends base
                         $show_sale_price = '<span class="mx-auto w-100 p-1 productSalePrice wholesale-price">' . PRODUCT_PRICE_WHOLESALE . $this->displayPrice($this->display_wholesale_price) . '</span>';
                     } elseif ($this->product_is_free == '1') {
                         $show_normal_price = '<span class="mx-auto w-100 p-1 productFreePrice"><s>' . $this->displayPrice($this->display_normal_price) . '</s></span>';
-                    } else {
+                    } elseif ($this->product_is_call === '0') {
                         $show_normal_price = '<span class="mx-auto w-100 p-1 productBasePrice">' . $this->displayPrice($this->display_normal_price) . '</span>';
                     }
 
