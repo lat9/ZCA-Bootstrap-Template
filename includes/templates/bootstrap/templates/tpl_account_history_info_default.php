@@ -2,7 +2,7 @@
 /**
  * Page Template
  * 
- * BOOTSTRAP v3.7.3
+ * BOOTSTRAP v3.7.4
  *
  * Loaded automatically by index.php?main_page=account_edit.
  * Displays information related to a single specific order
@@ -10,7 +10,6 @@
  * @copyright Copyright 2003-2022 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: lat9 2022 Jun 12 Modified in v1.5.8-alpha $
  */
 ?>
 <div id="accountHistoryInfoDefault" class="centerColumn">
@@ -167,6 +166,15 @@ if (!empty($statusArray)) {
                             <tr id="orderHistoryStatusTableDisplay-tableHeading" class="tableHeading">
                                 <th scope="col" id="orderHistoryStatusTableDisplay-dateHeading"><?php echo TABLE_HEADING_STATUS_DATE; ?></th>
                                 <th scope="col" id="orderHistoryStatusTableDisplay-statusHeading"><?php echo TABLE_HEADING_STATUS_ORDER_STATUS; ?></th>
+<?php
+    $extra_headings = [];
+    $zco_notifier->notify('NOTIFY_ACCOUNT_HISTORY_INFO_OSH_HEADINGS', ['order' => $order], $extra_headings);
+    foreach ($extra_headings as $next_heading) {
+?>
+                                <th scope="col"><?= $next_heading ?></th>
+<?php
+    }
+?>
                                 <th scope="col" id="orderHistoryStatusTableDisplay-commentsHeading"><?php echo TABLE_HEADING_STATUS_COMMENTS; ?></th>
                             </tr>
 <?php
@@ -176,6 +184,18 @@ if (!empty($statusArray)) {
                             <tr>
                                 <td class="dateCell"><?php echo zen_date_short($statuses['date_added']); ?></td>
                                 <td class="statusCell"><?php echo $statuses['orders_status_name']; ?></td>
+<?php
+        $extra_data = [];
+        $zco_notifier->notify('NOTIFY_ACCOUNT_HISTORY_INFO_OSH_DATA', $statuses, $extra_data);
+        foreach ($extra_data as $next_data) {
+            if ($protected === true) {
+                $next_data = zen_output_string_protected($next_data);
+            }
+?>
+                                <td><?= $next_data ?></td>
+<?php
+        }
+?>
                                 <td class="commentsCell">
 <?php 
         if (!empty($statuses['comments'])) {
