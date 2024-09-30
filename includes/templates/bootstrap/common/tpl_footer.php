@@ -2,20 +2,20 @@
 /**
  * Common Template - tpl_footer.php
  * 
- * BOOTSTRAP v3.0.0
+ * BOOTSTRAP v3.7.4
  *
- * this file can be copied to /templates/your_template_dir/pagename<br />
- * example: to override the privacy page<br />
- * make a directory /templates/my_template/privacy<br />
- * copy /templates/templates_defaults/common/tpl_footer.php to /templates/my_template/privacy/tpl_footer.php<br />
- * to override the global settings and turn off the footer un-comment the following line:<br />
- * <br />
- * $flag_disable_footer = true;<br />
+ * this file can be copied to /templates/your_template_dir/pagename
+ * example: to override the privacy page
+ * make a directory /templates/my_template/privacy
+ * copy /templates/templates_defaults/common/tpl_footer.php to /templates/my_template/privacy/tpl_footer.php
+ * to override the global settings and turn off the footer un-comment the following line:
  *
- * @copyright Copyright 2003-2020 Zen Cart Development Team
+ * $flag_disable_footer = true;
+ *
+ * @copyright Copyright 2003-2022 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: DrByte 2020 May 19 Modified in v1.5.7 $
+ * @version $Id: DrByte 2020 Dec 29 Modified in v1.5.8-alpha $
  */
 require(DIR_WS_MODULES . zen_get_module_directory('footer.php'));
 ?>
@@ -31,7 +31,12 @@ if (!isset($flag_disable_footer) || !$flag_disable_footer) {
 <?php require($template->get_template_dir('tpl_ezpages_bar_footer.php',DIR_WS_TEMPLATE, $current_page_base,'templates'). '/tpl_ezpages_bar_footer.php'); ?>
 <?php } ?>
 <!--eof-navigation display -->
-
+<?php
+    // -----
+    // Add notification for plugin content insertion.
+    //
+    $zco_notifier->notify('NOTIFY_FOOTER_AFTER_NAVSUPP', []);
+?>
 <!--bof-ip address display -->
 <?php
 if (SHOW_FOOTER_IP == '1') {
