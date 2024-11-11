@@ -67,14 +67,14 @@ if ($products_per_row_medium === 0) {
 // *must* evenly divide into 12 for the Bootstrap grid system's
 // classes to be determined.
 //
-if (((12 / $products_per_row_large) % 12) !== 0) {
+if ((12 % $products_per_row_large) !== 0) {//TC fixed error
     while (!in_array($products_per_row_large, [1, 2, 3, 4, 6, 12])) {
         $products_per_row_large--;
     }
 }
 $carousel_class_lg = 'col-lg-' . (12 / $products_per_row_large);
 
-if (((12 / $products_per_row_medium) % 12) !== 0) {
+if ((12 % $products_per_row_medium) !== 0) {//TC fixed error
     while (!in_array($products_per_row_medium, [1, 2, 3, 4, 6, 12])) {
         $products_per_row_medium--;
     }
