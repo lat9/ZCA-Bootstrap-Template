@@ -20,14 +20,13 @@
 // For accessibility, an <h1> tag can't contain an empty string.  If that's the case, use
 // generic wording for the title and render the <h1> tag for screen-readers only.
 //
-$screen_reader_only = '';
-$heading_title = HEADING_TITLE;
-if ($heading_title === '') {
-    $heading_title = HEADING_TITLE_SCREENREADER;
-    $screen_reader_only = ' sr-only';
-}
 ?>
+
+<?php if ($show_welcome == true && zen_not_null(HEADING_TITLE)) { ?>
 <h1 id="indexDefault-pageHeading" class="pageHeading<?php echo $screen_reader_only; ?>"><?php echo $heading_title; ?></h1>
+<?php } else { ?>
+<h1 id="indexDefault-pageHeading" class="pageHeading sr-only"><?php echo HEADING_TITLE_SCREENREADER; ?></h1>
+<?php } ?>
 
 <?php if (SHOW_CUSTOMER_GREETING == 1) { ?>
 <h2 id="indexDefault-greeting" class="greeting"><?php echo zen_customer_greeting(); ?></h2>
