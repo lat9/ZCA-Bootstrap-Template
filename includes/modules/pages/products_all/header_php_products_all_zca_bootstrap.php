@@ -2,7 +2,7 @@
 /**
  * products_all  header_php.php
  * 
- * BOOTSTRAP v3.6.3
+ * BOOTSTRAP v3.7.5
  *
  * @package page
  * @copyright Copyright 2003-2007 Zen Cart Development Team
@@ -25,7 +25,7 @@ if (!(function_exists('zca_bootstrap_active') && zca_bootstrap_active() === true
 $product_listing_max_results = MAX_DISPLAY_PRODUCTS_ALL;
 
 // -----
-// Nothing further to do if the all-products' raw SQL query is present (it no longer is in zc200).
+// Nothing further to do if the all-products' raw SQL query is not present (it no longer is as of zc200).
 //
 if (!isset($products_all_query_raw)) {
     return;
