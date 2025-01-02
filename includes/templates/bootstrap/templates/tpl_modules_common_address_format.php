@@ -2,14 +2,13 @@
 /**
  * Module Template
  * 
- * BOOTSTRAP v3.7.0
+ * BOOTSTRAP v3.7.5
  *
  * Displays address-book details/selection
  *
  * @copyright Copyright 2003-2020 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: rbarbour zcadditions.com 2019 Jun 02 Modified in v1.5.7 $
  */
 // -----
 // Used by the address_book_process, checkout_payment_address and checkout_shipping_address pages
@@ -100,7 +99,7 @@ if (ACCOUNT_SUBURB === 'true') {
 <div class="p-2"></div>
 
 <label class="inputLabel" for="country"><?php echo ENTRY_COUNTRY; ?></label>
-<?php echo zen_get_country_list('zone_country_id', $entry->fields['entry_country_id'], 'id="country"' . (($flag_show_pulldown_states === true) ? ' onchange="update_zone(this.form);"' : '')); ?>
+<?php echo zen_get_country_list('zone_country_id', $selected_country, 'id="country"' . (($flag_show_pulldown_states === true) ? ' onchange="update_zone(this.form);"' : '')); ?>
 <div class="p-2"></div>
 
 <?php
