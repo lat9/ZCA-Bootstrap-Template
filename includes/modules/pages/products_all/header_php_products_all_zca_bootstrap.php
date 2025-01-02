@@ -25,7 +25,7 @@ if (!(function_exists('zca_bootstrap_active') && zca_bootstrap_active() === true
 $product_listing_max_results = MAX_DISPLAY_PRODUCTS_ALL;
 
 // -----
-// Nothing further to do if the all-products' raw SQL query is not present (it no longer is in zc200).
+// Nothing further to do if the all-products' raw SQL query is present (it no longer is in zc200).
 //
 if (!isset($products_all_query_raw)) {
     return;
