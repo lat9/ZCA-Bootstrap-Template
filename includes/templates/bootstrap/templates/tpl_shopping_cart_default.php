@@ -2,15 +2,14 @@
 /**
  * Page Template
  *
- * BOOTSTRAP v3.7.2
+ * BOOTSTRAP v3.7.5
  *
  * Loaded automatically by index.php?main_page=shopping_cart.<br />
  * Displays shopping-cart contents
  *
- * @copyright Copyright 2003-2020 Zen Cart Development Team
+ * @copyright Copyright 2003-2025 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: DrByte 2020 Oct 19 Modified in v1.5.7a $
  */
 ?>
 <div id="shoppingCartDefault" class="centerColumn">
@@ -70,13 +69,7 @@ if ($flagHasCartContents) {
         <table id="shoppingCartDefault-cartTableDisplay" class="cartTableDisplay table table-bordered table-striped table-sm">
             <tr>
                 <th scope="col" id="cartTableDisplay-qtyHeading"><?php echo TABLE_HEADING_QUANTITY; ?></th>
-<?php
-    if (SHOW_SHOPPING_CART_UPDATE === '1' || SHOW_SHOPPING_CART_UPDATE === '3') {
-?>
                 <th scope="col" class="d-none d-sm-table-cell" id="cartTableDisplay-qtyUpdateHeading"><span aria-label="<?php echo TEXT_CART_ARIA_HEADING_UPDATE_COLUMN; ?>">&nbsp;</span></th>
-<?php
-    }
-?>
                 <th scope="col" id="cartTableDisplay-productsHeading"><?php echo TABLE_HEADING_PRODUCTS; ?></th>
                 <th scope="col" id="cartTableDisplay-priceHeading"><?php echo TABLE_HEADING_PRICE; ?></th>
                 <th scope="col" id="cartTableDisplay-totalsHeading"><?php echo TABLE_HEADING_TOTAL; ?></th>
@@ -115,13 +108,9 @@ if ($flagHasCartContents) {
 ?>
                     </div>
                 </td>
-<?php
-        if (SHOW_SHOPPING_CART_UPDATE === '1' || SHOW_SHOPPING_CART_UPDATE === '3') {
-?>
+
                 <td class="qtyUpdateCell text-center d-none d-sm-table-cell"><?php echo (!empty($product['buttonUpdate'])) ? $product['buttonUpdate'] : ''; ?></td>
-<?php
-        }
-?>
+
                 <td class="productsCell">
                     <a href="<?php echo $product['linkProductsName']; ?>">
                         <span class="d-none d-sm-block float-left mr-3"><?php echo $product['productsImage']; ?></span>
