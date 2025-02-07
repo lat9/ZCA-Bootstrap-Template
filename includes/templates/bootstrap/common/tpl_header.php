@@ -2,8 +2,7 @@
 /**
  * Common Template - tpl_header.php
  *
- * BOOTSTRAP v3.7.0
- *
+ * BOOTSTRAP v3.7.6
  *
  * @copyright Copyright 2003-2020 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
