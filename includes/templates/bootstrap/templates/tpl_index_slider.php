@@ -68,11 +68,11 @@ foreach ($bs4_hp_banners as $row) {
 ?>
     </div>
     <a class="carousel-control-prev" data-target="#carouselHomeSlider" role="button" data-slide="prev">
-        <span><i class="fa fa-lg fa-chevron-left" aria-hidden="true"></i></span>
+        <span><i class="fas fa-lg fa-chevron-left" aria-hidden="true"></i></span>
         <span class="sr-only"><?= BUTTON_PREVIOUS_ALT ?></span>
     </a>
     <a class="carousel-control-next" data-target="#carouselHomeSlider" role="button" data-slide="next">
-        <span><i class="fa fa-lg fa-chevron-right" aria-hidden="true"></i></span>
+        <span><i class="fas fa-lg fa-chevron-right" aria-hidden="true"></i></span>
         <span class="sr-only"><?= BUTTON_NEXT_ALT ?></span>
     </a>
 </div>
