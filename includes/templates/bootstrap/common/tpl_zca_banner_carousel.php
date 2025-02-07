@@ -3,7 +3,7 @@
  * ZCA Banners Carousel
  * Plugin Template
  * 
- * BOOTSTRAP v3.7.4
+ * BOOTSTRAP v3.7.6
  *
  */
 // -----
@@ -31,14 +31,14 @@ if ($banners->EOF) {
 
 $carousel_group_id = 'carouselGroup' . (int)$banner_group;
 ?>
-<div id="<?php echo $carousel_group_id; ?>" class="carousel banner-carousel slide" data-ride="carousel">
+<div id="<?= $carousel_group_id ?>" class="carousel banner-carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">
 <?php
 $num_banners = $banners->RecordCount();
 $slide_to_class = ' class="active"';
 for ($slide_to = 0; $slide_to < $num_banners; $slide_to++) {
 ?>
-        <li data-target="#<?php echo $carousel_group_id; ?>" data-slide-to="<?php echo $slide_to; ?>"<?php echo $slide_to_class; ?>></li>
+        <li data-target="#<?= $carousel_group_id ?>" data-slide-to="<?= $slide_to ?>"<?= $slide_to_class ?>></li>
 <?php
     $slide_to_class = '';
 }
@@ -53,8 +53,8 @@ for ($slide_to = 0; $slide_to < $num_banners; $slide_to++) {
 $addBannerClass = ' active';
 foreach ($banners as $row) {
 ?>
-        <div class="carousel-item<?php echo $addBannerClass; ?>">
-            <?php echo zen_display_banner('static', $row['banners_id']); ?>
+        <div class="carousel-item<?= $addBannerClass ?>">
+            <?= zen_display_banner('static', $row['banners_id']) ?>
         </div>
   
 <?php
@@ -62,12 +62,12 @@ foreach ($banners as $row) {
 }
 ?>
     </div>
-    <a class="carousel-control-prev" href="#<?php echo $carousel_group_id; ?>" role="button" data-slide="prev">
+    <a class="carousel-control-prev" role="button" data-slide="prev" data-target="#<?= $carousel_group_id ?>">
         <span><i class="fas fa-lg fa-chevron-left" aria-hidden="true"></i></span>
-        <span class="sr-only"><?php echo BUTTON_PREVIOUS_ALT; ?></span>
+        <span class="sr-only"><?= BUTTON_PREVIOUS_ALT ?></span>
     </a>
-    <a class="carousel-control-next" href="#<?php echo $carousel_group_id; ?>" role="button" data-slide="next">
+    <a class="carousel-control-next" role="button" data-slide="next" data-target="#<?= $carousel_group_id ?>">
         <span><i class="fas fa-lg fa-chevron-right" aria-hidden="true"></i></span>
-        <span class="sr-only"><?php echo BUTTON_NEXT_ALT; ?></span>
+        <span class="sr-only"><?= BUTTON_NEXT_ALT ?></span>
     </a>
 </div>

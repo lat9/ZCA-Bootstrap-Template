@@ -1,9 +1,9 @@
 <?php
 // -----
 // Part of the Bootstrap 4 Template Home-Page Carousel by lat9.
-// Copyright (C) 2021-2024, Vinos de Frutas Tropicales.
+// Copyright (C) 2021-2025, Vinos de Frutas Tropicales.
 //
-// BOOTSTRAP v3.7.0
+// BOOTSTRAP v3.7.6
 //
 // -----
 // Zen Cart's 'base' banner management requires that a 'banners_history' record be present for a 'banner' if that banner is
@@ -67,14 +67,13 @@ foreach ($bs4_hp_banners as $row) {
 }
 ?>
     </div>
-    <a class="carousel-control-prev" href="#carouselHomeSlider" role="button" data-slide="prev">
+    <a class="carousel-control-prev" data-target="#carouselHomeSlider" role="button" data-slide="prev">
         <span><i class="fa fa-lg fa-chevron-left" aria-hidden="true"></i></span>
         <span class="sr-only"><?= BUTTON_PREVIOUS_ALT ?></span>
     </a>
-    <a class="carousel-control-next" href="#carouselHomeSlider" role="button" data-slide="next">
+    <a class="carousel-control-next" data-target="#carouselHomeSlider" role="button" data-slide="next">
         <span><i class="fa fa-lg fa-chevron-right" aria-hidden="true"></i></span>
         <span class="sr-only"><?= BUTTON_NEXT_ALT ?></span>
     </a>
 </div>
 <div class="mb-2"></div>
-

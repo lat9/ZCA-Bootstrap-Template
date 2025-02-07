@@ -4,7 +4,7 @@
  *
  * Inspired by https://bootsnipp.com/snippets/0egAD
  *
- * BOOTSTRAP v3.7.5
+ * BOOTSTRAP v3.7.6
  *
  * This file is used for generating a carousel for various centerboxes.
  *
@@ -110,11 +110,11 @@ foreach ($list_box_contents as $row => $cols) {
 }
 ?>
             </div>
-            <a class="carousel-control-prev d-inline-block text-left" href="#centerbox-carousel-<?= $centerbox_carousel_count?>" role="button" data-slide="prev">
+            <a class="carousel-control-prev d-inline-block text-left" role="button" data-slide="prev" data-target="#centerbox-carousel-<?= $centerbox_carousel_count ?>">
                 <span><i class="fas fa-lg fa-chevron-left" aria-hidden="true"></i></span>
                 <span class="sr-only"><?= BUTTON_PREVIOUS_ALT ?></span>
             </a>
-            <a class="carousel-control-next d-inline-block text-right" href="#centerbox-carousel-<?= $centerbox_carousel_count?>" role="button" data-slide="next">
+            <a class="carousel-control-next d-inline-block text-right" role="button" data-slide="next" data-target="#centerbox-carousel-<?= $centerbox_carousel_count ?>">
                 <span><i class="fas fa-lg fa-chevron-right" aria-hidden="true"></i></span>
                 <span class="sr-only"><?= BUTTON_NEXT_ALT ?></span>
             </a>
