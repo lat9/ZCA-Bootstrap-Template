@@ -2,7 +2,7 @@
 /**
  * featured_categories module - prepares content for display
  *
- * BOOTSTRAP v3.7.3
+ * BOOTSTRAP v3.7.6
  *
  * @copyright Copyright 2003-2023 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
@@ -68,9 +68,9 @@ if ($num_categories_count > 0) {
 
     if (!empty($current_category_id)) {
         $category_title = zen_get_category_name((int)$current_category_id);
-        $title = '<p id="featuredCenterbox-card-header" class="centerBoxHeading card-header h3">' . TABLE_HEADING_FEATURED_CATEGORIES . ($category_title !== '' ? ' - ' . $category_title : '') . '</p>';
+        $title = '<p id="featuredCategoryCenterbox-card-header" class="centerBoxHeading card-header h3">' . TABLE_HEADING_FEATURED_CATEGORIES . ($category_title !== '' ? ' - ' . $category_title : '') . '</p>';
     } else {
-        $title = '<p id="featuredCenterbox-card-header" class="centerBoxHeading card-header h3">' . TABLE_HEADING_FEATURED_CATEGORIES . '</p>';
+        $title = '<p id="featuredCategoryCenterbox-card-header" class="centerBoxHeading card-header h3">' . TABLE_HEADING_FEATURED_CATEGORIES . '</p>';
     }
     $zc_show_featured = true;
 }
