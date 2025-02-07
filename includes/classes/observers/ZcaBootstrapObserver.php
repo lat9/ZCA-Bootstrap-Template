@@ -2,7 +2,7 @@
 // -----
 // Part of the ZCA Bootstrap template, @zcadditions, @lat9, @marco-pm
 //
-// BOOTSTRAP 3.6.3
+// BOOTSTRAP 3.7.6
 //
 class ZcaBootstrapObserver extends base
 {
@@ -364,12 +364,8 @@ class ZcaBootstrapObserver extends base
     // This function creates class variables for the specified elements in the
     // (presumed) associative array received with a notification.
     //
-    protected function setVariables($eventID, $notifyParams, $variableArray)
+    protected function setVariables($eventID, $notifyParams, array $variableArray): void
     {
-        if (!is_array($variableArray)) {
-            trigger_error("Unknown read-only parameters received for $eventID: " . json_encode($notifyParams) . ' ' . json_encode($variableArray), E_USER_ERROR);
-        }
-
         foreach ($variableArray as $key) {
             $this->$key = $notifyParams[$key] ?? false;
         }

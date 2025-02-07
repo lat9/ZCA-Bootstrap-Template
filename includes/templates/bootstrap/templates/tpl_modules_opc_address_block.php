@@ -1,18 +1,18 @@
 <?php
 // -----
 // Part of the One-Page Checkout plugin, provided under GPL 2.0 license by lat9 (cindy@vinosdefrutastropicales.com).
-// Copyright (C) 2017-2022, Vinos de Frutas Tropicales.  All rights reserved.
+// Copyright (C) 2017-2025, Vinos de Frutas Tropicales.  All rights reserved.
 //
 // This module is included by tpl_modules_opc_billing_address.php and tpl_modules_opc_shipping_address.php and
 // provides a common-formatting for those two address-blocks.
 //
-// Last updated: OPC v2.4.2/Bootstrap v3.4.0
+// Last updated: OPC v2.4.2/Bootstrap v3.7.6
 //
 // -----
 // Sanitize module input values.
 //
 if (!isset($opc_address_type) || !in_array($opc_address_type, ['bill', 'ship'])) {
-    trigger_error("Unknown value for opc_address_type ($opc_address_type).", E_USER_ERROR);
+    trigger_error("FATAL ERROR: Unknown value for opc_address_type ($opc_address_type).", E_USER_WARNING);
     exit();
 }
 
