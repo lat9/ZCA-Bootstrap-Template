@@ -2,7 +2,7 @@
 /**
  * Page Template
  * 
- * BOOTSTRAP v3.6.4
+ * BOOTSTRAP v3.7.6
  *
  * Loaded automatically by index.php?main_page=checkout_success.
  * Displays confirmation details after order has been successfully processed.
@@ -119,7 +119,7 @@ if ($flag_show_products_notification == true) {
             <?= TEXT_NOTIFY_PRODUCTS ?>
         </h4>
         <div id="productNotifications-card-body" class="card-body p-3">
-            <?= zen_draw_form('order', zen_href_link(FILENAME_CHECKOUT_SUCCESS, 'action=update', 'SSL')) ?>
+            <?= zen_draw_form('order', zen_href_link(FILENAME_CHECKOUT_SUCCESS, 'action=notify', 'SSL')) ?>
 <?php
     foreach ($notificationsArray as $notifications) {
 ?>
