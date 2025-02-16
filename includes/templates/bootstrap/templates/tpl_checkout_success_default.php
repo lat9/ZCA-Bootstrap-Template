@@ -119,7 +119,7 @@ if ($flag_show_products_notification == true) {
             <?= TEXT_NOTIFY_PRODUCTS ?>
         </h4>
         <div id="productNotifications-card-body" class="card-body p-3">
-            <?= zen_draw_form('order', zen_href_link(FILENAME_CHECKOUT_SUCCESS, 'action=notify', 'SSL')) ?>
+            <?= zen_draw_form('order', zen_href_link(FILENAME_ACCOUNT_NOTIFICATIONS, 'action=notify', 'SSL')) ?>
 <?php
     foreach ($notificationsArray as $notifications) {
 ?>
