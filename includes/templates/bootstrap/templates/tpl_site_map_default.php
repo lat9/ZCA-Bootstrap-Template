@@ -2,15 +2,15 @@
 /**
  * Page Template
  * 
- * BOOTSTRAP v3.7.3
+ * BOOTSTRAP v3.7.6
  *
  * Loaded by index.php?main_page=site_map
  * Displays site-map and some hard-coded navigation components
  *
- * @copyright Copyright 2003-2020 Zen Cart Development Team
+ * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: DrByte 2020 May 16 Modified in v1.5.7 $
+ * @version $Id: DrByte 2024 Aug 26 Modified in v2.1.0-alpha2 $
  */
 ?>
 <div id="siteMapDefault" class="centerColumn">
@@ -32,6 +32,7 @@ if (DEFINE_SITE_MAP_STATUS === '1' || DEFINE_SITE_MAP_STATUS === '2') {
 echo $zen_SiteMapTree->buildTree();
 ?>
     <ul class="list-group">
+        <li class="list-group-item"><a href="<?= zen_href_link(FILENAME_ABOUT_US) ?>"><?= BOX_INFORMATION_ABOUT_US ?></a></li>
 <?php
 if (SHOW_ACCOUNT_LINKS_ON_SITE_MAP === 'Yes') {
 ?>

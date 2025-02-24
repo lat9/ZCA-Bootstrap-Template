@@ -162,13 +162,14 @@ img {
     <h2>Version History</h2>
     <p>This section identifies the template's version history and changes, starting with its v2.0.0c release.  Prior version changes can be found in the root of the template's distribution zip-file (<code>CHANGELOG.txt</code>).</p>
     <ul>
-        <li>v3.7.6-beta2, 2025-02-16 (lat9, retched)<ul>
+        <li>v3.7.6-beta2, 2025-02-23 (lat9, retched)<ul>
             <li>BUGFIX: Correct XSS vulnerabilty in Bootstrap carousels.</li>
             <li>BUGFIX: Correct duplicate ID <var>featuredCenterbox-card-header</var> in featured-categories centerbox.</li>
             <li>BUGFIX: Retire use of E_USER_ERROR; deprecated for PHP 8.4.</li>
             <li>CHANGE: Add icons to upper nav-bar links.</li>
             <li>BUGFIX: Correct font-awesome class used for front-page slider.</li>
             <li>BUGFIX: Correct <var>action</var> used for product notifications on the <code>checkout_success</code> page.</li>
+            <li>BUGFIX: Add <code>about_us</code> page-link to <code>site_map</code> page listing.</li>
             <li>The following files were changed:<ol>
                 <li>/includes/classes/observers/ZcaBootstrapObserver.php</li>
                 <li>/includes/modules/bootstrap/centerboxes/featured_categories.php</li>
@@ -180,6 +181,7 @@ img {
                 <li>/includes/templates/bootstrap/templates/tpl_checkout_success_default.php</li>
                 <li>/includes/templates/bootstrap/templates/tpl_index_slider.php</li>
                 <li>/includes/templates/bootstrap/templates/tpl_modules_opc_address_block.php</li>
+                <li>/includes/templates/bootstrap/templates/tpl_site_map_default.php</li>
                 <li>/YOUR_ADMIN/includes/init_includes/init_zca_bootstrap_template_admin.php</li>
             </ol></li>
         </ul></li>
