@@ -1,4 +1,4 @@
-# ZCA Bootstrap Template v3.7.5 for zc158, zc200 and zc210
+# ZCA Bootstrap Template v3.7.6 for zc158, zc200 and zc210
 
 This Zen Cart template uses a [Bootstrap](https://getbootstrap.com/docs/4.5/getting-started/introduction/) foundation to provide an updated look-and-feel to your Zen Cart.  Since the template is standards-based, it's easier to make layout changes to your store.
 
