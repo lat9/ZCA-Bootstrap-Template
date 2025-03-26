@@ -9,7 +9,7 @@ if (!defined('IS_ADMIN_FLAG')) {
     die('Illegal Access');
 }
 
-define('ZCA_BOOTSTRAP_CURRENT_VERSION', '3.7.6');
+define('ZCA_BOOTSTRAP_CURRENT_VERSION', '3.7.7-beta1');
 
 // -----
 // If a SuperUser admin is logged in, check to see that all of the new configuration settings required
