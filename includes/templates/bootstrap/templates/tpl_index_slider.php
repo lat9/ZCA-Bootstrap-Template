@@ -3,7 +3,7 @@
 // Part of the Bootstrap 4 Template Home-Page Carousel by lat9.
 // Copyright (C) 2021-2025, Vinos de Frutas Tropicales.
 //
-// BOOTSTRAP v3.7.6
+// BOOTSTRAP v3.7.7
 //
 // -----
 // Zen Cart's 'base' banner management requires that a 'banners_history' record be present for a 'banner' if that banner is
@@ -67,6 +67,12 @@ foreach ($bs4_hp_banners as $row) {
 }
 ?>
     </div>
+<?php
+// -----
+// Add previous/next links only if there's more than one banner to display.
+//
+if ($n > 1) {
+?>
     <a class="carousel-control-prev" data-target="#carouselHomeSlider" role="button" data-slide="prev">
         <span><i class="fas fa-lg fa-chevron-left" aria-hidden="true"></i></span>
         <span class="sr-only"><?= BUTTON_PREVIOUS_ALT ?></span>
@@ -75,5 +81,8 @@ foreach ($bs4_hp_banners as $row) {
         <span><i class="fas fa-lg fa-chevron-right" aria-hidden="true"></i></span>
         <span class="sr-only"><?= BUTTON_NEXT_ALT ?></span>
     </a>
+<?php
+}
+?>
 </div>
 <div class="mb-2"></div>

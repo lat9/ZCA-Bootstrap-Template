@@ -163,13 +163,15 @@ img {
     <h2>Version History</h2>
     <p>This section identifies the template's version history and changes, starting with its v2.0.0c release.  Prior version changes can be found in the root of the template's distribution zip-file (<code>CHANGELOG.txt</code>).</p>
     <ul>
-        <li>v3.7.7-beta2, 2025-04-13 (lat9)<ul>
+        <li>v3.7.7-beta3, 2025-04-22 (lat9)<ul>
             <li>BUGFIX: Correct missing language constant on <code>checkout_success</code> page when shipping information is missing.</li>
             <li>INTROP: Add notification for site-specific product details.</li>
+            <li>BUGFIX: Don't display prev/next controls if home-page slider includes only one banner.</li>
             <li>The following files were changed, <span class="added">added</span> or <span class="removed">removed</span>:<ol>
                 <li><span class="added">/includes/languages/bootstrap/lang.english.php</span></li>
                 <li><span class="removed">/includes/languages/english/bootstrap/lang.account_history_info.php</li>
                 <li>/includes/templates/bootstrap/template_info.php</li>
+                <li>/includes/templates/bootstrap/templates/tpl_index_slider.php</li>
                 <li>/includes/templates/bootstrap/templates/tpl_product_info_display_details.php</li>
                 <li>/YOUR_ADMIN/includes/init_includes/init_zca_bootstrap_template_admin.php</li>
             </ol></li>
