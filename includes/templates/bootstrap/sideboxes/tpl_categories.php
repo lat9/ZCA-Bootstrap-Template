@@ -4,11 +4,11 @@
  *
  * BOOTSTRAP v3.7.0
  *
- * @package templateSystem
- * @copyright Copyright 2003-2018 Zen Cart Development Team
+ *
+ * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: Drbyte Sun Jan 7 21:28:50 2018 -0500 Modified in v1.5.6 $
+ * @version $Id: piloujp 2024 Oct 15 Modified in v2.1.0 $
  */
 $includeAllCategories = $zca_include_zero_product_categories ?? true;
 
@@ -73,34 +73,42 @@ foreach ($box_categories_array as $next_box_cat) {
     }
 }
 
-if (SHOW_CATEGORIES_BOX_SPECIALS === 'true' || SHOW_CATEGORIES_BOX_PRODUCTS_NEW === 'true' || SHOW_CATEGORIES_BOX_FEATURED_PRODUCTS === 'true' || SHOW_CATEGORIES_BOX_PRODUCTS_ALL === 'true') {
-    if (SHOW_CATEGORIES_BOX_SPECIALS === 'true') {
-        $show_this = $db->Execute("SELECT s.products_id FROM " . TABLE_SPECIALS . " s WHERE s.status = 1 LIMIT 1");
-        if (!$show_this->EOF) {
-            $content .= '<a class="list-group-item list-group-item-action list-group-item-secondary" href="' . zen_href_link(FILENAME_SPECIALS) . '">' . CATEGORIES_BOX_HEADING_SPECIALS . '</a>';
-        }
-    }
-    if (SHOW_CATEGORIES_BOX_PRODUCTS_NEW === 'true') {
-        // display limits
-        $display_limit = zen_get_new_date_range();
-
-        $show_this = $db->Execute(
-            "SELECT p.products_id
-               FROM " . TABLE_PRODUCTS . " p
-              WHERE p.products_status = 1 " . $display_limit . " LIMIT 1"
-        );
-        if (!$show_this->EOF) {
-            $content .= '<a class="list-group-item list-group-item-action list-group-item-secondary" href="' . zen_href_link(FILENAME_PRODUCTS_NEW) . '">' . CATEGORIES_BOX_HEADING_WHATS_NEW . '</a>';
-        }
-    }
-    if (SHOW_CATEGORIES_BOX_FEATURED_PRODUCTS === 'true') {
-        $show_this = $db->Execute("SELECT products_id FROM " . TABLE_FEATURED . " WHERE status = 1 LIMIT 1");
-        if (!$show_this->EOF) {
-            $content .= '<a class="list-group-item list-group-item-action list-group-item-secondary" href="' . zen_href_link(FILENAME_FEATURED_PRODUCTS) . '">' . CATEGORIES_BOX_HEADING_FEATURED_PRODUCTS . '</a>';
-        }
-    }
-    if (SHOW_CATEGORIES_BOX_PRODUCTS_ALL === 'true') {
-        $content .= '<a class="list-group-item list-group-item-action  list-group-item-secondary" href="' . zen_href_link(FILENAME_PRODUCTS_ALL) . '">' . CATEGORIES_BOX_HEADING_PRODUCTS_ALL . '</a>';
+if (SHOW_CATEGORIES_BOX_SPECIALS === 'true') {
+    $show_this = $db->Execute("SELECT s.products_id FROM " . TABLE_SPECIALS . " s WHERE s.status = 1 LIMIT 1");
+    if (!$show_this->EOF) {
+        $content .= '<a class="list-group-item list-group-item-action list-group-item-secondary" href="' . zen_href_link(FILENAME_SPECIALS) . '">' . CATEGORIES_BOX_HEADING_SPECIALS . '</a>';
     }
 }
+if (SHOW_CATEGORIES_BOX_PRODUCTS_NEW === 'true') {
+    // display limits
+    $display_limit = zen_get_new_date_range();
+
+    $show_this = $db->Execute(
+        "SELECT p.products_id
+           FROM " . TABLE_PRODUCTS . " p
+          WHERE p.products_status = 1 " . $display_limit . " LIMIT 1"
+    );
+    if (!$show_this->EOF) {
+        $content .= '<a class="list-group-item list-group-item-action list-group-item-secondary" href="' . zen_href_link(FILENAME_PRODUCTS_NEW) . '">' . CATEGORIES_BOX_HEADING_WHATS_NEW . '</a>';
+    }
+}
+if (SHOW_CATEGORIES_BOX_FEATURED_PRODUCTS === 'true') {
+    $show_this = $db->Execute("SELECT products_id FROM " . TABLE_FEATURED . " WHERE status = 1 LIMIT 1");
+    if (!$show_this->EOF) {
+        $content .= '<a class="list-group-item list-group-item-action list-group-item-secondary" href="' . zen_href_link(FILENAME_FEATURED_PRODUCTS) . '">' . CATEGORIES_BOX_HEADING_FEATURED_PRODUCTS . '</a>';
+    }
+}
+if (defined('SHOW_CATEGORIES_BOX_FEATURED_CATEGORIES') && SHOW_CATEGORIES_BOX_FEATURED_CATEGORIES === 'true') {
+    $show_this = $db->Execute("SELECT categories_id FROM " . TABLE_FEATURED_CATEGORIES . " WHERE status = 1 LIMIT 1");
+    if (!$show_this->EOF) {
+        $content .=
+            '<a class="list-group-item list-group-item-action list-group-item-secondary" href="' . zen_href_link(FILENAME_FEATURED_CATEGORIES) . '">' .
+                CATEGORIES_BOX_HEADING_FEATURED_CATEGORIES .
+            '</a>' . "\n";
+    }
+}
+if (SHOW_CATEGORIES_BOX_PRODUCTS_ALL === 'true') {
+    $content .= '<a class="list-group-item list-group-item-action  list-group-item-secondary" href="' . zen_href_link(FILENAME_PRODUCTS_ALL) . '">' . CATEGORIES_BOX_HEADING_PRODUCTS_ALL . '</a>';
+}
+
 $content .= '</div>';
