@@ -9,7 +9,7 @@ if (!defined('IS_ADMIN_FLAG')) {
     die('Illegal Access');
 }
 
-define('ZCA_BOOTSTRAP_CURRENT_VERSION', '3.7.7');
+define('ZCA_BOOTSTRAP_CURRENT_VERSION', '3.7.8-beta1');
 
 // -----
 // If a SuperUser admin is logged in, check to see that all of the new configuration settings required
@@ -20,12 +20,12 @@ if (zen_is_superuser()) {
     $configuration = $db->Execute("SELECT configuration_group_id FROM " . TABLE_CONFIGURATION_GROUP . " WHERE configuration_group_title = '$configurationGroupTitle' LIMIT 1");
     if ($configuration->EOF) {
         $db->Execute(
-            "INSERT INTO " . TABLE_CONFIGURATION_GROUP . " 
-                (configuration_group_title, configuration_group_description, sort_order, visible) 
+            "INSERT INTO " . TABLE_CONFIGURATION_GROUP . "
+                (configuration_group_title, configuration_group_description, sort_order, visible)
              VALUES
                 ('$configurationGroupTitle', '$configurationGroupTitle', 1, 1)"
         );
-        $cgi = $db->Insert_ID(); 
+        $cgi = $db->Insert_ID();
         $db->Execute("UPDATE " . TABLE_CONFIGURATION_GROUP . " SET sort_order = $cgi WHERE configuration_group_id = $cgi LIMIT 1");
     } else {
         $cgi = $configuration->fields['configuration_group_id'];
