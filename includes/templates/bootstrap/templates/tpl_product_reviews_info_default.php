@@ -94,7 +94,7 @@ if ($reviews_counter > 1) {
 <h3 class="rating"><?php echo zca_get_rating_stars($review_info->fields['reviews_rating'], 'xs'); ?></h3>
   </div>      
     <blockquote class="blockquote mb-0">
-<div id="productReviewsInfoDefault-content" class="content"><?php echo zen_break_string(nl2br(zen_output_string_protected(stripslashes($review_info->fields['reviews_text']))), 60, '-<br>'); ?></div>
+<div id="productReviewsInfoDefault-content" class="content"><?php echo nl2br(zen_output_string_protected(stripslashes($review_info->fields['reviews_text']))); ?></div>
       <footer class="blockquote-footer"><cite title="Source Title"><?php echo sprintf(TEXT_REVIEW_BY, zen_output_string_protected($review_info->fields['customers_name'])); ?></cite></footer>
     </blockquote>
   </div>
