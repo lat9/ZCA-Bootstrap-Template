@@ -79,7 +79,7 @@ img {
     <p>This template uses <a href="https://getbootstrap.com/docs/4.6/getting-started/introduction/" target="_blank">Bootstrap-4.6.2</a> to provide its styling and builds on the base that Raymond Barbour provided over the past few years, supporting Zen Cart versions 1.5.8 and later &mdash; <em>best supported</em> by zc158<b>a</b> and later.</p>
     <p>Starting with v3.4.0 of the template, the template-related files needed when used with <a href="https://www.zen-cart.com/downloads.php?do=file&id=2095" target="_blank">One-Page Checkout</a> are also provided:</p>
     <ul>
-        <li>These changes have been validated with v2.4.6 and v2.5.0 of <em>OPC</em>, I'll suggest upgrading to that version or later prior to upgrading to v3.4.0 or later of the Bootstrap-4 template.</li>
+        <li>These changes have been validated with v2.5.5 of <em>OPC</em>, I'll suggest upgrading to that version or later prior to upgrading to v3.7.8 or later of the Bootstrap-4 template.</li>
         <li>The <a href="https://www.zen-cart.com/downloads.php?do=file&id=2305" target="_blank">previously-distributed</a> (and separate) BS4/OPC integration is no longer supported.</li>
         <li>If you have <em>OPC</em> <em>prior to v2.5.0</em> installed, its <b>Order Total: jQuery Selector</b> configuration setting should be set to <code>#ottotal > .ot-text</code> for the Bootstrap template's use.</li>
     </ul>
@@ -163,10 +163,12 @@ img {
     <h2>Version History</h2>
     <p>This section identifies the template's version history and changes, starting with its v2.0.0c release.  Prior version changes can be found in the root of the template's distribution zip-file (<code>CHANGELOG.txt</code>).</p>
     <ul>
-        <li>v3.7.8-beta1, 2025-07-05 (lat9)<ul>
+        <li>v3.7.8-beta2, 2025-08-18 (lat9)<ul>
             <li>INTROP: Mimic zc220's removal of <code>zen_break_string</code> in template.</li>
+            <li>INTROP: Add column-specific classes to support OPC's cart updates when shipping is changed (OPC v2.5.5+).</li>
             <li>The following files were changed:<ol>
                 <li>/includes/templates/bootstrap/template_info.php</li>
+                <li>/includes/templates/bootstrap/templates/tpl_modules_opc_shopping_cart.php</li>
                 <li>/includes/templates/bootstrap/templates/tpl_product_reviews_info_default.php</li>
                 <li>/YOUR_ADMIN/includes/init_includes/init_zca_bootstrap_template_admin.php</li>
             </ol></li>
