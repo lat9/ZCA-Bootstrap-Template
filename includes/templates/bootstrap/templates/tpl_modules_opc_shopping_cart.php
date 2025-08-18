@@ -1,19 +1,10 @@
 <?php
 // -----
 // Part of the One-Page Checkout plugin, provided under GPL 2.0 license by lat9 (cindy@vinosdefrutastropicales.com).
-// Copyright (C) 2013-2022, Vinos de Frutas Tropicales.  All rights reserved.
+// Copyright (C) 2013-2025, Vinos de Frutas Tropicales.  All rights reserved.
 //
-// The following definition is used in multiple pages and will in the main language file, e.g. english.php, for
-// Zen Cart versions 1.5.7 and later.
+// Last updated: OPC v2.5.5/Bootstrap v3.7.8
 //
-// Provide an in-script override for the case it's not defined.
-//
-// Last updated: OPC v2.4.2/Bootstrap v3.5.0
-//
-if (!defined('TEXT_OPTION_DIVIDER')) {
-    define('TEXT_OPTION_DIVIDER', '&nbsp;-&nbsp;');
-}
-
 $display_tax_column = (count($order->info['tax_groups']) > 1);
 
 // -----
@@ -59,7 +50,7 @@ for ($i = 0, $n = count($order->products); $i < $n; $i++) {
 <?php
         foreach ($order->products[$i]['attributes'] as $next_attribute) {
 ?>
-                            <li><?php echo $next_attribute['option'] . TEXT_OPTION_DIVIDER . nl2br(zen_output_string_protected($next_attribute['value'])); ?></li>
+                            <li><?php echo $next_attribute['option'] . TEXT_OPTION_DIVIDER . nl2br(zen_output_string_protected($next_attribute['value']), false); ?></li>
 <?php
         } // end loop
 ?>
@@ -74,13 +65,13 @@ for ($i = 0, $n = count($order->products); $i < $n; $i++) {
                     </td>
 <?php 
   // display tax info if exists
-    if ($display_tax_column)  { 
+    if ($display_tax_column)  {
 ?>
-                    <td class="cartTotalDisplay"><?php echo zen_display_tax_value($order->products[$i]['tax']); ?>%</td>
+                    <td class="cartTotalDisplay productTax"><?php echo zen_display_tax_value($order->products[$i]['tax']); ?>%</td>
 <?php
-    }  // endif tax info display  
+    }  // endif tax info display
 ?>
-                    <td class="cartTotalDisplay text-right">
+                    <td class="cartTotalDisplay productPrice text-right">
 <?php 
     echo $currencies->display_price($order->products[$i]['final_price'], $order->products[$i]['tax'], $order->products[$i]['qty']);
     if ($order->products[$i]['onetime_charges'] != 0 ) {
@@ -89,9 +80,9 @@ for ($i = 0, $n = count($order->products); $i < $n; $i++) {
 ?>
                     </td>
                 </tr>
-<?php  
-}  
-// end for loopthru all products 
+<?php
+}
+// end for loopthru all products
 ?>
             </tbody>
 <?php
@@ -99,7 +90,7 @@ if (MODULE_ORDER_TOTAL_INSTALLED) {
 ?>
             <tfoot id="orderTotalDivs">
 <?php
-    $order_total_modules->process(); 
+    $order_total_modules->process();
     $order_total_modules->output();
 ?>
             </tfoot>
