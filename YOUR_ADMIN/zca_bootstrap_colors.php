@@ -248,7 +248,7 @@ foreach ($configuration as $item) {
     $cfg_default_color = strstr(str_replace('Default: ', '', $item['configuration_description']), '.', true);
 ?>
                         <tr <?php echo $row_parameters; ?> onclick="document.location.href = '<?php echo zen_href_link(FILENAME_ZCA_BOOTSTRAP_COLORS, 'cID=' . $cID_value . '&action=edit'); ?>'">
-                            <td><?php echo $item['configuration_title']; ?></td>
+                            <td><?php echo zen_lookup_admin_menu_language_override('configuration_key_title', $item['configuration_key'], $item['configuration_title']); ?></td>
                             <td class="color-value">
                                 <i class="fa fa-square fa-border" aria-hidden="true" style="color: <?php echo $cfg_default_color; ?>;"></i>
                                 <?php echo $cfg_default_color; ?>
@@ -309,7 +309,7 @@ $contents =[];
 
 switch ($action) {
     case 'edit':
-        $heading[] = ['text' => '<h4>' . $cInfo->configuration_title . '</h4>'];
+        $heading[] = ['text' => '<h4>' . zen_lookup_admin_menu_language_override('configuration_key_title', $cInfo->configuration_key, $cInfo->configuration_title) . '</h4>'];
 
         $value_field = zen_draw_input_field('configuration_value', htmlspecialchars($cInfo->configuration_value, ENT_COMPAT, CHARSET, true), 'size="60" class="cfgInput form-control col-md-3" id="full-popover" data-color-format="hex"');
 
@@ -318,7 +318,7 @@ switch ($action) {
             $contents[] = ['text' => '<strong>Key: ' . $cInfo->configuration_key . '</strong><br>'];
         }
         $contents[] = ['text' => TEXT_INFO_EDIT_INTRO];
-        $contents[] = ['text' => '<strong>' . $cInfo->configuration_title . '</strong><br>' . $cInfo->configuration_description . '<br>' . $value_field];
+        $contents[] = ['text' => '<strong>' . zen_lookup_admin_menu_language_override('configuration_key_title', $cInfo->configuration_key, $cInfo->configuration_title) . '</strong><br>' . zen_lookup_admin_menu_language_override('configuration_key_description', $cInfo->configuration_key, $cInfo->configuration_description) . '<br>' . $value_field];
         $contents[] = [
             'align' => 'center',
             'text' =>
@@ -329,7 +329,7 @@ switch ($action) {
 
     default:
         if (isset($cInfo) && is_object($cInfo)) {
-            $heading[] = ['text' => '<h4>' . $cInfo->configuration_title . '</h4>'];
+            $heading[] = ['text' => '<h4>' . zen_lookup_admin_menu_language_override('configuration_key_title', $cInfo->configuration_key, $cInfo->configuration_title) . '</h4>'];
             if (ADMIN_CONFIGURATION_KEY_ON == 1) {
                 $contents[] = ['text' => '<strong>Key: ' . $cInfo->configuration_key . '</strong><br>'];
             }
@@ -338,7 +338,7 @@ switch ($action) {
                 'align' => 'center',
                 'text' => '<a href="' . zen_href_link(FILENAME_ZCA_BOOTSTRAP_COLORS, 'cID=' . $cInfo->configuration_id . '&action=edit') . '" class="btn btn-primary">' . IMAGE_EDIT . '</a>'
             ];
-            $contents[] = ['text' => $cInfo->configuration_description];
+            $contents[] = ['text' => zen_lookup_admin_menu_language_override('configuration_key_description', $cInfo->configuration_key, $cInfo->configuration_description)];
             $contents[] = ['text' => TEXT_INFO_DATE_ADDED . ' ' . zen_date_short($cInfo->date_added)];
             if (!empty($cInfo->last_modified)) {
                 $contents[] = ['text' => TEXT_INFO_LAST_MODIFIED . ' ' . zen_date_short($cInfo->last_modified)];
