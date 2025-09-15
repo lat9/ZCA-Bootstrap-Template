@@ -1,0 +1,6 @@
+/**
+ * "Cache-busting" stylesheet for Bootstrap v3.7.8
+ */
+.qmax > br {
+    display: none;
+}

@@ -277,17 +277,17 @@ if (CUSTOMERS_APPROVAL === '3' && TEXT_LOGIN_FOR_PRICE_BUTTON_REPLACE_SHOWROOM =
                     zen_image_submit(BUTTON_IMAGE_IN_CART, BUTTON_IN_CART_ALT) .
                 '</div>' .
             '</div>';
-
-        if (zen_get_products_quantity_min_units_display((int)$_GET['products_id']) > 0) {
-            $the_button .=
-                '<div id="min-max-units" class="d-flex justify-content-around">' .
-                    zen_get_products_quantity_min_units_display((int)$_GET['products_id']) .
-                '</div>'; 
-        }
     }
     $display_button = zen_get_buy_now_button($_GET['products_id'], $the_button);
 
     if ($display_qty !== '' || !empty($display_button)) {
+        if (zen_get_products_quantity_min_units_display((int)$_GET['products_id']) > 0) {
+?>
+                <div id="min-max-units" class="d-flex justify-content-around mb-2">
+                    <?= zen_get_products_quantity_min_units_display((int)$_GET['products_id']) ?>
+                </div>
+<?php
+        }
 ?>
             <!--bof add to cart card-->
             <div id="addToCart-card" class="card mb-3">
