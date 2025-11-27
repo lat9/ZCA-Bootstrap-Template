@@ -2,7 +2,7 @@
 /**
  * Page Template
  *
- * BOOTSTRAP v3.7.2
+ * BOOTSTRAP v3.7.9
  *
  * Loaded automatically by index.php?main_page=product_info.
  * Displays details of a typical product
@@ -178,14 +178,19 @@ if (isset($product_info_display_extra)) {
             <!--bof Attributes Module -->
 <?php
 $one_time = '';
-$display_price_bottom = true;
+$display_price_bottom = (zen_get_products_allow_add_to_cart((int)$_GET['products_id']) === 'Y');
 if ($pr_attr->fields['total'] > 0) {
     if ($show_onetime_charges_description === true) {
         $one_time = '<small>' . TEXT_ONETIME_CHARGE_SYMBOL . TEXT_ONETIME_CHARGE_DESCRIPTION . '</small><br>';
     }
 
-    $display_price_top = (BS4_PRICING_LOCATION === 'Both' || BS4_PRICING_LOCATION === 'Above Only');
-    $display_price_bottom = (BS4_PRICING_LOCATION === 'Both' || BS4_PRICING_LOCATION === 'Below Only');
+    if (zen_get_products_allow_add_to_cart((int)$_GET['products_id']) === 'N') {
+        $display_price_top = false;
+        $display_price_bottom = false;
+    } else {
+        $display_price_top = (BS4_PRICING_LOCATION === 'Both' || BS4_PRICING_LOCATION === 'Above Only');
+        $display_price_bottom = (BS4_PRICING_LOCATION === 'Both' || BS4_PRICING_LOCATION === 'Below Only');
+    }
 ?>
             <!--bof Product Price block above Attributes -->
 <?php
