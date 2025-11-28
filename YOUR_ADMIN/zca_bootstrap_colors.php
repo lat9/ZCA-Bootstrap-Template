@@ -146,7 +146,7 @@ switch ($action) {
 }
 ?>
 <!doctype html>
-<html <?php echo HTML_PARAMS; ?>>
+<html <?= HTML_PARAMS ?>>
   <head>
     <?php require DIR_WS_INCLUDES . 'admin_html_head.php'; ?>
     <style>
@@ -174,18 +174,18 @@ switch ($action) {
 
     <!-- body //-->
     <div class="container-fluid">
-        <h1><?php echo HEADING_TITLE; ?> <small><b>(v<?php echo ZCA_BOOTSTRAP_COLORS_CURRENT_VERSION; ?>)</b></small></h1>
-        <p><?php echo TEXT_INFORMATION; ?></p>
+        <h1><?= HEADING_TITLE ?> <small><b>(v<?= ZCA_BOOTSTRAP_COLORS_CURRENT_VERSION ?>)</b></small></h1>
+        <p><?= TEXT_INFORMATION ?></p>
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 configurationColumnLeft">
                 <table class="table table-hover">
                     <thead>
                         <tr class="dataTableHeadingRow">
-                            <th class="dataTableHeadingContent"><?php echo TABLE_HEADING_CONFIGURATION_TITLE; ?></th>
-                            <th class="dataTableHeadingContent"><?php echo TABLE_HEADING_CONFIGURATION_DEFAULT; ?></th>
-                            <th class="dataTableHeadingContent"><?php echo TABLE_HEADING_CONFIGURATION_VALUE; ?></th>
-                            <th class="dataTableHeadingContent text-center"><?php echo TABLE_HEADING_NOT_SET_OK; ?></th>
-                            <th class="dataTableHeadingContent text-right"><?php echo TABLE_HEADING_ACTION; ?></th>
+                            <th class="dataTableHeadingContent"><?= TABLE_HEADING_CONFIGURATION_TITLE ?></th>
+                            <th class="dataTableHeadingContent"><?= TABLE_HEADING_CONFIGURATION_DEFAULT ?></th>
+                            <th class="dataTableHeadingContent"><?= TABLE_HEADING_CONFIGURATION_VALUE ?></th>
+                            <th class="dataTableHeadingContent text-center"><?= TABLE_HEADING_NOT_SET_OK ?></th>
+                            <th class="dataTableHeadingContent text-right"><?= TABLE_HEADING_ACTION ?></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -247,24 +247,24 @@ foreach ($configuration as $item) {
     //
     $cfg_default_color = strstr(str_replace('Default: ', '', $item['configuration_description']), '.', true);
 ?>
-                        <tr <?php echo $row_parameters; ?> onclick="document.location.href = '<?php echo zen_href_link(FILENAME_ZCA_BOOTSTRAP_COLORS, 'cID=' . $cID_value . '&action=edit'); ?>'">
-                            <td><?php echo $item['configuration_title']; ?></td>
+                        <tr <?= $row_parameters ?> onclick="document.location.href = '<?= zen_href_link(FILENAME_ZCA_BOOTSTRAP_COLORS, 'cID=' . $cID_value . '&action=edit') ?>'">
+                            <td><?= $item['configuration_title'] ?></td>
                             <td class="color-value">
-                                <i class="fa fa-square fa-border" aria-hidden="true" style="color: <?php echo $cfg_default_color; ?>;"></i>
-                                <?php echo $cfg_default_color; ?>
+                                <i class="fa fa-square fa-border" aria-hidden="true" style="color: <?= $cfg_default_color ?>;"></i>
+                                <?= $cfg_default_color ?>
                             </td>
                             <td class="color-value">
 <?php
     if ($cfg_default_color !== $cfgValue) {
 ?>
-                                <i class="fa fa-square fa-border" aria-hidden="true" style="color: <?php echo $cfgValueColor; ?>;"></i>
-                                <?php echo $cfgValue; ?>
+                                <i class="fa fa-square fa-border" aria-hidden="true" style="color: <?= $cfgValueColor ?>;"></i>
+                                <?= $cfgValue ?>
 <?php
     }
 ?>
                             </td>
                             <td class="text-center">
-                                <span class="<?php echo $not_ok_class; ?>"><i class="fa fa-lg <?php echo $not_ok_icon; ?>" aria-hidden="true"></i></span>
+                                <span class="<?= $not_ok_class ?>"><i class="fa fa-lg <?= $not_ok_icon ?>" aria-hidden="true"></i></span>
                             </td>
                             <td class="text-right">
 <?php
@@ -286,16 +286,16 @@ foreach ($configuration as $item) {
 if (!empty($gID)) {
 ?>
                 <div class="row">
-                    <?php echo zen_draw_form('upload_csv', FILENAME_ZCA_BOOTSTRAP_COLORS, 'action=uploadcsv', 'post', 'enctype="multipart/form-data" class="form-horizontal"'); ?>
+                    <?= zen_draw_form('upload_csv', FILENAME_ZCA_BOOTSTRAP_COLORS, 'action=uploadcsv', 'post', 'enctype="multipart/form-data" class="form-horizontal"') ?>
                         <div class="form-group">
-                            <?php echo zen_draw_label(TEXT_QUERY_FILENAME, 'csv_file', 'class="control-label col-sm-3"'); ?>
-                            <div class="col-sm-6"><?php echo zen_draw_file_field('csv_file', '', 'class="form-control" id="csv_file"'); ?></div>
-                            <div class="col-sm-3 text-right"><button type="submit" class="btn btn-primary"><?php echo BUTTON_UPLOAD_CSV; ?></button></div>
+                            <?= zen_draw_label(TEXT_QUERY_FILENAME, 'csv_file', 'class="control-label col-sm-3"') ?>
+                            <div class="col-sm-6"><?= zen_draw_file_field('csv_file', '', 'class="form-control" id="csv_file"') ?></div>
+                            <div class="col-sm-3 text-right"><button type="submit" class="btn btn-primary"><?= BUTTON_UPLOAD_CSV ?></button></div>
                         </div>
-                    <?php echo '</form>'; ?>
+                    <?= '</form>' ?>
                 </div>
                 <div class="row text-right">
-                    <a class="btn btn-primary" role="button" href="<?php echo zen_href_link(FILENAME_ZCA_BOOTSTRAP_COLORS, 'action=downloadcsv', 'SSL') ?>"><?php echo BUTTON_DOWNLOAD_CSV; ?></a>
+                    <a class="btn btn-primary" role="button" href="<?= zen_href_link(FILENAME_ZCA_BOOTSTRAP_COLORS, 'action=downloadcsv', 'SSL') ?>"><?= BUTTON_DOWNLOAD_CSV ?></a>
                 </div>
 <?php
 }
