@@ -165,9 +165,12 @@ img {
     <ul>
         <li>v3.7.9-beta1, 2025-11-27 (lat9)<ul>
             <li>BUGFIX: Don't display empty add-to-cart block for products that can't be added to the cart.</li>
+            <li>BUGFIX: PHP 8.4 requires additional parameters for <code>fputcsv</code> and <code>fgetcsv</code>.</li>
             <li>The following files were changed:<ol>
                 <li>/includes/templates/bootstrap/template_info.php</li>
                 <li>/includes/templates/bootstrap/templates/tpl_product_info_display.php</li>
+                <li>/YOUR_ADMIN/zca_bootstrap_colors.php</li>
+                <li>/YOUR_ADMIN/includes/init_includes/init_bc_config.php</li>
                 <li>/YOUR_ADMIN/includes/init_includes/init_zca_bootstrap_template_admin.php</li>
             </ol></li>
         </ul></li>

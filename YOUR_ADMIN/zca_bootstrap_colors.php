@@ -6,7 +6,7 @@
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
  * @version $Id: Author: DrByte  Fri Feb 26 00:25:51 2016 -0500 Modified in v1.5.5 $
  *
- * BOOTSTRAP v3.6.2
+ * BOOTSTRAP v3.7.9
  */
 require 'includes/application_top.php';
 
@@ -34,7 +34,7 @@ switch ($action) {
             $filename = $_FILES['csv_file']['tmp_name'];
             if (($handle = fopen($filename, 'r')) !== false) {
                 $import_issues_logfile = DIR_FS_LOGS . '/zca_bootstrap_colors_' . date('Ymd_His') . '.log';
-                while (($data = fgetcsv($handle, 1000)) !== false) {
+                while (($data = fgetcsv($handle, 1000, ',', '"', '')) !== false) {
                     $line_count++;
                     if (count($data) < 2) {
                         error_log('Insufficient columns in line ' . $line_count . "\n", 3, $import_issues_logfile);
@@ -100,7 +100,7 @@ switch ($action) {
         header('Content-Type: text/csv; charset=utf-8');
         header('Content-Disposition: attachment; filename=' . $filename);
         $out = fopen('php://output', 'w');
-        fputcsv($out, [CSV_HEADER_KEY, CSV_HEADER_VALUE, CSV_HEADER_TITLE, CSV_HEADER_DEFAULT]);
+        fputcsv($out, [CSV_HEADER_KEY, CSV_HEADER_VALUE, CSV_HEADER_TITLE, CSV_HEADER_DEFAULT], ',', '"', '');
 
         $configuration = $db->Execute(
             "SELECT configuration_value, configuration_key, configuration_title, configuration_description
@@ -114,7 +114,7 @@ switch ($action) {
             preg_match('/.*(#[0-9a-zA-Z]{3,6})\./', $item['configuration_description'], $matches);
             $default_color = $matches[1] ?? 'not found';
 
-            fputcsv($out, [$item['configuration_key'], $item['configuration_value'], $item['configuration_title'] , $default_color]);
+            fputcsv($out, [$item['configuration_key'], $item['configuration_value'], $item['configuration_title'] , $default_color], ',', '"', '');
         }
 
         fclose($out);
