@@ -166,12 +166,20 @@ img {
         <li>v3.7.9-beta1, 2025-11-27 (lat9)<ul>
             <li>BUGFIX: Don't display empty add-to-cart block for products that can't be added to the cart.</li>
             <li>BUGFIX: PHP 8.4 requires additional parameters for <code>fputcsv</code> and <code>fgetcsv</code>.</li>
-            <li>The following files were changed:<ol>
+            <li>BUGFIX: Convert language files to use zc158+ array-based format.</li>
+            <li>The following files were changed, <span class="added">added</span> or <span class="removed">removed</span>:<ol>
+                <li>/includes/languages/english/extra_definitions/zca_bootstrap_id.php</li>
                 <li>/includes/templates/bootstrap/template_info.php</li>
                 <li>/includes/templates/bootstrap/templates/tpl_product_info_display.php</li>
                 <li>/YOUR_ADMIN/zca_bootstrap_colors.php</li>
                 <li>/YOUR_ADMIN/includes/init_includes/init_bc_config.php</li>
                 <li>/YOUR_ADMIN/includes/init_includes/init_zca_bootstrap_template_admin.php</li>
+                <li><span class="added">/YOUR_ADMIN/includes/languages/english/extra_definitions/lang.zca_bootstrap_colors.php</span></li>
+                <li><span class="added">/YOUR_ADMIN/includes/languages/english/extra_definitions/lang.zca_bootstrap_messages.php</span></li>
+                <li><span class="removed">/YOUR_ADMIN/includes/languages/english/extra_definitions/zca_bootstrap_colors.php</span></li>
+                <li><span class="removed">/YOUR_ADMIN/includes/languages/english/extra_definitions/zca_bootstrap_messages.php</span></li>
+                <li><span class="added">/YOUR_ADMIN/includes/languages/english/lang.zca_bootstrap_colors.php</span></li>
+                <li><span class="removed">/YOUR_ADMIN/includes/languages/english/zca_bootstrap_colors.php</span></li>
             </ol></li>
         </ul></li>
         <li>v3.7.8, 2025-09-17 (lat9)<ul>

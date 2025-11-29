@@ -5,6 +5,8 @@
  *
  * @copyright Copyright 2018 zcadditions.com/vinosdefrutastropicales.com
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
+ *
+ * Bootstrap 3.7.9
  */
 // -----
 // The presence of the following definition identifies the template as either

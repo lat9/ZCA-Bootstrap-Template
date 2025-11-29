@@ -8,9 +8,11 @@
  * @copyright Portions Copyright 2003 osCommerce
  * @version Author: rbarbour (ZCAdditions.com)  7/01/2018 06:00 AM Modified ZCA-BS-COLORS
  *
- * BOOTSTRAP v3.5.2
+ * BOOTSTRAP v3.7.9
  */
-define('BOX_TOOLS_ZCA_BOOTSTRAP_COLORS', 'ZCA Bootstrap Colors');
+return [
+    'BOX_TOOLS_ZCA_BOOTSTRAP_COLORS' => 'ZCA Bootstrap Colors',
 
-define('SUCCESS_ZCA_BOOTSTRAP_COLORS_INSTALLED', 'ZCA Bootstrap Colors (v%s) was successfully installed.');
-define('SUCCESS_ZCA_BOOTSTRAP_COLORS_UPDATED', 'ZCA Bootstrap Colors was successfully updated to v%s.');
+    'SUCCESS_ZCA_BOOTSTRAP_COLORS_INSTALLED' => 'ZCA Bootstrap Colors (v%s) was successfully installed.',
+    'SUCCESS_ZCA_BOOTSTRAP_COLORS_UPDATED' => 'ZCA Bootstrap Colors was successfully updated to v%s.',
+];
