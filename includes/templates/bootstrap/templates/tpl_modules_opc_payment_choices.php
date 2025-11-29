@@ -1,13 +1,13 @@
 <?php
 // -----
 // Part of the One-Page Checkout plugin, provided under GPL 2.0 license by lat9
-// Copyright (C) 2013-2022, Vinos de Frutas Tropicales.  All rights reserved.
+// Copyright (C) 2013-2025, Vinos de Frutas Tropicales.  All rights reserved.
 //
 // Note: This formatting has changed in v2.0.0+ of OPC, in support of the guest-checkout path.
 // The $enabled_payment_modules variable must be handled using foreach, since numerical keys
 // might have been removed if the payment method is not supported for guest-checkout!!
 //
-// Last updated: OPC v2.4.2/Bootstrap v3.4.0
+// Last updated: OPC v2.4.2/Bootstrap v3.7.9
 //
 // -----
 // Don't display the payment-method block unless there is a shipping method available
@@ -16,7 +16,7 @@
 if ($shipping_module_available === true && $display_payment_block === true) {
 ?>
 <div id="checkoutPaymentMethod" class="card mb-3">
-    <h4 class="card-header"><?php echo TABLE_HEADING_PAYMENT_METHOD; ?></h4>
+    <h4 class="card-header"><?= TABLE_HEADING_PAYMENT_METHOD ?></h4>
     <div class="card-body">
 <?php 
     // ** BEGIN PAYPAL EXPRESS CHECKOUT **
@@ -45,11 +45,11 @@ if ($shipping_module_available === true && $display_payment_block === true) {
             $payment_div_class = ' custom-radio';
             $payment_label_class = ' class="custom-control-label radioButtonLabel"';
 ?>
-        <p class="important"><?php echo TEXT_SELECT_PAYMENT_METHOD; ?></p>
+        <p class="important"><?= TEXT_SELECT_PAYMENT_METHOD ?></p>
 <?php
-        } elseif ($num_selections == 0) {
+        } elseif ($num_selections === 0) {
 ?>
-        <p class="important"><?php echo TEXT_NO_PAYMENT_OPTIONS_AVAILABLE; ?></p>
+        <p class="important"><?= TEXT_NO_PAYMENT_OPTIONS_AVAILABLE ?></p>
 
 <?php
         }
@@ -58,7 +58,7 @@ if ($shipping_module_available === true && $display_payment_block === true) {
 
         foreach ($selection as $current_method) {
 ?>
-        <div class="custom-control<?php echo $payment_div_class; ?> mb-2">
+        <div class="custom-control<?= $payment_div_class ?> mb-2">
 <?php
             $payment_id = $current_method['id'];
             if ($num_selections > 1) {
@@ -70,7 +70,7 @@ if ($shipping_module_available === true && $display_payment_block === true) {
                 echo zen_draw_hidden_field('payment', $payment_id, 'id="pmt-' . $payment_id . '"');
             }
 ?>
-            <label for="pmt-<?php echo $payment_id; ?>"<?php echo $payment_label_class; ?>><?php echo $current_method['module']; ?></label>
+            <label for="pmt-<?= $payment_id ?>"<?= $payment_label_class ?>><?= $current_method['module'] ?></label>
         </div>
 <?php
             if (defined('MODULE_ORDER_TOTAL_COD_STATUS') && MODULE_ORDER_TOTAL_COD_STATUS === 'true' && $payment_id === 'cod') {
@@ -86,14 +86,19 @@ if ($shipping_module_available === true && $display_payment_block === true) {
                     }
                 }
 ?>
-        <div class="alert"><?php echo TEXT_INFO_COD_FEES; ?></div>
+        <div class="alert"><?= TEXT_INFO_COD_FEES ?></div>
 <?php
             }
+
+            if (!empty($current_method['text'])) {
 ?>
+        <div class="ccinfoText"><?= $current_method['text'] ?></div>
 <?php
+            }
+
             if (isset($current_method['error'])) {
 ?>
-        <div><?php echo $current_method['error']; ?></div>
+        <div><?= $current_method['error'] ?></div>
 
 <?php
             } elseif (isset($current_method['fields']) && is_array($current_method['fields'])) {
@@ -107,7 +112,7 @@ if ($shipping_module_available === true && $display_payment_block === true) {
                     //
                     if (!empty($current_field['title'])) {
 ?>
-            <label <?php echo (isset($current_field['tag']) ? 'for="' . $current_field['tag'] . '" ' : ''); ?>class="inputLabelPayment"><?php echo $current_field['title']; ?></label>
+            <label <?= (isset($current_field['tag']) ? 'for="' . $current_field['tag'] . '" ' : '') ?>class="inputLabelPayment"><?= $current_field['title'] ?></label>
 <?php
                     }
 
@@ -125,8 +130,8 @@ if ($shipping_module_available === true && $display_payment_block === true) {
     // ** BEGIN PAYPAL EXPRESS CHECKOUT **
     } else {
 ?>
-        <p><?php echo ${$_SESSION['payment']}->title; ?></p>
-        <input type="hidden" name="payment" value="<?php echo $_SESSION['payment']; ?>" />
+        <p><?= ${$_SESSION['payment']}->title ?></p>
+        <input type="hidden" name="payment" value="<?= $_SESSION['payment'] ?>" />
 <?php
     }
     // ** END PAYPAL EXPRESS CHECKOUT **

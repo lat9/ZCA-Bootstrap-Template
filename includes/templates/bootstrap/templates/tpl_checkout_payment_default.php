@@ -2,7 +2,7 @@
 /**
  * Page Template
  *
- * BOOTSTRAP v3.7.1
+ * BOOTSTRAP v3.7.9
  *
  * Loaded automatically by index.php?main_page=checkout_payment.<br />
  * Displays the allowed payment modules, for selection by customer.
@@ -201,14 +201,18 @@ if (!$payment_modules->in_special_checkout()) {
 <?php
             if (defined('MODULE_ORDER_TOTAL_COD_STATUS') && MODULE_ORDER_TOTAL_COD_STATUS === 'true' && $selection[$i]['id'] === 'cod') {
 ?>
-<div class="alert alert-danger" role="alert"><?php echo TEXT_INFO_COD_FEES; ?></div>
+                        <div class="alert alert-danger" role="alert"><?php echo TEXT_INFO_COD_FEES; ?></div>
 <?php
             } else {
                 // echo 'WRONG ' . $selection[$i]['id'];
             }
-?>
 
+            if (!empty($selection[$i]['text'])) {
+?>
+                        <div class="ccinfoText"><?= $selection[$i]['text'] ?></div>
 <?php
+            }
+
             if (isset($selection[$i]['error'])) {
 ?>
                         <div><?php echo $selection[$i]['error']; ?></div>
