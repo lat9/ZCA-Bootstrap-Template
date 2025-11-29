@@ -1,13 +1,13 @@
 <?php
 // -----
 // Part of the One-Page Checkout plugin, provided under GPL 2.0 license by lat9
-// Copyright (C) 2013-2022, Vinos de Frutas Tropicales.  All rights reserved.
+// Copyright (C) 2013-2025, Vinos de Frutas Tropicales.  All rights reserved.
 //
 // Note: This formatting has changed in v2.0.0+ of OPC, in support of the guest-checkout path.
 // The $enabled_payment_modules variable must be handled using foreach, since numerical keys
 // might have been removed if the payment method is not supported for guest-checkout!!
 //
-// Last updated: OPC v2.4.2/Bootstrap v3.4.0
+// Last updated: OPC v2.4.2/Bootstrap v3.7.9
 //
 // -----
 // Don't display the payment-method block unless there is a shipping method available
@@ -89,8 +89,13 @@ if ($shipping_module_available === true && $display_payment_block === true) {
         <div class="alert"><?php echo TEXT_INFO_COD_FEES; ?></div>
 <?php
             }
+
+            if (!empty($current_method['text'])) {
 ?>
+        <div class="ccinfoText"><?= $current_method['text'] ?></div>
 <?php
+            }
+
             if (isset($current_method['error'])) {
 ?>
         <div><?php echo $current_method['error']; ?></div>
