@@ -2,7 +2,7 @@
 /**
  * product_listing module
  * 
- * BOOTSTRAP v3.6.5
+ * BOOTSTRAP v3.7.9
  *
  * @copyright Copyright 2003-2020 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
@@ -138,20 +138,23 @@ if ($num_products_count > 0) {
 
     // Retrieve all records into an array to allow for sorting and insertion of additional data if needed
     $records = [];
-    foreach ($listing as $next_product) {
-        $category_id = !empty($next_product['categories_id']) ? $next_product['categories_id'] : $next_product['master_categories_id'];
+    foreach ($listing as $record) {
+       // -----
+        // The 'Product' class was introduced in zc210, as was its 'getDataForLanguage' method. Check for the presence
+        // of that class/method and use its additional return values, if present.
+        //
+        $product_info = [];
+        if (method_exists('Product', 'getDataForLanguage')) {
+            $product_info = (new Product((int)$record['products_id']))->getDataForLanguage((int)$_SESSION['languages_id']) ?? [];
+        }
+        $category_id = !empty($record['categories_id']) ? $record['categories_id'] : $record['master_categories_id'];
         $parent_category_name = trim(zen_get_categories_parent_name($category_id));
         $category_name = trim(zen_get_category_name($category_id, (int)$_SESSION['languages_id']));
-        $records[] = array_merge(
-            $next_product,
+        $records[] = array_merge($record,
             [
                 'parent_category_name' => (!empty($parent_category_name)) ? $parent_category_name : $category_name,
                 'category_name' => $category_name,
-//                'products_name' => $next_product['products_name'],
-//                'master_categories_id' => $next_product['master_categories_id'],
-//                'products_sort_order' => $next_product['products_sort_order'],
-            ]
-        );
+            ], $product_info);
     }
 
     if (!empty($_GET['keyword'])) {
@@ -430,7 +433,7 @@ if ($num_products_count > 0) {
 if (($how_many > 0 && $show_submit === true && $num_products_count > 0) && (PRODUCT_LISTING_MULTIPLE_ADD_TO_CART === '1' || PRODUCT_LISTING_MULTIPLE_ADD_TO_CART === '3')) {
     $show_top_submit_button = true;
 }
-if (($how_many > 0 && $show_submit === true && $num_products_count > 0) && (PRODUCT_LISTING_MULTIPLE_ADD_TO_CART >= 2)) {
+if ($how_many > 0 && $show_submit === true && $num_products_count > 0 && PRODUCT_LISTING_MULTIPLE_ADD_TO_CART >= 2) {
     $show_bottom_submit_button = true;
 }
 

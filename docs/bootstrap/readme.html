@@ -163,15 +163,17 @@ img {
     <h2>Version History</h2>
     <p>This section identifies the template's version history and changes, starting with its v2.0.0c release.  Prior version changes can be found in the root of the template's distribution zip-file (<code>CHANGELOG.txt</code>).</p>
     <ul>
-        <li>v3.7.9-beta1, 2025-11-27 (lat9)<ul>
+        <li>v3.7.9-beta1, 2025-11-29 (lat9)<ul>
             <li>BUGFIX: Don't display empty add-to-cart block for products that can't be added to the cart.</li>
             <li>BUGFIX: PHP 8.4 requires additional parameters for <code>fputcsv</code> and <code>fgetcsv</code>.</li>
             <li>BUGFIX: Convert language files to use zc158+ array-based format.</li>
             <li>INTROP: Display additional payment-module information.</li>
             <li>INTROP: Align with zc210's category_tabs updates.</li>
+            <li>INTROP: Use <code>Product</code> class information in listings, if present.</li>
             <li>The following files were changed, <span class="added">added</span> or <span class="removed">removed</span>:<ol>
                 <li>/includes/languages/english/extra_definitions/zca_bootstrap_id.php</li>
                 <li>/includes/modules/bootstrap/category_tabs.php</li>
+                <li>/includes/modules/bootstrap/product_listing.php</li>
                 <li>/includes/templates/bootstrap/template_info.php</li>
                 <li>/includes/templates/bootstrap/templates/tpl_checkout_payment_default.php</li>
                 <li>/includes/templates/bootstrap/templates/tpl_modules_category_tabs.php</li>
