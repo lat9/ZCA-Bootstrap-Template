@@ -1,6 +1,6 @@
 <?php
 /**
- * BOOTSTRAP v3.6.0
+ * BOOTSTRAP v3.7.9
  *
  * @copyright Copyright 2003-2022 Zen Cart Development Team
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
@@ -19,7 +19,7 @@ if (!isset($form_title)) {
 }
 ?>
 <div class="centerColumn" id="askAQuestion">
-    <?php echo zen_draw_form('ask_a_question', zen_href_link(FILENAME_ASK_A_QUESTION, 'action=send&pid=' . (int)$_GET['pid'], 'SSL')); ?>
+    <?php echo zen_draw_form('ask_a_question', zen_href_link(FILENAME_ASK_A_QUESTION, 'action=send&pid=' . (int)$pid, 'SSL')); ?>
 
 <?php
 if (CONTACT_US_STORE_NAME_ADDRESS === '1') {
@@ -42,7 +42,7 @@ if (isset($_GET['action']) && ($_GET['action'] === 'success')) {
 <?php
 } else {
 ?>
-    <a href="<?php echo zen_href_link(zen_get_info_page((int)$_GET['pid']), 'products_id=' . (int)$_GET['pid'], 'SSL'); ?>">
+    <a href="<?php echo zen_href_link(zen_get_info_page((int)$pid), 'products_id=' . (int)$pid, 'SSL'); ?>">
         <?php echo zen_image(DIR_WS_IMAGES . $product_details['products_image'], $product_details['products_name'], IMAGE_PRODUCT_LISTING_WIDTH, IMAGE_PRODUCT_LISTING_HEIGHT); ?>
     </a>
 
