@@ -13,7 +13,7 @@
     <a class="nav-link dropdown-toggle" href="#" id="categoryDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <?= BOX_HEADING_CATEGORIES ?>
     </a>
-    <div class="dropdown-menu" aria-labelledby="categoryDropdown">
+    <div class="dropdown-menu">
         <ul class="m-0 p-0">
 <?php
 $categories_tab = $db->Execute(
@@ -247,7 +247,7 @@ if (EZPAGES_STATUS_SIDEBOX === '1' || (EZPAGES_STATUS_SIDEBOX === '2' && zen_is_
     <a class="nav-link dropdown-toggle" href="#" id="ezpagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <?= BOX_HEADING_EZPAGES ?>
     </a>
-    <div class="dropdown-menu mb-2" aria-labelledby="ezpagesDropdown">
+    <div class="dropdown-menu mb-2">
         <ul class="m-0 p-0">
 <?php
         foreach ($page_query_list_sidebox as $next_entry) {
