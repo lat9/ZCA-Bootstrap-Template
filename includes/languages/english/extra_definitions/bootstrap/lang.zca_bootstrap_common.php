@@ -1,6 +1,6 @@
 <?php
 /*
- * BOOTSTRAP v3.7.2
+ * BOOTSTRAP v3.7.9
  */
 // -----
 // Part of the Bootstrap template, defining commonly-used phrases and phrases unique to the bootstrap template.
@@ -78,7 +78,6 @@ $define = [
     'TABLE_HEADING_PRICE' => 'Price',
     'TABLE_HEADING_WEIGHT' => 'Weight',
     'TABLE_HEADING_BUY_NOW' => 'Buy Now',
-    'TEXT_NO_PRODUCTS' => 'There are no products to list in this category.',
     'TEXT_NO_PRODUCTS2' => 'There is no product available from this manufacturer.',
 
 // -----
@@ -105,7 +104,7 @@ $define = [
 // -----
 // ARIA label text, used in the common header.
 //
-    'TEXT_HEADER_ARIA_LABEL_NAVBAR' =>'Navigation Bar',
+    'TEXT_HEADER_ARIA_LABEL_NAVBAR' => 'Navigation Bar',
     'TEXT_HEADER_ARIA_LABEL_LOGO' => 'Site Logo',
 
 // -----
