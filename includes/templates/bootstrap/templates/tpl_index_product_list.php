@@ -2,7 +2,7 @@
 /**
  * Page Template
  * 
- * BOOTSTRAP v3.6.5
+ * BOOTSTRAP v3.7.9
  *
  * Loaded by main_page=index
  * Displays product-listing when a particular category/subcategory is selected for browsing
@@ -85,11 +85,15 @@ if ($do_filter_list || isset($_GET['alpha_filter_id']) || (PRODUCT_LIST_ALPHA_SO
     // draw disp_order
     if (!empty($_GET['disp_order'])) {
         echo zen_draw_hidden_field('disp_order', $_GET['disp_order']);
+    } else {
+        unset($_GET['disp_order']);
     }
 
     // draw sort
-    if (!empty($_GET['sort'])) {
+    if (!empty($_GET['sort']) && $_GET['sort'] !== '20a') {
         echo zen_draw_hidden_field('sort', $_GET['sort']);
+    } else {
+        unset($_GET['sort']);
     }
 
     // draw filter_id (ie: category/mfg depending on $options)
