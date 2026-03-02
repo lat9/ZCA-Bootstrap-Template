@@ -33,8 +33,7 @@ $display_order_options = [
     ['id' => '7', 'text' => TEXT_INFO_SORT_BY_PRODUCTS_DATE],
 ];
 ?>
-<div id="listingDisplayOrderSorter" class="row">
-    <label for="disp-order-sorter" class="mb-0 mt-1 mx-2"><?= TEXT_INFO_SORT_BY ?></label>
+<div id="listingDisplayOrderSorter">
 <?php
 $excluded_get_params = [
     'disp_order',
@@ -45,8 +44,11 @@ if (!isset($_GET['cPath'], $cPath)) {
 echo
     zen_draw_form('sorter_form', zen_href_link($_GET['main_page']), 'get', 'class="form-inline"') .
         zen_post_all_get_params($excluded_get_params) .
-        zen_hide_session_id() .
-        zen_draw_pull_down_menu('disp_order', $display_order_options, $disp_order, 'id="disp-order-sorter" onchange="this.form.submit();"') .
-    '</form>';
+        zen_hide_session_id();
 ?>
+    <div class="form-group">
+        <label for="disp-order-sorter"><?= TEXT_INFO_SORT_BY ?></label>
+        <?= zen_draw_pull_down_menu('disp_order', $display_order_options, $disp_order, 'id="disp-order-sorter" class="mx-2" onchange="this.form.submit();"') ?>
+    </div>
+    <?= '</form>' ?>
 </div>
