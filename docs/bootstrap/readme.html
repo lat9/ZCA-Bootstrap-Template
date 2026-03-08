@@ -163,7 +163,7 @@ img {
     <h2>Version History</h2>
     <p>This section identifies the template's version history and changes, starting with its v2.0.0c release.  Prior version changes can be found in the root of the template's distribution zip-file (<code>CHANGELOG.txt</code>).</p>
     <ul>
-        <li>v3.7.9-beta1, 2025-12-03 (lat9)<ul>
+        <li>v3.7.9-beta3, 2026-03-08 (lat9)<ul>
             <li>BUGFIX: Don't display empty add-to-cart block for products that can't be added to the cart.</li>
             <li>BUGFIX: PHP 8.4 requires additional parameters for <code>fputcsv</code> and <code>fgetcsv</code>.</li>
             <li>BUGFIX: Convert language files to use zc158+ array-based format.</li>
@@ -171,11 +171,16 @@ img {
             <li>INTROP: Align with zc210's category_tabs updates.</li>
             <li>INTROP: Use <code>Product</code> class information in listings, if present.</li>
             <li>INTROP: Account for zc220 change in <code>ask_a_question</code> parameters.</li>
+            <li>BUGFIX: Correcting layout of filter-by/sort-by section of index products' listing.</li>
+            <li>BUGFIX: Search keywords pasted via browser's &quot;Paste&quot; button weren't being recognized.</li>
             <li>The following files were changed, <span class="added">added</span> or <span class="removed">removed</span>:<ol>
                 <li>/includes/languages/english/extra_definitions/zca_bootstrap_id.php</li>
                 <li>/includes/modules/bootstrap/category_tabs.php</li>
                 <li>/includes/modules/bootstrap/product_listing.php</li>
                 <li>/includes/templates/bootstrap/template_info.php</li>
+                <li>/includes/templates/bootstrap/jscript/ajax_search.js</li>
+                <li>/includes/templates/bootstrap/jscript/ajax_search.min.js</li>
+                <li>/includes/templates/bootstrap/jscript/jscript_bs4_ajax_search.php</li>
                 <li>/includes/templates/bootstrap/templates/tpl_ask_a_question_default.php</li>
                 <li>/includes/templates/bootstrap/templates/tpl_checkout_payment_default.php</li>
                 <li>/includes/templates/bootstrap/templates/tpl_modules_category_tabs.php</li>
