@@ -1,7 +1,7 @@
 // -----
 // AJAX search for the Zen Cart Bootstrap template.
 //
-// Bootstrap v3.6.0
+// BOOTSTRAP v3.7.9
 //
 jQuery(document).ready(function() {
     // -----
@@ -21,13 +21,24 @@ jQuery(document).ready(function() {
     // is seen on the search-input, gather the current keywords, submit them to the 
     // AJAX handler and display the returned HTML in the search-content section.
     //
-    jQuery('#search-input').on('keyup touchend', function(event) {
+    jQuery('#search-input').on('keyup touchend paste', function(event) {
+        // -----
+        // The source of the current keyword depends on the type of event being
+        // handled.  For the 'paste' event, the value is present in the clipboard;
+        // otherwise, it's the value supplied by the event itself.
+        //
+        if (event.type !== 'paste') {
+            var keyword = this.value;
+        } else {
+            var keyword = event.originalEvent.clipboardData.getData('text');
+        }
+
         // -----
         // If the "Enter/Go" key is pressed, send the customer to the advanced-search-results
         // page with the current keywords.  Replacing Safari's "smart quotes" with 'vanilla' quotes
         // for matching.
         //
-        var keyword = this.value.replace(/”|“/g, '"');
+        keyword = keyword.replace(/”|“/g, '"');
         keyword.replace(/‘|’/g, "'");
 
         var separator = (jQuery('#search-page').val().indexOf('?') == -1) ? '?' : '&';
