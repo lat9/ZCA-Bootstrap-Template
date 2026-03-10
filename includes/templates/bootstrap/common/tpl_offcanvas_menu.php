@@ -2,7 +2,7 @@
 /**
  * Template for Mobile Header Drop Down
  * 
- * BOOTSTRAP v3.7.3
+ * BOOTSTRAP v3.7.9
  *
  * @copyright Copyright 2003-2020 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
