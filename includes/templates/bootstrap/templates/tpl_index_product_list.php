@@ -2,7 +2,7 @@
 /**
  * Page Template
  * 
- * BOOTSTRAP v3.6.5
+ * BOOTSTRAP v3.7.9
  *
  * Loaded by main_page=index
  * Displays product-listing when a particular category/subcategory is selected for browsing
@@ -85,29 +85,33 @@ if ($do_filter_list || isset($_GET['alpha_filter_id']) || (PRODUCT_LIST_ALPHA_SO
     // draw disp_order
     if (!empty($_GET['disp_order'])) {
         echo zen_draw_hidden_field('disp_order', $_GET['disp_order']);
+    } else {
+        unset($_GET['disp_order']);
     }
 
     // draw sort
-    if (!empty($_GET['sort'])) {
+    if (!empty($_GET['sort']) && $_GET['sort'] !== '20a') {
         echo zen_draw_hidden_field('sort', $_GET['sort']);
+    } else {
+        unset($_GET['sort']);
     }
 
     // draw filter_id (ie: category/mfg depending on $options)
     if ($do_filter_list) {
 ?>
-        <div class="col">
-            <?= zen_draw_pull_down_menu('filter_id', $options, (isset($_GET['filter_id']) ? $_GET['filter_id'] : ''), 'aria-label="' . TEXT_SHOW . '" onchange="this.form.submit()"') ?>
+        <div class="col-sm-4">
+            <?= zen_draw_pull_down_menu('filter_id', $options, $_GET['filter_id'] ?? '', 'aria-label="' . TEXT_SHOW . '" onchange="this.form.submit()"') ?>
         </div>
 <?php
     }
 ?>
-        <div class="col">
+        <div class="col-sm-4">
 <?php
     // draw alpha sorter
     require DIR_WS_MODULES . zen_get_module_directory(FILENAME_PRODUCT_LISTING_ALPHA_SORTER);
 ?>
         </div>
-    <?= '</form>'; ?>
+    <?= '</form>' ?>
 <?php
 }
 
@@ -117,7 +121,7 @@ if ($do_filter_list || isset($_GET['alpha_filter_id']) || (PRODUCT_LIST_ALPHA_SO
 //
 if (PROJECT_VERSION_MAJOR > 1) {
 ?>
-        <div class="col">
+        <div class="col-sm-4">
 <?php
     require $template->get_template_dir('/tpl_modules_listing_display_order.php', DIR_WS_TEMPLATE, $current_page_base, 'templates') . '/tpl_modules_listing_display_order.php';
 ?>
@@ -126,7 +130,6 @@ if (PROJECT_VERSION_MAJOR > 1) {
 }
 ?>
     </div>
-    <div class="p-3"></div>
 <?php
 /**
  * require the code for listing products
