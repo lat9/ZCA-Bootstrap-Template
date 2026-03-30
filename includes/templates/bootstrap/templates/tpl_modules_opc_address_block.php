@@ -1,12 +1,12 @@
 <?php
 // -----
 // Part of the One-Page Checkout plugin, provided under GPL 2.0 license by lat9 (cindy@vinosdefrutastropicales.com).
-// Copyright (C) 2017-2025, Vinos de Frutas Tropicales.  All rights reserved.
+// Copyright (C) 2017-2026, Vinos de Frutas Tropicales.  All rights reserved.
 //
 // This module is included by tpl_modules_opc_billing_address.php and tpl_modules_opc_shipping_address.php and
 // provides a common-formatting for those two address-blocks.
 //
-// Last updated: OPC v2.5.5/Bootstrap v3.7.8
+// Last updated: OPC v2.6.0/Bootstrap v3.7.9
 //
 // -----
 // Sanitize module input values.
@@ -141,6 +141,22 @@ if (ACCOUNT_STATE === 'true') {
 }
 
 echo $_SESSION['opc']->formatAddressElement($which, 'postcode', $address['postcode'], ENTRY_POST_CODE, TABLE_ADDRESS_BOOK, 'entry_postcode', ENTRY_POSTCODE_MIN_LENGTH, ENTRY_POST_CODE_TEXT) . $clear_both;
+
+// -----
+// Starting with OPC v2.6.0, the customer's phone number can be changed during
+// the checkout process.  It's displayed **only** for the billing address block
+// and **only** if the base OPC has gathered the existing phone number (it won't
+// be displayed for base OPC versions prior to 2.6.0).
+//
+if ($which === 'bill' && !zen_in_guest_checkout() && isset($address['telephone'])) {
+    $telephone_field_length = zen_set_field_length(TABLE_CUSTOMERS, 'customers_telephone', '40');
+    $telephone_required = (((int)ENTRY_TELEPHONE_MIN_LENGTH) > 0) ? ' required' : '';
+?>
+    <label class="inputLabel phone" for="telephone"><?= ENTRY_TELEPHONE_NUMBER ?></label>
+    <?= zen_draw_input_field('telephone', $address['telephone'], $telephone_field_length . ' id="telephone" class="phone" placeholder="' . ENTRY_TELEPHONE_NUMBER_TEXT . '"' . $telephone_required, 'tel') ?>
+    <div class="p-2 phone"></div>
+<?php
+}
 ?>
     <div id="messages-<?= $which ?>" class="mt-2"></div>
 </div>
