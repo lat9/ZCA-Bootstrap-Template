@@ -2,7 +2,7 @@
 /**
  * Common Template
  *
- * BOOTSTRAP v3.7.4
+ * BOOTSTRAP v3.7.10
  *
  * outputs the html header. i,e, everything that comes before the </head> tag.
  *
@@ -74,20 +74,6 @@ if (!empty($zca_load_fa_brands)) {
 // Provide a notification that the <head> tag has been rendered for the current page.
 //
 $zco_notifier->notify('NOTIFY_HTML_HEAD_TAG_START', $current_page_base);
-
-// -----
-// Provide an easy way for a site to disable the preload, if they want to ensure
-// that it's working properly.  If  includes/extra_datafiles/site-specific-bootstrap-settings.php does not exist 
-// copy dist.site-specific-bootstrap-settings.php to site-specific-bootstrap-settings.php 
-// and uncomment "// $zca_no_preloading = false;" and change that variable's value to (bool)true.
-//
-if (empty($zca_no_preloading)) {
-    foreach ($preloads as $load) {
-?>
-    <link rel="preload" href="<?= $load['link'] ?>" integrity="<?= $load['integrity'] ?>" crossorigin="anonymous" as="<?= $load['type'] ?>">
-<?php
-    }
-}
 ?>
     <title><?php echo META_TAG_TITLE; ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, shrink-to-fit=no">
@@ -104,6 +90,21 @@ if (empty($zca_no_preloading)) {
     <?php } //endif FAVICON  ?>
 
     <base href="<?php echo (($request_type == 'SSL') ? HTTPS_SERVER . DIR_WS_HTTPS_CATALOG : HTTP_SERVER . DIR_WS_CATALOG ); ?>">
+<?php
+// -----
+// Provide an easy way for a site to disable the preload, if they want to ensure
+// that it's working properly.  If  includes/extra_datafiles/site-specific-bootstrap-settings.php does not exist 
+// copy dist.site-specific-bootstrap-settings.php to site-specific-bootstrap-settings.php 
+// and uncomment "// $zca_no_preloading = false;" and change that variable's value to (bool)true.
+//
+if (empty($zca_no_preloading)) {
+    foreach ($preloads as $load) {
+?>
+    <link rel="preload" href="<?= $load['link'] ?>" integrity="<?= $load['integrity'] ?>" crossorigin="anonymous" as="<?= $load['type'] ?>">
+<?php
+    }
+}
+?>
     <?php if (isset($canonicalLink) && $canonicalLink != '') { ?>
       <link href="<?php echo $canonicalLink; ?>" rel="canonical">
     <?php } ?>
