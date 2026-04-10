@@ -87,17 +87,16 @@ if (defined('ROBOTS_PAGES_TO_SKIP') && in_array($current_page_base, explode(',',
     <meta name="robots" content="noindex, nofollow">
 <?php
 }
-
+?>
+    <base href="<?= (($request_type === 'SSL') ? HTTPS_SERVER . DIR_WS_HTTPS_CATALOG : HTTP_SERVER . DIR_WS_CATALOG ) ?>">
+<?php
 if (defined('FAVICON')) {
 ?>
     <link href="<?= FAVICON ?>" type="image/x-icon" rel="icon">
     <link href="<?= FAVICON ?>" type="image/x-icon" rel="shortcut icon">
 <?php
 } //endif FAVICON
-?>
 
-    <base href="<?= (($request_type === 'SSL') ? HTTPS_SERVER . DIR_WS_HTTPS_CATALOG : HTTP_SERVER . DIR_WS_CATALOG ) ?>">
-<?php
 // -----
 // Provide an easy way for a site to disable the preload, if they want to ensure
 // that it's working properly.  If  includes/extra_datafiles/site-specific-bootstrap-settings.php does not exist 

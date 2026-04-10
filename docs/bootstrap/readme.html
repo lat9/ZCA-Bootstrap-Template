@@ -68,8 +68,8 @@ img {
 </head>
 
 <body>
-    <h1>Bootstrap-4 Template for Zen Cart v1.5.8, v2.0.x, v2.1.0 and v2.2.0</h1>
-    <p>Version 3.7.9 by lat9, drbyte, scottcwilson, marco-pm, dbltoe, dennisns7d, brittainmark, torvista, proseLA, daphilli224, retched and highburyeye</p>
+    <h1>Bootstrap-4 Template for Zen Cart v1.5.8, v2.0.x, v2.1.0 and v2.2.x</h1>
+    <p>Version 3.7.10 by lat9, drbyte, scottcwilson, marco-pm, dbltoe, dennisns7d, brittainmark, torvista, proseLA, daphilli224, retched and highburyeye</p>
     <p>Current Support Thread at Zen Cart Forums: <a href="https://www.zen-cart.com/showthread.php?223910-ZCA-Bootstrap-4-Template-Support-Thread" target="_blank">https://www.zen-cart.com/showthread.php?223910-ZCA-Bootstrap-4-Template-Support-Thread</a></p>
     <p>Zen Cart Download Link: <a href="https://www.zen-cart.com/downloads.php?do=file&id=2191" target="_blank">https://www.zen-cart.com/downloads.php?do=file&id=2191</a></p>
     <p>GitHub repository: <a href="https://github.com/lat9/ZCA-Bootstrap-Template" target="_blank">https://github.com/lat9/ZCA-Bootstrap-Template</a></p>
@@ -163,6 +163,14 @@ img {
     <h2>Version History</h2>
     <p>This section identifies the template's version history and changes, starting with its v2.0.0c release.  Prior version changes can be found in the root of the template's distribution zip-file (<code>CHANGELOG.txt</code>).</p>
     <ul>
+        <li>v3.7.10-beta1, 2026-04-10 (lat9)<ul>
+            <li>BUGFIX: Move <code>base</code> tag prior to any <code>link</code> tags.</li>
+             <li>The following files were changed</span>:<ol>
+                <li>/includes/templates/bootstrap/template_info.php</li>
+                <li>/includes/templates/bootstrap/common/html_header.php</li>
+                <li>/YOUR_ADMIN/includes/init_includes/init_zca_bootstrap_template_admin.php</li>
+            </ol></li>
+        </ul></li>
         <li>v3.7.9, 2026-03-30 (lat9, dbltoe)<ul>
             <li>BUGFIX: Don't display empty add-to-cart block for products that can't be added to the cart.</li>
             <li>BUGFIX: PHP 8.4 requires additional parameters for <code>fputcsv</code> and <code>fgetcsv</code>.</li>
