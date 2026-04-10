@@ -2,7 +2,7 @@
 /**
  * Common Template
  *
- * BOOTSTRAP v3.7.4
+ * BOOTSTRAP v3.7.10
  *
  * outputs the html header. i,e, everything that comes before the </head> tag.
  *
@@ -66,14 +66,36 @@ if (!empty($zca_load_fa_brands)) {
 }
 ?>
 <!DOCTYPE html>
-<html <?php echo HTML_PARAMS; ?>>
+<html <?= HTML_PARAMS ?>>
   <head>
-    <meta charset="<?php echo CHARSET; ?>">
+    <meta charset="<?= CHARSET ?>">
 <?php
 // -----
 // Provide a notification that the <head> tag has been rendered for the current page.
 //
 $zco_notifier->notify('NOTIFY_HTML_HEAD_TAG_START', $current_page_base);
+?>
+    <title><?= META_TAG_TITLE ?></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, shrink-to-fit=no">
+    <meta name="keywords" content="<?= META_TAG_KEYWORDS ?>">
+    <meta name="description" content="<?= META_TAG_DESCRIPTION ?>">
+    <meta name="author" content="<?= STORE_NAME ?>">
+    <meta name="generator" content="shopping cart program by Zen Cart&reg;, https://www.zen-cart.com eCommerce">
+<?php
+if (defined('ROBOTS_PAGES_TO_SKIP') && in_array($current_page_base, explode(',', constant('ROBOTS_PAGES_TO_SKIP'))) || $current_page_base == 'down_for_maintenance' || $robotsNoIndex === true) {
+?>
+    <meta name="robots" content="noindex, nofollow">
+<?php
+}
+?>
+    <base href="<?= (($request_type === 'SSL') ? HTTPS_SERVER . DIR_WS_HTTPS_CATALOG : HTTP_SERVER . DIR_WS_CATALOG ) ?>">
+<?php
+if (defined('FAVICON')) {
+?>
+    <link href="<?= FAVICON ?>" type="image/x-icon" rel="icon">
+    <link href="<?= FAVICON ?>" type="image/x-icon" rel="shortcut icon">
+<?php
+} //endif FAVICON
 
 // -----
 // Provide an easy way for a site to disable the preload, if they want to ensure
@@ -88,29 +110,16 @@ if (empty($zca_no_preloading)) {
 <?php
     }
 }
-?>
-    <title><?php echo META_TAG_TITLE; ?></title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, shrink-to-fit=no">
-    <meta name="keywords" content="<?php echo META_TAG_KEYWORDS; ?>">
-    <meta name="description" content="<?php echo META_TAG_DESCRIPTION; ?>">
-    <meta name="author" content="<?php echo STORE_NAME ?>">
-    <meta name="generator" content="shopping cart program by Zen Cart&reg;, https://www.zen-cart.com eCommerce">
-    <?php if (defined('ROBOTS_PAGES_TO_SKIP') && in_array($current_page_base, explode(",", constant('ROBOTS_PAGES_TO_SKIP'))) || $current_page_base == 'down_for_maintenance' || $robotsNoIndex === true) { ?>
-      <meta name="robots" content="noindex, nofollow">
-    <?php } ?>
-    <?php if (defined('FAVICON')) { ?>
-      <link href="<?php echo FAVICON; ?>" type="image/x-icon" rel="icon">
-      <link href="<?php echo FAVICON; ?>" type="image/x-icon" rel="shortcut icon">
-    <?php } //endif FAVICON  ?>
 
-    <base href="<?php echo (($request_type == 'SSL') ? HTTPS_SERVER . DIR_WS_HTTPS_CATALOG : HTTP_SERVER . DIR_WS_CATALOG ); ?>">
-    <?php if (isset($canonicalLink) && $canonicalLink != '') { ?>
-      <link href="<?php echo $canonicalLink; ?>" rel="canonical">
-    <?php } ?>
+if (isset($canonicalLink) && $canonicalLink != '') {
+?>
+    <link href="<?= $canonicalLink ?>" rel="canonical">
 <?php
+}
+
 // BOF hreflang for multilingual sites
 if (!isset($lng) || !is_object($lng)) {
-    $lng = new language;
+    $lng = new language();
 }
 
 if (count($lng->catalog_languages) > 1) {
