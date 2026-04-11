@@ -14,7 +14,7 @@ $(document).ready(function() {
         //
         let password_id = $(this).attr('id');
         if (!password_id) {
-            return false;
+            return true;
         }
         $(this).after('<span toggle="#'+password_id+'" class="fa-solid fa-eye toggle-pw" style="float: right;margin-right:.5rem;margin-top:-1.8rem;position:relative;z-index:2;"></span>');
     });
