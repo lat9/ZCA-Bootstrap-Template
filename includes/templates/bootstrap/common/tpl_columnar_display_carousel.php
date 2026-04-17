@@ -4,7 +4,7 @@
  *
  * Inspired by https://bootsnipp.com/snippets/0egAD
  *
- * BOOTSTRAP v3.7.6
+ * BOOTSTRAP v3.7.10
  *
  * This file is used for generating a carousel for various centerboxes.
  *
@@ -154,7 +154,6 @@ function multiCarousel<?= $centerbox_carousel_count ?>()
             $('#<?= $centerbox_carousel_wrapper_id ?> .carousel-inner .carousel-item:first').addClass('active');
         } while ($('#<?= $centerbox_carousel_wrapper_id ?> .carousel-inner').children('.carousel-grid').length);
     }
-    $('#<?= $centerbox_carousel_wrapper_id ?> .carousel-item').matchHeight();
 }
 
 $(window).on('load resize', function() {
