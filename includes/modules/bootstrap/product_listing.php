@@ -2,7 +2,7 @@
 /**
  * product_listing module
  * 
- * BOOTSTRAP v3.7.9
+ * BOOTSTRAP v3.7.10
  *
  * @copyright Copyright 2003-2020 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
@@ -301,13 +301,18 @@ if ($num_products_count > 0) {
             }
         }
         $zco_notifier->notify('NOTIFY_MODULES_PRODUCT_LISTING_PRODUCTS_BUTTON', [], $record, $lc_button);
+        $is_table_layout = $product_listing_layout_style === 'table';
         for ($col = 0, $n = count($column_list); $col < $n; $col++) {
             $lc_text = '';
             $lc_align = '';
             switch ($column_list[$col]) {
                 case 'PRODUCT_LIST_MODEL':
                     $lc_align = 'center';
-                    $lc_text = (isset($record['products_model'])) ? $record['products_model'] : '';
+                    $lc_text = (!empty($record['products_model'])) ? $record['products_model'] : '';
+                    if ($lc_text === '' || $is_table_layout) {
+                        break;
+                    }
+                    $lc_text = '<span class="pl-model pt-1">' . TABLE_HEADING_MODEL . ': ' . $lc_text . '</span>';
                     break;
 
                 case 'PRODUCT_LIST_NAME':
@@ -327,19 +332,27 @@ if ($num_products_count > 0) {
                     break;
 
                 case 'PRODUCT_LIST_MANUFACTURER':
+                    $lc_align = 'center';
                     $listing_mfg_link = !empty($record['manufacturers_id']) ? zen_href_link(FILENAME_DEFAULT, 'manufacturers_id=' . (int)$record['manufacturers_id']) : '';
 
                     // -----
                     // If no manufacturer present for the current product, nothing to be added.
                     //
                     if ($listing_mfg_link === '' || $listing_mfg_name === '') {
+                        if ($is_table_layout) {
+                            $lc_text = '&mdash;';
+                        }
                         break;
                     }
 
-                    if ($product_listing_layout_style !== 'table') {
+                    if (!$is_table_layout) {
                         $lc_align = 'center';
                     }
                     $lc_text = '<a class="mfgLink" href="' . $listing_mfg_link . '">' . $listing_mfg_name . '</a>';
+                    if (!$is_table_layout) {
+                        $lc_text = TABLE_HEADING_MANUFACTURER . ': ' . $lc_text;
+                    }
+                    $lc_text = '<span class="pl-mfgr pt-1">' . $lc_text . '</span>';
                     break;
 
                 case 'PRODUCT_LIST_PRICE':
@@ -362,12 +375,36 @@ if ($num_products_count > 0) {
 
                 case 'PRODUCT_LIST_QUANTITY':
                     $lc_align = ($product_listing_layout_style === 'table') ? 'right' : 'center';
-                    $lc_text = TEXT_PRODUCTS_QUANTITY . $listing_quantity;
+                    $lc_text = $listing_quantity;
+                    if (!$is_table_layout) {
+                        $lc_text = TEXT_PRODUCTS_QUANTITY . $lc_text;
+                    }
+                    $lc_text = '<span class="pl-q pt-1">' . $lc_text . '</span>';
                     break;
 
                 case 'PRODUCT_LIST_WEIGHT':
-                    $lc_align = ($product_listing_layout_style === 'table') ? 'right' : 'center';
+                    $lc_align = $is_table_layout ? 'right' : 'center';
+
+                    // -----
+                    // Virtual products don't have a 'weight'.
+                    //
+                    if ($record['products_virtual']) {
+                        if ($is_table_layout) {
+                            $lc_text = '&mdash;';
+                        }
+                        break;
+                    }
                     $lc_text = (isset($record['products_weight'])) ? $record['products_weight'] : 0;
+
+                    // -----
+                    // Added to configuration for zc200+.
+                    //
+                    if (defined('SHIPPING_WEIGHT_UNITS')) {
+                        $lc_text .= ' ' . SHIPPING_WEIGHT_UNITS;
+                    }
+                    if (!$is_table_layout) {
+                        $lc_text = '<span class="pl-weight pt-1">' . TABLE_HEADING_WEIGHT . ': ' . $lc_text . '</span>';
+                    }
                     break;
 
                 case 'PRODUCT_LIST_IMAGE':
@@ -381,6 +418,12 @@ if ($num_products_count > 0) {
                     break;
             }
 
+            // -----
+            // Don't add empty elements to a fluid display of products.
+            //
+            if (!$is_table_layout && $lc_text === '') {
+                continue;
+            }
             $product_contents[] = $lc_text; // (used in column/fluid modes)
 
             if ($product_listing_layout_style === 'table') {
