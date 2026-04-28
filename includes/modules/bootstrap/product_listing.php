@@ -312,7 +312,7 @@ if ($num_products_count > 0) {
                     if ($lc_text === '' || $is_table_layout) {
                         break;
                     }
-                    $lc_text = '<span class="pl-model pt-1">' . TABLE_HEADING_MODEL . ': ' . $lc_text . '</span>';
+                    $lc_text = '<span class="pl-model pt-1">' . TEXT_PRODUCT_MODEL . $lc_text . '</span>';
                     break;
 
                 case 'PRODUCT_LIST_NAME':
@@ -350,7 +350,7 @@ if ($num_products_count > 0) {
                     }
                     $lc_text = '<a class="mfgLink" href="' . $listing_mfg_link . '">' . $listing_mfg_name . '</a>';
                     if (!$is_table_layout) {
-                        $lc_text = TABLE_HEADING_MANUFACTURER . ': ' . $lc_text;
+                        $lc_text = TEXT_MANUFACTURER . $lc_text;
                     }
                     $lc_text = '<span class="pl-mfgr pt-1">' . $lc_text . '</span>';
                     break;
@@ -396,14 +396,9 @@ if ($num_products_count > 0) {
                     }
                     $lc_text = (isset($record['products_weight'])) ? $record['products_weight'] : 0;
 
-                    // -----
-                    // Added to configuration for zc200+.
-                    //
-                    if (defined('SHIPPING_WEIGHT_UNITS')) {
-                        $lc_text .= ' ' . SHIPPING_WEIGHT_UNITS;
-                    }
+                    $lc_text .= TEXT_PRODUCT_WEIGHT_UNIT;
                     if (!$is_table_layout) {
-                        $lc_text = '<span class="pl-weight pt-1">' . TABLE_HEADING_WEIGHT . ': ' . $lc_text . '</span>';
+                        $lc_text = '<span class="pl-weight pt-1">' . TEXT_PRODUCT_WEIGHT . $lc_text . '</span>';
                     }
                     break;
 
