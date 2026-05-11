@@ -1,12 +1,12 @@
 <?php
 // -----
 // Part of the One-Page Checkout plugin, provided under GPL 2.0 license by lat9 (cindy@vinosdefrutastropicales.com).
-// Copyright (C) 2018-2024, Vinos de Frutas Tropicales.  All rights reserved.
+// Copyright (C) 2018-2026, Vinos de Frutas Tropicales.  All rights reserved.
 //
 // Adapted from the like-named page handling with the following history:
 // - Integrated COWAA v1.0 (@davewest)
 //
-// Last updated: OPC v2.5.4/Bootstrap v3.7.3
+// Last updated: OPC v2.5.4/Bootstrap v3.7.10
 //
 // -----
 // v3.7.3 and later, constants now have a 'ORDER_STATUS_' prefix to align with
@@ -38,7 +38,7 @@ if (isset($order)) {
 ?>
     <div class="card mb-3">
         <h2 id="orderHistoryDetailedOrder" class="card-header">
-            <?= SUB_HEADING_TITLE . ORDER_HEADING_DIVIDER . sprintf(HEADING_ORDER_NUMBER, $_POST['order_id']) ?>
+            <?= SUB_HEADING_TITLE . ORDER_HEADING_DIVIDER . sprintf(HEADING_ORDER_NUMBER, (int)$_POST['order_id']) ?>
         </h2>
         <div class="card-body">
             <div class="text-right"><?= HEADING_ORDER_DATE . ' ' . zen_date_long($order->info['date_purchased']) ?></div>
