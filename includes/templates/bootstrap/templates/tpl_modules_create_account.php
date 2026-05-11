@@ -105,7 +105,7 @@ if (ACCOUNT_SUBURB === 'true') {
 if (ACCOUNT_STATE === 'true') {
     if ($flag_show_pulldown_states === true) {
 ?>
-            <label class="inputLabel" for="stateZone" id="zoneLabel"><?php echo ENTRY_STATE; ?></label><span class="alert"><?= ((zen_not_null(ENTRY_STATE_TEXT) && (int)ENTRY_STATE_MIN_LENGTH > 0) ? ENTRY_STATE_TEXT : '') ?></span>
+            <label class="inputLabel" for="stateZone" id="zoneLabel"><?php echo ENTRY_STATE; ?></label><span class="alert"><?= ((!empty(ENTRY_STATE_TEXT) && (int)ENTRY_STATE_MIN_LENGTH > 0) ? ENTRY_STATE_TEXT : '') ?></span>
             <?php echo zen_draw_pull_down_menu('zone_id', zen_prepare_country_zones_pull_down($selected_country), $zone_id, 'id="stateZone"'); ?>
             <div class="clearfix"></div>
 <?php
