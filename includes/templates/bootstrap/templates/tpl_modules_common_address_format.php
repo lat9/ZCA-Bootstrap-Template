@@ -2,7 +2,7 @@
 /**
  * Module Template
  * 
- * BOOTSTRAP v3.7.5
+ * BOOTSTRAP v3.7.10
  *
  * Displays address-book details/selection
  *
