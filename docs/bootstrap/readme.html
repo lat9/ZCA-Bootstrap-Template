@@ -69,7 +69,7 @@ img {
 
 <body>
     <h1>Bootstrap-4 Template for Zen Cart v1.5.8, v2.0.x, v2.1.0 and v2.2.x</h1>
-    <p>Version 3.7.10 by lat9, drbyte, scottcwilson, marco-pm, dbltoe, dennisns7d, brittainmark, torvista, proseLA, daphilli224, retched and highburyeye</p>
+    <p>Version 3.7.10 by lat9, drbyte, scottcwilson, marco-pm, dbltoe, dennisns7d, brittainmark, torvista, proseLA, daphilli224, retched, highburyeye and piloujp</p>
     <p>Current Support Thread at Zen Cart Forums: <a href="https://www.zen-cart.com/showthread.php?223910-ZCA-Bootstrap-4-Template-Support-Thread" target="_blank">https://www.zen-cart.com/showthread.php?223910-ZCA-Bootstrap-4-Template-Support-Thread</a></p>
     <p>Zen Cart Download Link: <a href="https://www.zen-cart.com/downloads.php?do=file&id=2191" target="_blank">https://www.zen-cart.com/downloads.php?do=file&id=2191</a></p>
     <p>GitHub repository: <a href="https://github.com/lat9/ZCA-Bootstrap-Template" target="_blank">https://github.com/lat9/ZCA-Bootstrap-Template</a></p>
@@ -79,7 +79,7 @@ img {
     <p>This template uses <a href="https://getbootstrap.com/docs/4.6/getting-started/introduction/" target="_blank">Bootstrap-4.6.2</a> to provide its styling and builds on the base that Raymond Barbour provided over the past few years, supporting Zen Cart versions 1.5.8 and later &mdash; <em>best supported</em> by zc210 and later.</p>
     <p>Starting with v3.4.0 of the template, the template-related files needed when used with <a href="https://www.zen-cart.com/downloads.php?do=file&id=2095" target="_blank">One-Page Checkout</a> are also provided:</p>
     <ul>
-        <li>These changes have been validated with v2.6.0 of <em>OPC</em>, I'll suggest upgrading to that version or later prior to upgrading to v3.7.9 or later of the Bootstrap-4 template.</li>
+        <li>These changes have been validated with v2.6.0/v2.6.1 of <em>OPC</em>, I'll suggest upgrading to that version or later prior to upgrading to v3.7.9 or later of the Bootstrap-4 template.</li>
         <li>The <a href="https://www.zen-cart.com/downloads.php?do=file&id=2305" target="_blank">previously-distributed</a> (and separate) BS4/OPC integration is no longer supported.</li>
         <li>If you have <em>OPC</em> <em>prior to v2.5.0</em> installed, its <b>Order Total: jQuery Selector</b> configuration setting should be set to <code>#ottotal > .ot-text</code> for the Bootstrap template's use.</li>
     </ul>
@@ -163,12 +163,13 @@ img {
     <h2>Version History</h2>
     <p>This section identifies the template's version history and changes, starting with its v2.0.0c release.  Prior version changes can be found in the root of the template's distribution zip-file (<code>CHANGELOG.txt</code>).</p>
     <ul>
-        <li>v3.7.10-beta3, 2026-05-10 (lat9)<ul>
+        <li>v3.7.10-beta3, 2026-05-10 (lat9, piloujp)<ul>
             <li>BUGFIX: Move <code>base</code> tag prior to any <code>link</code> tags.</li>
             <li>CHANGE: Add jQuery module to show/hide password entry on storefront.</li>
             <li>CHANGE: Remove use of <code>matchHeight.js</code> due to jQuery 4.0 incompatibility.</li>
             <li>BUGFIX: Display labels for model, manufacturer and weight in non-table-display product listings.</li>
             <li>BUGFIX: Ensure order-id is an integer on the <code>order_status</code> page.</li>
+            <li>BUGFIX: Correcting display of 'required' symbol on <b>State</b> fields in address blocks.</li>
             <li>The following files were changed or <span class="added">added</span>:<ol>
                 <li>/includes/modules/bootstrap/product_listing.php</li>
                 <li>/includes/templates/bootstrap/template_info.php</li>
@@ -178,6 +179,8 @@ img {
                 <li><span class="removed">/includes/templates/bootstrap/jscript/jquery.matchHeight.min.js</span></li>
                 <li>/includes/templates/bootstrap/jscript/jscript_bs4_matching_heights.php</li>
                 <li><span class="added">/includes/templates/bootstrap/jscript/jscript_view_password.js</span></li>
+                <li>/includes/templates/bootstrap/templates/tpl_modules_common_address_format.php</li>
+                <li>/includes/templates/bootstrap/templates/tpl_modules_create_account.php</li>
                 <li>/includes/templates/bootstrap/templates/tpl_order_status_default.php</li>
                 <li>/YOUR_ADMIN/includes/init_includes/init_zca_bootstrap_template_admin.php</li>
             </ol></li>
