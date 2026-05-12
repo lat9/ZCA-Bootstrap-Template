@@ -2,7 +2,7 @@
 /**
  * Page Template
  *
- * BOOTSTRAP v3.7.0
+ * BOOTSTRAP v3.7.10
  *
  * Loaded automatically by index.php?main_page=create_account.<br />
  * Displays Create Account form.
