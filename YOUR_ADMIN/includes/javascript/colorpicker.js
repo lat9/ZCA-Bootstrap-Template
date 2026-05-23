@@ -317,7 +317,11 @@
         popover_container.remove();
         popover_container = null;
 
-        triggerelement.popover('destroy');
+        if ($.fn.jquery.startsWith('3.')) {
+            triggerelement.popover('destroy');
+        } else {
+            triggerelement.popover('dispose');
+        }
       }
 
       function _getControllerHtml() {
@@ -1542,7 +1546,7 @@
           _findActualColorsSwatch();
         }
 
-        settings.onchange(container, color);
+        settings.onchange(triggerelement, color);   //-bootstrap-colors change
 
         triggerelement.data('color', color);
       }
