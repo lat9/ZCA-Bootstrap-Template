@@ -9,10 +9,11 @@
 // Zen Cart's 'base' banner management requires that a 'banners_history' record be present for a 'banner' if that banner is
 // to be expired.  Add a dummy record for any slider banners that don't already have such a record.
 //
+$bs4_slider_banner_group = (string)zen_config('BS4_SLIDER_BANNER_GROUP');
 $slider_banner_check = $db->Execute(
     "SELECT b.banners_id
        FROM " . TABLE_BANNERS . " b
-      WHERE b.banners_group = '" . (string)zen_config('BS4_SLIDER_BANNER_GROUP') . "'
+      WHERE b.banners_group = '" . $bs4_slider_banner_group . "'
         AND b.banners_id NOT IN (SELECT bh.banners_id FROM " . TABLE_BANNERS_HISTORY . " bh)"
 );
 foreach ($slider_banner_check as $banner_history) {
@@ -27,7 +28,7 @@ $bs4_hp_banners = $db->Execute(
     "SELECT banners_id, banners_title, banners_image, banners_url, banners_open_new_windows
        FROM " . TABLE_BANNERS . "
       WHERE status = 1
-        AND banners_group = '" . BS4_SLIDER_BANNER_GROUP . "'
+        AND banners_group = '" . $bs4_slider_banner_group . "'
       ORDER BY banners_sort_order, banners_id"
 );
 if ($bs4_hp_banners->EOF) {

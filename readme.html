@@ -76,10 +76,10 @@ img {
     <p>GitHub Wiki: <a href="https://github.com/lat9/ZCA-Bootstrap-Template/wiki" target="_blank">https://github.com/lat9/ZCA-Bootstrap-Template/wiki</a></p>
 
     <h2>What it does</h2>
-    <p>This template uses <a href="https://getbootstrap.com/docs/4.6/getting-started/introduction/" target="_blank">Bootstrap-4.6.2</a> to provide its styling and builds on the base that Raymond Barbour provided over the past few years, supporting Zen Cart versions 1.5.8 and later &mdash; <em>best supported</em> by zc210 and later.</p>
+    <p>This template uses <a href="https://getbootstrap.com/docs/4.6/getting-started/introduction/" target="_blank">Bootstrap-4.6.2</a> to provide its styling and builds on the base that Raymond Barbour provided over the past few years, supporting Zen Cart versions 1.5.8 and later &mdash; <em>best supported</em> by zc222 and later.</p>
     <p>Starting with v3.4.0 of the template, the template-related files needed when used with <a href="https://www.zen-cart.com/downloads.php?do=file&id=2095" target="_blank">One-Page Checkout</a> are also provided:</p>
     <ul>
-        <li>These changes have been validated with v2.6.0/v2.6.1 of <em>OPC</em>, I'll suggest upgrading to that version or later prior to upgrading to v3.7.9 or later of the Bootstrap-4 template.</li>
+        <li>These changes have been validated with v2.6.2 of <em>OPC</em>, I'll suggest upgrading to that version or later prior to upgrading to v3.8.0 or later of the Bootstrap-4 template.</li>
         <li>The <a href="https://www.zen-cart.com/downloads.php?do=file&id=2305" target="_blank">previously-distributed</a> (and separate) BS4/OPC integration is no longer supported.</li>
         <li>If you have <em>OPC</em> <em>prior to v2.5.0</em> installed, its <b>Order Total: jQuery Selector</b> configuration setting should be set to <code>#ottotal > .ot-text</code> for the Bootstrap template's use.</li>
     </ul>
@@ -186,6 +186,7 @@ img {
             <li>BUGFIX: Supply 2nd parameter to <code>nl2br</code> so that HTML5 tags are generated.</li>
             <li>The following files were changed, <span class="added">added</span> or <span class="removed">removed</span>:<ol>
                 <li><span class="removed">/docs/bootstrap/uninstall/bootstrap_colors_uninstall.sql</span></li>
+                <li>/includes/classes/ajax/zcAjaxBootstrapSearch.php</li>
                 <li>/includes/classes/observers/ZcaBootstrapObserver.php</li>
                 <li>/includes/functions/zca_bootstrap_functions.php</li>
                 <li><span class="added">/includes/functions/extra_functions/zen_add_filemtime.php</span></li>
@@ -209,6 +210,7 @@ img {
                 <li>/includes/modules/pages/products_all/header_php_products_all_zca_bootstrap.php</li>
                 <li>/includes/modules/pages/products_new/header_php_products_new_zca_bootstrap.php</li>
                 <li>/includes/modules/pages/specials/header_php_specials_zca_bootstrap.php</li>
+                <li>/includes/modules/sideboxes/bootstrap/search_header.php</li>
                 <li>/includes/templates/bootstrap/centerboxes/tpl_modules_featured_products.php</li>
                 <li>/includes/templates/bootstrap/centerboxes/tpl_modules_specials_default.php</li>
                 <li>/includes/templates/bootstrap/centerboxes/tpl_modules_whats_new.php</li>

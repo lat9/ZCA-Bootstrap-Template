@@ -2,7 +2,7 @@
 // -----
 // Header search, modified for the Bootstrap-4 template's AJAX search extension.
 //
-// Bootstrap v3.4.2.
+// Bootstrap v3.8.0
 //
 /**
  * search_header ("sidebox") - this is a search field that appears in the navigation header
@@ -24,7 +24,7 @@ $search_header_status = $db->Execute(
 );
 
 if (!$search_header_status->EOF) {
-    if (defined('BS4_AJAX_SEARCH_ENABLE') && BS4_AJAX_SEARCH_ENABLE === 'true') {
+    if (zen_config('BS4_AJAX_SEARCH_ENABLE') === 'true') {
         require $template->get_template_dir('tpl_ajax_search_header.php', DIR_WS_TEMPLATE, $current_page_base, 'sideboxes') . '/tpl_ajax_search_header.php';
     } else {
         require $template->get_template_dir('tpl_search_header.php', DIR_WS_TEMPLATE, $current_page_base, 'sideboxes') . '/tpl_search_header.php';

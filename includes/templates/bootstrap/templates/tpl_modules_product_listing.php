@@ -15,8 +15,7 @@ require DIR_WS_MODULES . zen_get_module_directory(FILENAME_PRODUCT_LISTING);
 // v3.6.4 adds a configuration setting to override the "Add Selected to Cart"
 // button's default positioning.  The default, if not yet configured, is 'Always'.
 //
-zen_define_default('BS4_FLOAT_ADD_SELECTED', 'Always');
-switch (zen_config('BS4_FLOAT_ADD_SELECTED')) {
+switch (zen_config('BS4_FLOAT_ADD_SELECTED', 'Always')) {
     case 'Never':
         $top_button_extra_class = '';
         $bottom_button_extra_class = '';

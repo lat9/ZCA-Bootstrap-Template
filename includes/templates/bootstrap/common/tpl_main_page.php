@@ -103,7 +103,7 @@ if (zen_config('BS4_AJAX_SEARCH_ENABLE') === 'true') {
     require $template->get_template_dir('tpl_ajax_search.php', DIR_WS_TEMPLATE, $current_page_base, 'modalboxes') . '/tpl_ajax_search.php';
 }
 ?>
-<div class="<?= BS4_HEADER_CONTAINER ?>" id="header-wrapper">
+<div class="<?= zen_config('BS4_HEADER_CONTAINER') ?>" id="header-wrapper">
 <?php
 // -----
 // Define the spacer-div that pushes either the "Header Position 1" banner or
@@ -153,7 +153,7 @@ require $template->get_template_dir('tpl_header.php', DIR_WS_TEMPLATE, $current_
     </div>
 </div>
 
-<div id="mainWrapper" class="<?= BS4_MAIN_CONTAINER ?>">
+<div id="mainWrapper" class="<?= zen_config('BS4_MAIN_CONTAINER') ?>">
     <div class="row">
 <?php
 if (zen_config('COLUMN_LEFT_STATUS') === '0' || (zen_config('CUSTOMERS_APPROVAL') === '1' && !zen_is_logged_in()) || (zen_config('CUSTOMERS_APPROVAL_AUTHORIZATION') === '1' && zen_config('CUSTOMERS_AUTHORIZATION_COLUMN_LEFT_OFF') === 'true' && ($_SESSION['customers_authorization'] != 0 || !zen_is_logged_in()))) {
@@ -278,7 +278,7 @@ if (empty($flag_disable_right)) {
     </div>
 </div>
 
-<div id="footer-wrapper" class="<?= BS4_FOOTER_CONTAINER ?>">
+<div id="footer-wrapper" class="<?= zen_config('BS4_FOOTER_CONTAINER') ?>">
     <div class="row mt-3">
         <div class="col">
 <?php
