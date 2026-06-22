@@ -18,7 +18,7 @@ if ($_SESSION['cart']->count_contents() > 0) {
     // zc158 uses a renamed definition for the value, use it if present else use the legacy
     // definition.
     //
-    $quantity_suffix = zen_config('CART_QUANTITY_SUFFIX')) ?? zen_config('BOX_SHOPPING_CART_DIVIDER');
+    $quantity_suffix = $tplSetting->CART_QUANTITY_SUFFIX ?? $tplSetting->BOX_SHOPPING_CART_DIVIDER;
 
     $content .= '<ul class="list-group list-group-flush">';
     $products = $_SESSION['cart']->get_products();

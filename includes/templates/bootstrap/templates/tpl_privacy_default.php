@@ -14,7 +14,7 @@
 <div id="privacyDefault" class="centerColumn">
     <h1 id="privacyDefault-pageHeading" class="pageHeading"><?= HEADING_TITLE ?></h1>
 <?php
-if (in_array(zen_config('DEFINE_PRIVACY_STATUS'), ['1', '2'], true)) {
+if (in_array($tplSetting->DEFINE_PRIVACY_STATUS, ['1', '2'], true)) {
 ?>
     <div id="privacyDefault-defineContent" class="defineContent">
 <?php

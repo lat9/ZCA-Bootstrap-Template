@@ -22,7 +22,7 @@ $card_body_id = 'featuredCenterbox-card-body';
 ?>
 <!-- bof: featured products  -->
 <?php
-if (zen_config('BS4_FEATURED_CENTERBOX_CAROUSEL') === '') {
+if ($tplSetting->BS4_FEATURED_CENTERBOX_CAROUSEL === '') {
     // -----
     // If not rendering as a carousel, output the columnar display.
     //
@@ -31,7 +31,7 @@ if (zen_config('BS4_FEATURED_CENTERBOX_CAROUSEL') === '') {
     // -----
     // Otherwise, rendering as a carousel.
     //
-    $carousel_config = zen_config('BS4_FEATURED_CENTERBOX_CAROUSEL');
+    $carousel_config = $tplSetting->BS4_FEATURED_CENTERBOX_CAROUSEL;
     require $template->get_template_dir('tpl_columnar_display_carousel.php', DIR_WS_TEMPLATE, $current_page_base, 'common') . '/tpl_columnar_display_carousel.php';
 }
 ?>

@@ -13,8 +13,8 @@ if (!defined('IS_ADMIN_FLAG')) {
     die('Illegal Access');
 }
 
-$columns_also_purchased_products = (int)zen_config('SHOW_PRODUCT_INFO_COLUMNS_ALSO_PURCHASED_PRODUCTS');
-$min_display_also_purchased = (int)zen_config('MIN_DISPLAY_ALSO_PURCHASED');
+$columns_also_purchased_products = (int)$tplSetting->SHOW_PRODUCT_INFO_COLUMNS_ALSO_PURCHASED_PRODUCTS;
+$min_display_also_purchased = (int)$tplSetting->MIN_DISPLAY_ALSO_PURCHASED;
 if (isset($_GET['products_id']) && $columns_also_purchased_products > 0 && $min_display_also_purchased > 0) {
     $also_purchased_products = $db->ExecuteRandomMulti(sprintf(SQL_ALSO_PURCHASED, (int)$_GET['products_id'], (int)$_GET['products_id']), $min_display_also_purchased);
 
@@ -49,12 +49,12 @@ if (isset($_GET['products_id']) && $columns_also_purchased_products > 0 && $min_
             /** eof products name */
 
             /** bof products image */
-            if (empty($also_purchased_products->fields['products_image']) && zen_config('PRODUCTS_IMAGE_NO_IMAGE_STATUS') === '0') {
+            if (empty($also_purchased_products->fields['products_image']) && $tplSetting->PRODUCTS_IMAGE_NO_IMAGE_STATUS === '0') {
                 $also_purchased_products_image = '';
             } else {
                 $also_purchased_products_image =
                     '<div class="centerBoxContentsItem-image text-center"><a href="' . $app_products_link . '" title="' . zen_output_string_protected($app_products_name) . '">' .
-                        zen_image(DIR_WS_IMAGES . $also_purchased_products->fields['products_image'], $app_products_name, zen_config('SMALL_IMAGE_WIDTH'), zen_image('SMALL_IMAGE_HEIGHT')) .
+                        zen_image(DIR_WS_IMAGES . $also_purchased_products->fields['products_image'], $app_products_name, $tplSetting->SMALL_IMAGE_WIDTH, $tplSetting->SMALL_IMAGE_HEIGHT) .
                     '</a></div>';
             }
             /** eof products image */

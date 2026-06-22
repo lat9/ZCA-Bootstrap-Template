@@ -124,8 +124,8 @@ if ($_SESSION['sendto'] != false) {
         <div id="orderComment-card" class="card mb-3">
             <h4 id="orderComment-card-header" class="card-header"><?= HEADING_ORDER_COMMENTS ?></h4>
             <div id="orderComment-card-body" class="card-body p-3">
-                <?= (empty($order->info['comments']) ? NO_COMMENTS_TEXT : nl2br(zen_output_string_protected($order->info['comments']), false) ?>
-                <?= zen_draw_hidden_field('comments', $order->info['comments'])) ?>
+                <?= empty($order->info['comments']) ? NO_COMMENTS_TEXT : nl2br(zen_output_string_protected($order->info['comments']), false) ?>
+                <?= zen_draw_hidden_field('comments', zen_output_string_protected($order->info['comments'])) ?>
                 <div id="orderComment-btn-toolbar" class="btn-toolbar justify-content-end mt-3" role="toolbar">
                     <?= zca_button_link(zen_href_link(FILENAME_CHECKOUT_PAYMENT, '', 'SSL'), BUTTON_EDIT_SMALL_ALT, 'small_edit') ?>
                 </div>

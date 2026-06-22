@@ -271,7 +271,7 @@ if (!$payment_modules->in_special_checkout()) {
                     <?= TEXT_CONDITIONS_DESCRIPTION;?>
 
                     <div class="custom-control custom-checkbox">
-                        <?= zen_draw_checkbox_field('conditions', '1', (($_SESSION['conditions'] ?? false) === '1')), 'id="conditions" required oninput="this.setCustomValidity(\'\')" oninvalid="this.setCustomValidity(\'' . ERROR_CONDITIONS_NOT_ACCEPTED . '\')"') ?>
+                        <?= zen_draw_checkbox_field('conditions', '1', (($_SESSION['conditions'] ?? false) === '1'), 'id="conditions" required oninput="this.setCustomValidity(\'\')" oninvalid="this.setCustomValidity(\'' . ERROR_CONDITIONS_NOT_ACCEPTED . '\')"') ?>
                         <label class="custom-control-label checkboxLabel" for="conditions"><?= TEXT_CONDITIONS_CONFIRM ?></label>
                     </div>
                 </div>

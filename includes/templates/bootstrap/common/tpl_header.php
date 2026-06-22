@@ -44,7 +44,7 @@ if (zen_is_logged_in() && !zen_in_guest_checkout()) {
                         </li>
 <?php
 } else {
-    if (STORE_STATUS === '0') {
+    if (zen_config('STORE_STATUS') === '0') {
 ?>
                         <li class="nav-item" title="<?= HEADER_TITLE_LOGIN ?>">
                             <a class="nav-link" href="<?= zen_href_link(FILENAME_LOGIN, '', 'SSL') ?>">
@@ -90,7 +90,7 @@ require DIR_WS_MODULES . zen_get_module_sidebox_directory('search_header.php');
     <div id="logoWrapper">
         <div id="logo" class="row align-items-center px-3 pb-3">
 <?php
-$tagline_banner_section_present = ((zen_config('SHOW_BANNERS_GROUP_SET2') !== '' && $banner = zen_banner_exists('dynamic', zen_config('SHOW_BANNERS_GROUP_SET2'))) || HEADER_SALES_TEXT !== '');
+$tagline_banner_section_present = (($tplSetting->SHOW_BANNERS_GROUP_SET2 !== '' && $banner = zen_banner_exists('dynamic', $tplSetting->SHOW_BANNERS_GROUP_SET2)) || HEADER_SALES_TEXT !== '');
 $sales_text_class = ($tagline_banner_section_present === true) ? 'col-sm-4' : 'col-sm-12';
 ?>
             <div class="<?= $sales_text_class ?>">
@@ -109,16 +109,16 @@ if ($tagline_banner_section_present === true) {
 <?php
     }
 
-    if (zen_config('SHOW_BANNERS_GROUP_SET2') !== '' && $banner !== false) {
+    if ($tplSetting->SHOW_BANNERS_GROUP_SET2 !== '' && $banner !== false) {
         // -----
         // Set variables used by the banner-carousel.
         //
-        $find_banners = zen_build_banners_group(zen_config('SHOW_BANNERS_GROUP_SET2'));
+        $find_banners = zen_build_banners_group($tplSetting->SHOW_BANNERS_GROUP_SET2);
         $banner_group = 2;
 ?>
                 <div class="zca-banner bannerTwo rounded pt-1">
 <?php
-        if (zen_config('ZCA_ACTIVATE_BANNER_TWO_CAROUSEL') === 'true') {
+        if ($tplSetting->ZCA_ACTIVATE_BANNER_TWO_CAROUSEL === 'true') {
             require $template->get_template_dir('tpl_zca_banner_carousel.php', DIR_WS_TEMPLATE, $current_page_base, 'common') . '/tpl_zca_banner_carousel.php';
         } else {
             echo zen_display_banner('static', $banner);
@@ -156,7 +156,7 @@ if (!empty($_GET['info_message'])) {
 
 <!--bof-header ezpage links-->
 <?php
-if (EZPAGES_STATUS_HEADER === '1' || (zen_config('EZPAGES_STATUS_HEADER') === '2' && zen_is_whitelisted_admin_ip())) {
+if ($tplSetting->EZPAGES_STATUS_HEADER === '1' || ($tplSetting->EZPAGES_STATUS_HEADER === '2' && zen_is_whitelisted_admin_ip())) {
     require $template->get_template_dir('tpl_ezpages_bar_header.php', DIR_WS_TEMPLATE, $current_page_base, 'templates') . '/tpl_ezpages_bar_header.php';
 }
 ?>

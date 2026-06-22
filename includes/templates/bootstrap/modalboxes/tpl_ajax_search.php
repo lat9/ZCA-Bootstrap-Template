@@ -4,8 +4,8 @@
 //
 // Bootstrap v3.8.0
 //
-if (zen_config('BS4_AJAX_SEARCH_ENABLE') === 'true') {
-    $ajax_search_parameter = (zen_config('BS4_AJAX_SEARCH_INC_DESC') === 'true') ? 'search_in_description=1' : '';
+if ($tplSetting->BS4_AJAX_SEARCH_ENABLE === 'true') {
+    $ajax_search_parameter = ($tplSetting->BS4_AJAX_SEARCH_INC_DESC === 'true') ? 'search_in_description=1' : '';
 ?>
     <div id="search-wrapper" class="modal fade" role="dialog" aria-labelledby="search-modal-title" aria-hidden="true">
         <div class="modal-dialog">

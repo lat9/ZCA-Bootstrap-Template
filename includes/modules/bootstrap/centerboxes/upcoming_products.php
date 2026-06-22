@@ -22,10 +22,10 @@ $display_limit = zen_get_upcoming_date_range();
 
 $limit_clause =
     "  ORDER BY " .
-    (zen_config('EXPECTED_PRODUCTS_FIELD') === 'date_expected' ? 'date_expected' : 'products_name') .
+    ($tplSetting->EXPECTED_PRODUCTS_FIELD === 'date_expected' ? 'date_expected' : 'products_name') .
     ' ' .
-    (zen_config('EXPECTED_PRODUCTS_SORT') === 'asc' ? 'ASC' : 'DESC') .
-    " LIMIT " . (int)zen_config('MAX_DISPLAY_UPCOMING_PRODUCTS');
+    ($tplSetting->EXPECTED_PRODUCTS_SORT === 'asc' ? 'ASC' : 'DESC') .
+    " LIMIT " . (int)$tplSetting->MAX_DISPLAY_UPCOMING_PRODUCTS;
 
 if ((($manufacturers_id > 0 && empty($_GET['filter_id'])) || !empty($_GET['music_genre_id']) || !empty($_GET['record_company_id'])) || empty($new_products_category_id)) {
     $expected_query =

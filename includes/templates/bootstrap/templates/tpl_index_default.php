@@ -29,7 +29,7 @@ if ($heading_title === '') {
 ?>
     <h1 id="indexDefault-pageHeading" class="pageHeading<?= $screen_reader_only ?>"><?= $heading_title ?></h1>
 <?php
-if (zen_config('SHOW_CUSTOMER_GREETING') === '1') {
+if ($tplSetting->SHOW_CUSTOMER_GREETING === '1') {
 ?>
     <h2 id="indexDefault-greeting" class="greeting"><?= zen_customer_greeting() ?></h2>
 <?php
@@ -43,7 +43,7 @@ if (zen_config('SHOW_CUSTOMER_GREETING') === '1') {
         <?php require $template->get_template_dir('tpl_index_slider.php', DIR_WS_TEMPLATE, $current_page_base, 'templates') . '/tpl_index_slider.php'; ?>
     </div>
 <?php
-if (in_array(zen_config('DEFINE_MAIN_PAGE_STATUS'), ['1', '2'], true)) {
+if (in_array($tplSetting->DEFINE_MAIN_PAGE_STATUS, ['1', '2'], true)) {
 /**
  * get the Define Main Page Text
  */

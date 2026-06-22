@@ -15,7 +15,7 @@
 
     <div id="discountCouponDefault-defineContent" class="defineContent mb-3">
 <?php
-if (in_array(zen_config('DEFINE_DISCOUNT_COUPON_STATUS'), ['1', '2'], true) && $text_coupon_help === '') {
+if (in_array($tplSetting->DEFINE_DISCOUNT_COUPON_STATUS, ['1', '2'], true) && $text_coupon_help === '') {
     require $define_page;
  } else {
     echo $text_coupon_help;

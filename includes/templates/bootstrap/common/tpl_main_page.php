@@ -61,21 +61,21 @@ if (in_array($current_page_base, explode(',', str_replace(' ', '', 'checkout_shi
 }
 
 // ZCA BOOTSTRAP TEMPLATE
-if (!empty($flag_disable_right) || zen_config('COLUMN_RIGHT_STATUS') === '0' || zen_config('SET_COLUMN_RIGHT_LAYOUT') === '0') {
+if (!empty($flag_disable_right) || $tplSetting->COLUMN_RIGHT_STATUS === '0' || $tplSetting->SET_COLUMN_RIGHT_LAYOUT === '0') {
     $flag_disable_right = true;
     $box_width_right = '0';
     $box_width_right_new = '';
 } else {
-    $box_width_right = zen_config('SET_COLUMN_RIGHT_LAYOUT');
+    $box_width_right = $tplSetting->SET_COLUMN_RIGHT_LAYOUT;
     $box_width_right_new = 'col-sm-' . $box_width_right . ' d-none d-lg-block';
 }
 
-if (!empty($flag_disable_left) || zen_config('COLUMN_LEFT_STATUS') === '0' || zen_config('SET_COLUMN_LEFT_LAYOUT') === '0') {
+if (!empty($flag_disable_left) || $tplSetting->COLUMN_LEFT_STATUS === '0' || $tplSetting->SET_COLUMN_LEFT_LAYOUT === '0') {
     $flag_disable_left = true;
     $box_width_left = '0';
     $box_width_left_new = '';
 } else {
-    $box_width_left = zen_config('SET_COLUMN_LEFT_LAYOUT');
+    $box_width_left = $tplSetting->SET_COLUMN_LEFT_LAYOUT;
     $box_width_left_new = 'col-sm-' . $box_width_left . ' d-none d-lg-block';
 }
 
@@ -88,8 +88,8 @@ $center_column_width = $center_column - $side_columns_total;
 // to be displayed in 'carousel' mode.  These arrays are used by the
 // supported sideboxes to determine the mode in which they display.
 //
-$sidebox_carousels = explode(',', str_replace([' ', "\n", "\r"], '', zen_config('BS4_SIDEBOXES_DISPLAY_CAROUSEL')));
-$sidebox_carousels_to_fade = explode(',', str_replace([' ', "\n", "\r"], '', zen_config('BS4_SIDEBOXES_FADE_CAROUSEL')));
+$sidebox_carousels = explode(',', str_replace([' ', "\n", "\r"], '', $tplSetting->BS4_SIDEBOXES_DISPLAY_CAROUSEL));
+$sidebox_carousels_to_fade = explode(',', str_replace([' ', "\n", "\r"], '', $tplSetting->BS4_SIDEBOXES_FADE_CAROUSEL));
 
 $body_id = ($this_is_home_page) ? 'indexHome' : str_replace('_', '', $_GET['main_page']);
 $body_onload = ($zv_onload !== '') ? ' onload="' . $zv_onload . '"' : '';
@@ -103,7 +103,7 @@ if (zen_config('BS4_AJAX_SEARCH_ENABLE') === 'true') {
     require $template->get_template_dir('tpl_ajax_search.php', DIR_WS_TEMPLATE, $current_page_base, 'modalboxes') . '/tpl_ajax_search.php';
 }
 ?>
-<div class="<?= zen_config('BS4_HEADER_CONTAINER') ?>" id="header-wrapper">
+<div class="<?= $tplSetting->BS4_HEADER_CONTAINER ?>" id="header-wrapper">
 <?php
 // -----
 // Define the spacer-div that pushes either the "Header Position 1" banner or
@@ -111,9 +111,9 @@ if (zen_config('BS4_AJAX_SEARCH_ENABLE') === 'true') {
 //
 $navbar_spacer = '<div id="navbar-spacer" class="mt-5 pt-4"></div>';
 
-if (zen_config('SHOW_BANNERS_GROUP_SET1') !== '' && $banner = zen_banner_exists('dynamic', zen_config('SHOW_BANNERS_GROUP_SET1'))) {
+if ($tplSetting->SHOW_BANNERS_GROUP_SET1 !== '' && $banner = zen_banner_exists('dynamic', $tplSetting->SHOW_BANNERS_GROUP_SET1)) {
     if ($banner->RecordCount() > 0) {
-        $find_banners = zen_build_banners_group(zen_config('SHOW_BANNERS_GROUP_SET1'));
+        $find_banners = zen_build_banners_group($tplSetting->SHOW_BANNERS_GROUP_SET1);
         $banner_group = 1;
 
         // -----
@@ -125,7 +125,7 @@ if (zen_config('SHOW_BANNERS_GROUP_SET1') !== '' && $banner = zen_banner_exists(
 ?>
     <div class="zca-banner bannerOne rounded">
 <?php 
-        if (zen_config('ZCA_ACTIVATE_BANNER_ONE_CAROUSEL') === 'true') {
+        if ($tplSetting->ZCA_ACTIVATE_BANNER_ONE_CAROUSEL === 'true') {
             require $template->get_template_dir('tpl_zca_banner_carousel.php', DIR_WS_TEMPLATE, $current_page_base, 'common') . '/tpl_zca_banner_carousel.php'; 
         } else {
             echo zen_display_banner('static', $banner);
@@ -143,7 +143,7 @@ if (zen_config('SHOW_BANNERS_GROUP_SET1') !== '' && $banner = zen_banner_exists(
 * prepares and displays header output
 *
 */
-if (zen_config('CUSTOMERS_APPROVAL_AUTHORIZATION') === '1' && zen_config('CUSTOMERS_AUTHORIZATION_HEADER_OFF') === 'true' && ($_SESSION['customers_authorization'] != 0 || !zen_is_logged_in())) {
+if (zen_config('CUSTOMERS_APPROVAL_AUTHORIZATION') === '1' && $tplSetting->CUSTOMERS_AUTHORIZATION_HEADER_OFF === 'true' && ($_SESSION['customers_authorization'] != 0 || !zen_is_logged_in())) {
     $flag_disable_header = true;
 }
 require $template->get_template_dir('tpl_header.php', DIR_WS_TEMPLATE, $current_page_base, 'common') . '/tpl_header.php';
@@ -153,10 +153,10 @@ require $template->get_template_dir('tpl_header.php', DIR_WS_TEMPLATE, $current_
     </div>
 </div>
 
-<div id="mainWrapper" class="<?= zen_config('BS4_MAIN_CONTAINER') ?>">
+<div id="mainWrapper" class="<?= $tplSetting->BS4_MAIN_CONTAINER ?>">
     <div class="row">
 <?php
-if (zen_config('COLUMN_LEFT_STATUS') === '0' || (zen_config('CUSTOMERS_APPROVAL') === '1' && !zen_is_logged_in()) || (zen_config('CUSTOMERS_APPROVAL_AUTHORIZATION') === '1' && zen_config('CUSTOMERS_AUTHORIZATION_COLUMN_LEFT_OFF') === 'true' && ($_SESSION['customers_authorization'] != 0 || !zen_is_logged_in()))) {
+if ($tplSetting->COLUMN_LEFT_STATUS === '0' || (zen_config('CUSTOMERS_APPROVAL') === '1' && !zen_is_logged_in()) || (zen_config('CUSTOMERS_APPROVAL_AUTHORIZATION') === '1' && $tplSetting->CUSTOMERS_AUTHORIZATION_COLUMN_LEFT_OFF === 'true' && ($_SESSION['customers_authorization'] != 0 || !zen_is_logged_in()))) {
     // global disable of column_left
     $flag_disable_left = true;
 }
@@ -178,7 +178,7 @@ if (empty($flag_disable_left)) {
 ?>
         <div class="col-12 col-lg-<?=  $center_column_width ?>">
 <?php
-if (!$breadcrumb->isEmpty() && (zen_config('DEFINE_BREADCRUMB_STATUS') === '1' || (zen_config('DEFINE_BREADCRUMB_STATUS') === '2' && !$this_is_home_page))) {
+if (!$breadcrumb->isEmpty() && in_array($tplSetting->DEFINE_BREADCRUMB_STATUS, ['1', '2'], true) && !$this_is_home_page) {
 ?>
             <div id="navBreadCrumb">
                 <ol class="breadcrumb">
@@ -190,7 +190,7 @@ if (!$breadcrumb->isEmpty() && (zen_config('DEFINE_BREADCRUMB_STATUS') === '1' |
     // 2. Insert the separator into a span at the beginning of each breadcrumb element.
     // 3. Remove the leading separator from the first breadcrumb element and output.
     //
-    $bread_crumbs_separator = zen_config('BREAD_CRUMBS_SEPARATOR');
+    $bread_crumbs_separator = $tplSetting->BREAD_CRUMBS_SEPARATOR;
     $breadcrumbs = preg_replace('^' . $bread_crumbs_separator . '\s?^', '', $breadcrumb->trail($bread_crumbs_separator, '<li>', '</li>'));
     $breadcrumbs = str_replace('<li>', '<li><span class="breadcrumb-separator">' . $bread_crumbs_separator . '</span>', $breadcrumbs);
     echo preg_replace('^<li><span class="breadcrumb-separator">' . $bread_crumbs_separator . '</span>^', '<li>', $breadcrumbs, 1);
@@ -200,14 +200,14 @@ if (!$breadcrumb->isEmpty() && (zen_config('DEFINE_BREADCRUMB_STATUS') === '1' |
 <?php
 }
 
-if (zen_config('SHOW_BANNERS_GROUP_SET3') !== '' && $banner = zen_banner_exists('dynamic', zen_config('SHOW_BANNERS_GROUP_SET3'))) {
+if ($tplSetting->SHOW_BANNERS_GROUP_SET3 !== '' && $banner = zen_banner_exists('dynamic', $tplSetting->SHOW_BANNERS_GROUP_SET3)) {
     if ($banner->RecordCount() > 0) {
-        $find_banners = zen_build_banners_group(zen_config('SHOW_BANNERS_GROUP_SET3'));
+        $find_banners = zen_build_banners_group($tplSetting->SHOW_BANNERS_GROUP_SET3);
         $banner_group = 3;
 ?>
             <div class="zca-banner bannerThree rounded">
 <?php 
-        if (zen_config('ZCA_ACTIVATE_BANNER_THREE_CAROUSEL') === 'true') {
+        if ($tplSetting->ZCA_ACTIVATE_BANNER_THREE_CAROUSEL === 'true') {
             require $template->get_template_dir('tpl_zca_banner_carousel.php', DIR_WS_TEMPLATE, $current_page_base, 'common') . '/tpl_zca_banner_carousel.php'; 
         } else {
             echo zen_display_banner('static', $banner);
@@ -235,14 +235,14 @@ require $body_code;
 ?>
             </main>
 <?php
-if (zen_config('SHOW_BANNERS_GROUP_SET4') !== '' && $banner = zen_banner_exists('dynamic', zen_config('SHOW_BANNERS_GROUP_SET4'))) {
+if ($tplSetting->SHOW_BANNERS_GROUP_SET4 !== '' && $banner = zen_banner_exists('dynamic', $tplSetting->SHOW_BANNERS_GROUP_SET4)) {
     if ($banner->RecordCount() > 0) {
-        $find_banners = zen_build_banners_group(zen_config('SHOW_BANNERS_GROUP_SET4'));
+        $find_banners = zen_build_banners_group($tplSetting->SHOW_BANNERS_GROUP_SET4);
         $banner_group = 4;
 ?>
             <div class="zca-banner bannerFour rounded">
 <?php 
-        if (zen_config('ZCA_ACTIVATE_BANNER_FOUR_CAROUSEL') === 'true') {
+        if ($tplSetting->ZCA_ACTIVATE_BANNER_FOUR_CAROUSEL === 'true') {
             require $template->get_template_dir('tpl_zca_banner_carousel.php', DIR_WS_TEMPLATE, $current_page_base, 'common') . '/tpl_zca_banner_carousel.php'; 
         } else {
             echo zen_display_banner('static', $banner);
@@ -255,7 +255,9 @@ if (zen_config('SHOW_BANNERS_GROUP_SET4') !== '' && $banner = zen_banner_exists(
 ?>
         </div>
 <?php
-if (zen_config('COLUMN_RIGHT_STATUS') === '0' || (zen_config('CUSTOMERS_APPROVAL') === '1' && !zen_is_logged_in()) || (zen_config('CUSTOMERS_APPROVAL_AUTHORIZATION') === '1' && zen_config('CUSTOMERS_AUTHORIZATION_COLUMN_RIGHT_OFF') === 'true' && ($_SESSION['customers_authorization'] != 0 || !zen_is_logged_in()))) {
+if ($tplSetting->COLUMN_RIGHT_STATUS === '0'
+    || (zen_config('CUSTOMERS_APPROVAL') === '1' && !zen_is_logged_in())
+    || (zen_config('CUSTOMERS_APPROVAL_AUTHORIZATION') === '1' && $tplSetting->CUSTOMERS_AUTHORIZATION_COLUMN_RIGHT_OFF === 'true' && ($_SESSION['customers_authorization'] != 0 || !zen_is_logged_in()))) {
   // global disable of column_right
     $flag_disable_right = true;
 }
@@ -278,7 +280,7 @@ if (empty($flag_disable_right)) {
     </div>
 </div>
 
-<div id="footer-wrapper" class="<?= zen_config('BS4_FOOTER_CONTAINER') ?>">
+<div id="footer-wrapper" class="<?= $tplSetting->BS4_FOOTER_CONTAINER ?>">
     <div class="row mt-3">
         <div class="col">
 <?php
@@ -286,7 +288,7 @@ if (empty($flag_disable_right)) {
  * prepares and displays footer output
  *
  */
-if (zen_config('CUSTOMERS_APPROVAL_AUTHORIZATION') === '1' && zen_config('CUSTOMERS_AUTHORIZATION_FOOTER_OFF') === 'true' && ($_SESSION['customers_authorization'] != 0 || !zen_is_logged_in())) {
+if (zen_config('CUSTOMERS_APPROVAL_AUTHORIZATION') === '1' && $tplSetting->CUSTOMERS_AUTHORIZATION_FOOTER_OFF === 'true' && ($_SESSION['customers_authorization'] != 0 || !zen_is_logged_in())) {
     $flag_disable_footer = true;
 }
 require $template->get_template_dir('tpl_footer.php', DIR_WS_TEMPLATE, $current_page_base, 'common') . '/tpl_footer.php';
@@ -304,14 +306,14 @@ if (defined('DISPLAY_PAGE_PARSE_TIME') && DISPLAY_PAGE_PARSE_TIME === 'true') {
 
 <!--bof- banner #6 display -->
 <?php
-if (zen_config('SHOW_BANNERS_GROUP_SET6') !== '' && $banner = zen_banner_exists('dynamic', zen_config('SHOW_BANNERS_GROUP_SET6'))) {
+if ($tplSetting->SHOW_BANNERS_GROUP_SET6 !== '' && $banner = zen_banner_exists('dynamic', $tplSetting->SHOW_BANNERS_GROUP_SET6)) {
     if ($banner->RecordCount() > 0) {
-        $find_banners = zen_build_banners_group(SHOW_BANNERS_GROUP_SET6);
+        $find_banners = zen_build_banners_group($tplSetting->SHOW_BANNERS_GROUP_SET6);
         $banner_group = 6;
 ?>
     <div class="zca-banner bannerSix rounded">
 <?php 
-        if (zen_config('ZCA_ACTIVATE_BANNER_SIX_CAROUSEL') === 'true') {
+        if ($tplSetting->ZCA_ACTIVATE_BANNER_SIX_CAROUSEL === 'true') {
             require $template->get_template_dir('tpl_zca_banner_carousel.php', DIR_WS_TEMPLATE, $current_page_base, 'common') . '/tpl_zca_banner_carousel.php'; 
         } else {
             echo zen_display_banner('static', $banner);

@@ -17,7 +17,7 @@
 <div id="conditionsDefault" class="centerColumn">
     <h1 id="conditionsDefault-pageHeading" class="pageHeading"><?= HEADING_TITLE ?></h1>
 <?php
-if (in_array(zen_config('DEFINE_CONDITIONS_STATUS'), ['1', '2'], true)) {
+if (in_array($tplSetting->DEFINE_CONDITIONS_STATUS, ['1', '2'], true)) {
 ?>
     <div id="conditionsDefault-defineContent" class="defineContent">
 <?php

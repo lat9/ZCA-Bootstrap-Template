@@ -31,8 +31,7 @@ if ($products_image !== '' && $flag_show_product_info_additional_images !== '0')
     // additional images' "mode" setting indicates that we're running in 'strict' mode,
     // in which case the intervening '_' is also needed.
     //
-    zen_define_default('ADDITIONAL_IMAGES_MODE', 'legacy');
-    if (zen_config('ADDITIONAL_IMAGES_MODE') === 'legacy' && $products_image_directory === '.') {
+    if ($tplSetting->ADDITIONAL_IMAGES_MODE === 'legacy' && $products_image_directory === '.') {
         $products_image_base .= '?';
         $products_image_directory = '';
     } else {
@@ -61,7 +60,7 @@ if ($num_images !== 0) {
     $slideNumber = 1;
     foreach ($images_array as $base_image) {
         $thumb = '<a id="carousel-selector-' . $slideNumber . '" data-slide-to="' . $slideNumber . '" data-target="#productImagesCarousel">';
-        $thumb .= zen_image($base_image, $products_name, zen_config('SMALL_IMAGE_WIDTH'), zen_config('SMALL_IMAGE_HEIGHT'));
+        $thumb .= zen_image($base_image, $products_name, $tplSetting->SMALL_IMAGE_WIDTH, $tplSetting->SMALL_IMAGE_HEIGHT);
         $thumb .= '</a>';
         $slideNumber++;
 

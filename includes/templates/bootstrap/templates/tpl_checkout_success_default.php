@@ -20,7 +20,7 @@
 
     <h1 id="checkoutSuccessDefault-pageHeading" class="pageHeading"><?= HEADING_TITLE ?></h1>
 <?php
-if (in_array(zen_config('DEFINE_CHECKOUT_SUCCESS_STATUS'), ['1', '2'], true)) {
+if (in_array($tplSetting->DEFINE_CHECKOUT_SUCCESS_STATUS, ['1', '2'], true)) {
 ?>
     <div id="checkoutSuccessDefault-defineContent" class="defineContent">
 <?php

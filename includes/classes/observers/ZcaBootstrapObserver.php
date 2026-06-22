@@ -19,7 +19,7 @@ class ZcaBootstrapObserver extends base
     protected string $sec_class;
     protected string $parameters;
     protected string $text;
-    prottected bool $is_product_info_page;
+    protected bool $is_product_info_page;
 
     // -----
     // On construction, watch for various notifications ONLY IF the ZCA Bootstrap template
@@ -100,9 +100,19 @@ class ZcaBootstrapObserver extends base
                             '</span>';
                     }
                 } elseif (zen_config('SHOW_SALE_DISCOUNT') === '1') {
-                    $show_sale_discount = '<span class="mx-auto w-100 p-1 productPriceDiscount">' . PRODUCT_PRICE_DISCOUNT_PREFIX . number_format(100 - (($this->display_special_price / $this->display_normal_price) * 100), SHOW_SALE_DISCOUNT_DECIMALS) . PRODUCT_PRICE_DISCOUNT_PERCENTAGE . '</span>';
+                    $show_sale_discount =
+                        '<span class="mx-auto w-100 p-1 productPriceDiscount">' .
+                            PRODUCT_PRICE_DISCOUNT_PREFIX .
+                            number_format(100 - (($this->display_special_price / $this->display_normal_price) * 100), SHOW_SALE_DISCOUNT_DECIMALS) .
+                            PRODUCT_PRICE_DISCOUNT_PERCENTAGE .
+                        '</span>';
                 } else {
-                    $show_sale_discount = '<span class="mx-auto w-100 p-1 productPriceDiscount">' . PRODUCT_PRICE_DISCOUNT_PREFIX . $this->displayPrice($this->display_normal_price - $this->display_special_price) . PRODUCT_PRICE_DISCOUNT_AMOUNT . '</span>';
+                    $show_sale_discount =
+                        '<span class="mx-auto w-100 p-1 productPriceDiscount">' .
+                            PRODUCT_PRICE_DISCOUNT_PREFIX .
+                            $this->displayPrice($this->display_normal_price - $this->display_special_price) .
+                            PRODUCT_PRICE_DISCOUNT_AMOUNT .
+                        '</span>';
                 }
                 $p2 = true;
                 $p3 = $show_sale_discount;
@@ -321,11 +331,12 @@ class ZcaBootstrapObserver extends base
                 break;
 
             case 'NOTIFY_MODULES_ADDITIONAL_IMAGES_SCRIPT_LINK':
-                if (zen_config('PRODUCT_INFO_SHOW_BOOTSTRAP_MODAL_POPUPS', 'Yes') === 'Yes') {
+                global $tplSetting;
+                if ($tplSetting->PRODUCT_INFO_SHOW_BOOTSTRAP_MODAL_POPUPS === 'Yes') {
                     $products_image_large = $p1['products_image_large'];
                     $i = $p1['index'];
                     $link = '<a href="javascript:void(0)" class="imageModal">';
-                    $link .= '<img src="' . $products_image_large . '" height="' . zen_config('SMALL_IMAGE_HEIGHT') . '" width="' . zen_config('SMALL_IMAGE_WIDTH') . '" id="' . $i . '" alt="' . zen_output_string_protected($p1['products_name']) . '">';
+                    $link .= '<img src="' . $products_image_large . '" height="' . $tplSetting->SMALL_IMAGE_HEIGHT . '" width="' . $tplSetting->SMALL_IMAGE_WIDTH . '" id="' . $i . '" alt="' . zen_output_string_protected($p1['products_name']) . '">';
                     $link .= '<div class="p-1"></div>';
                     $link .= '<span class="imgLink">' . TEXT_CLICK_TO_ENLARGE . '</span>';
                     $link .= '</a>';

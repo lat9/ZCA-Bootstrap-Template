@@ -91,28 +91,28 @@ if ($messageStack->size('review_text') > 0) {
             <div class="text-center p-3"><?= SUB_TITLE_RATING ?></div>
 
             <div class="custom-control custom-radio custom-control-inline">
-                <?= zen_draw_radio_field('rating', '1', '', 'id="rating-1" class="custom-control-input"') ?>
+                <?= zen_draw_radio_field('rating', '1', ($_POST['rating'] ?? '') === '1', 'id="rating-1" class="custom-control-input"') ?>
                 <label class="custom-control-label rating" for="rating-1"><?= zca_get_rating_stars(1, 'xs') ?></label>
             </div>
             <div class="custom-control custom-radio custom-control-inline">
-                <?= zen_draw_radio_field('rating', '2', '', 'id="rating-2" class="custom-control-input"') ?>
+                <?= zen_draw_radio_field('rating', '2', ($_POST['rating'] ?? '') === '2', 'id="rating-2" class="custom-control-input"') ?>
                 <label class="custom-control-label rating" for="rating-2"><?= zca_get_rating_stars(2, 'xs') ?></label>
             </div>
             <div class="custom-control custom-radio custom-control-inline">
-                <?= zen_draw_radio_field('rating', '3', '', 'id="rating-3" class="custom-control-input"') ?>
+                <?= zen_draw_radio_field('rating', '3', ($_POST['rating'] ?? '') === '3', 'id="rating-3" class="custom-control-input"') ?>
                 <label class="custom-control-label rating" for="rating-3"><?= zca_get_rating_stars(3, 'xs') ?></label>
             </div>
             <div class="custom-control custom-radio custom-control-inline">
-                <?= zen_draw_radio_field('rating', '4', '', 'id="rating-4" class="custom-control-input"') ?>
+                <?= zen_draw_radio_field('rating', '4', ($_POST['rating'] ?? '') === '4', 'id="rating-4" class="custom-control-input"') ?>
                 <label class="custom-control-label rating" for="rating-4"><?= zca_get_rating_stars(4, 'xs') ?></label>
             </div>
             <div class="custom-control custom-radio custom-control-inline">
-                <?= zen_draw_radio_field('rating', '5', '', 'id="rating-5" class="custom-control-input"') ?>
+                <?= zen_draw_radio_field('rating', '5', ($_POST['rating'] ?? '') === '5', 'id="rating-5" class="custom-control-input"') ?>
                 <label class="custom-control-label rating" for="rating-5"><?= zca_get_rating_stars(5, 'xs') ?></label>
             </div>
 
             <label id="textArea-label" for="review-text"><?= SUB_TITLE_REVIEW ?></label>
-            <?= zen_draw_textarea_field('review_text', 60, 5, '', 'id="review-text"') ?>
+            <?= zen_draw_textarea_field('review_text', 60, 5, ($_POST['review_text'] ?? ''), 'id="review-text"') ?>
             
             <?= zen_draw_input_field($antiSpamFieldName, '', ' size="60" id="RAS" style="visibility:hidden; display:none;" autocomplete="off"') ?>
 

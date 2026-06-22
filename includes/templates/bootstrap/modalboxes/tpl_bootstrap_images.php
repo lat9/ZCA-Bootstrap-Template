@@ -2,7 +2,7 @@
 /**
  * New Modal for popup_image_additional carousel
  * 
- * BOOTSTRAP v3.7.6
+ * BOOTSTRAP v3.8.0
  *
  * @package templateSystem
  * @copyright Copyright 2003-2016 Zen Cart Development Team
@@ -72,7 +72,7 @@ if ($flag_show_product_info_additional_images !== '0' && $num_images > 0) {
 <?php
 require DIR_WS_MODULES . zen_get_module_directory('main_product_image.php');
 ?>
-                                            <?= zen_image($products_image_large, $products_name, SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT) ?>
+                                            <?= zen_image($products_image_large, $products_name, $tplSetting->SMALL_IMAGE_WIDTH, $tplSetting->SMALL_IMAGE_HEIGHT) ?>
                                         </a>
                                     </li>
 <?php

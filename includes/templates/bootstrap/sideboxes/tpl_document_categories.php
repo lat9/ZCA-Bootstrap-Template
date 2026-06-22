@@ -38,12 +38,12 @@ foreach ($box_categories_array as $next_category) {
     }
 
     if ($next_category['has_sub_cat']) {
-        $content .= zen_config('CATEGORIES_SEPARATOR');
+        $content .= $tplSetting->CATEGORIES_SEPARATOR;
     }
 
     if (zen_config('SHOW_COUNTS') === 'true') {
-        if ((zen_config('CATEGORIES_COUNT_ZERO') === '1' && $next_category['count'] == 0) || $next_category['count'] >= 1) {
-            $content .= '<span class="badge badge-pill">' . zen_config('CATEGORIES_COUNT_PREFIX') . $next_category['count'] . zen_config('CATEGORIES_COUNT_SUFFIX') . '</span>';
+        if (($tplSetting->CATEGORIES_COUNT_ZERO === '1' && $next_category['count'] == 0) || $next_category['count'] >= 1) {
+            $content .= '<span class="badge badge-pill">' . $tplSetting->CATEGORIES_COUNT_PREFIX . $next_category['count'] . $tplSetting->CATEGORIES_COUNT_SUFFIX . '</span>';
         }
     }
 

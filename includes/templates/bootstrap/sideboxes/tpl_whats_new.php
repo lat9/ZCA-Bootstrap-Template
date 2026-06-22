@@ -37,7 +37,7 @@ while (!$random_whats_new_sidebox_product->EOF) {
         $carousel_start .
         '<div class="card mb-3 p-3 sideBoxContentItem">' .
             '<a href="' . $whats_new_link . '" title="' . zen_output_string_protected($whats_new_name) . '">' .
-                zen_image(DIR_WS_IMAGES . $current_new['products_image'], $whats_new_name, zen_config('SMALL_IMAGE_WIDTH'), zen_config('SMALL_IMAGE_HEIGHT')) .
+                zen_image(DIR_WS_IMAGES . $current_new['products_image'], $whats_new_name, $tplSetting->SMALL_IMAGE_WIDTH, $tplSetting->SMALL_IMAGE_HEIGHT) .
                 '<br>' .
                 $whats_new_name .
             '</a>' .

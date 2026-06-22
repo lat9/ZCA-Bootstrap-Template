@@ -53,7 +53,7 @@ if ((($manufacturers_id > 0 && empty($_GET['filter_id'])) || !empty($_GET['music
 
 $num_products_count = 0;
 if ($featured_products_query !== '') {
-    $featured_products = $db->ExecuteRandomMulti($featured_products_query, zen_config('MAX_DISPLAY_SEARCH_RESULTS_FEATURED'));
+    $featured_products = $db->ExecuteRandomMulti($featured_products_query, $tplSetting->MAX_DISPLAY_SEARCH_RESULTS_FEATURED);
     $num_products_count = $featured_products->RecordCount();
 }
 
@@ -77,10 +77,10 @@ if ($num_products_count > 0) {
         $featured_products_link = zen_href_link(zen_get_info_page($featured_products_id), 'cPath=' . $productsInCategory[$featured_products_id] . '&products_id=' . $featured_products_id);
 
         $featured_products_image = '';
-        if (!($featured_products->fields['products_image'] === '' && zen_config('PRODUCTS_IMAGE_NO_IMAGE_STATUS') === '0')) {
+        if (!($featured_products->fields['products_image'] === '' && $tplSetting->PRODUCTS_IMAGE_NO_IMAGE_STATUS === '0')) {
             $featured_products_image =
                 '<a href="' . $featured_products_link . '" title="' . zen_output_string_protected($featured_products_name) . '">' .
-                    zen_image(DIR_WS_IMAGES . $featured_products->fields['products_image'], $featured_products_name, zen_config('SMALL_IMAGE_WIDTH'), zen_config('SMALL_IMAGE_HEIGHT')) .
+                    zen_image(DIR_WS_IMAGES . $featured_products->fields['products_image'], $featured_products_name, $tplSetting->SMALL_IMAGE_WIDTH, $tplSetting->SMALL_IMAGE_HEIGHT) .
                 '</a><br>';
         }
         $list_box_contents[$row][$col] = [
@@ -89,18 +89,23 @@ if ($num_products_count > 0) {
         ];
 
         $col++;
-        if ($col >= zen_config('SHOW_PRODUCT_INFO_COLUMNS_FEATURED_PRODUCTS')) {
+        if ($col >= $tplSetting->SHOW_PRODUCT_INFO_COLUMNS_FEATURED_PRODUCTS) {
             $col = 0;
             $row++;
         }
         $featured_products->MoveNextRandom();
     }
 
-    if (isset($new_products_category_id) && $new_products_category_id != 0) {
-        $category_title = zen_get_category_name((int)$new_products_category_id, $_SESSION['languages_id']);
-        $title = '<p id="featuredCenterbox-card-header" class="centerBoxHeading card-header h3">' . TABLE_HEADING_FEATURED_PRODUCTS . ($category_title != '' ? ' - ' . $category_title : '') . '</p>';
-    } else {
-        $title = '<p id="featuredCenterbox-card-header" class="centerBoxHeading card-header h3">' . TABLE_HEADING_FEATURED_PRODUCTS . '</p>';
+    $category_title = '';
+    if (!empty($current_category_id)) {
+        $category_title = zen_get_category_name((int)$current_category_id);
+        if ($category_title !== '') {
+            $category_title = ' - ' . $category_title;
+        }
     }
+    $title =
+        '<p id="featuredCenterbox-card-header" class="centerBoxHeading card-header h3">' .
+            TABLE_HEADING_FEATURED_PRODUCTS . $category_title .
+        '</p>';
     $zc_show_featured = true;
 }

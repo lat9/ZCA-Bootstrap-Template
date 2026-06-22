@@ -36,7 +36,7 @@ if ($module_show_categories !== '0') {
 <?php
 }
 
-if (in_array(zen_config('PRODUCT_INFO_PREVIOUS_NEXT'), ['1', '3'], true)) {
+if (in_array($tplSetting->PRODUCT_INFO_PREVIOUS_NEXT, ['1', '3'], true)) {
 ?>
     <!--bof Prev/Next top position -->
     <div id="<?= $html_id_prefix ?>-productPrevNextTop" class="productPrevNextTop">
@@ -375,7 +375,7 @@ if ($products_date_available > date('Y-m-d H:i:s')) {
 
 <!--bof Prev/Next bottom position -->
 <?php
-if (in_array(zen_config('PRODUCT_INFO_PREVIOUS_NEXT'), ['2', '3'], true)) {
+if (in_array($tplSetting->PRODUCT_INFO_PREVIOUS_NEXT, ['2', '3'], true)) {
 ?>
     <div id="<?= $html_id_prefix ?>-productPrevNextBottom" class="productPrevNextBottom">
         <?php require $template->get_template_dir('/tpl_products_next_previous.php', DIR_WS_TEMPLATE, $current_page_base, 'templates') . '/tpl_products_next_previous.php'; ?>

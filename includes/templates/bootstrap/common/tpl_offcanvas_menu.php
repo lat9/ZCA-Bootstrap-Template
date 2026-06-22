@@ -2,7 +2,7 @@
 /**
  * Template for Mobile Header Drop Down
  * 
- * BOOTSTRAP v3.7.9
+ * BOOTSTRAP v3.8.0
  *
  * @copyright Copyright 2003-2020 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
@@ -40,7 +40,7 @@ foreach ($categories_tab as $category_tab) {
 ?>
         </ul>
 <?php
-if (zen_config('SHOW_CATEGORIES_BOX_SPECIALS') === 'true') {
+if ($tplSetting->SHOW_CATEGORIES_BOX_SPECIALS === 'true') {
     $show_this = $db->Execute("SELECT s.products_id FROM " . TABLE_SPECIALS . " s WHERE s.status = 1 LIMIT 1");
     if (!$show_this->EOF) {
 ?>
@@ -52,7 +52,7 @@ if (zen_config('SHOW_CATEGORIES_BOX_SPECIALS') === 'true') {
     }
 }
 
-if (zen_config('SHOW_CATEGORIES_BOX_PRODUCTS_NEW') === 'true') {
+if ($tplSetting->SHOW_CATEGORIES_BOX_PRODUCTS_NEW === 'true') {
       // display limits
     $display_limit = zen_get_new_date_range();
     $show_this = $db->Execute("SELECT p.products_id FROM " . TABLE_PRODUCTS . " p WHERE p.products_status = 1 " . $display_limit . " LIMIT 1");
@@ -66,7 +66,7 @@ if (zen_config('SHOW_CATEGORIES_BOX_PRODUCTS_NEW') === 'true') {
     }
 }
 
-if (zen_config('SHOW_CATEGORIES_BOX_FEATURED_PRODUCTS') === 'true') {
+if ($tplSetting->SHOW_CATEGORIES_BOX_FEATURED_PRODUCTS === 'true') {
     $show_this = $db->Execute("SELECT products_id FROM " . TABLE_FEATURED . " WHERE status = 1 LIMIT 1");
     if (!$show_this->EOF) {
 ?>
@@ -78,7 +78,7 @@ if (zen_config('SHOW_CATEGORIES_BOX_FEATURED_PRODUCTS') === 'true') {
     }
 }
 
-if (zen_config('SHOW_CATEGORIES_BOX_PRODUCTS_ALL') === 'true') {
+if ($tplSetting->SHOW_CATEGORIES_BOX_PRODUCTS_ALL === 'true') {
 ?>
         <div class="dropdown-divider"></div>
         <a class="dropdown-item" href="<?= zen_href_link(FILENAME_PRODUCTS_ALL) ?>">
@@ -175,7 +175,7 @@ if (!$more_information_sidebox->EOF) {
 }
 
 // test if ez-pages links should display
-if (zen_config('EZPAGES_STATUS_SIDEBOX') === '1' || (zen_config('EZPAGES_STATUS_SIDEBOX') === '2' && zen_is_whitelisted_admin_ip())) {
+if ($tplSetting->EZPAGES_STATUS_SIDEBOX === '1' || ($tplSetting->EZPAGES_STATUS_SIDEBOX === '2' && zen_is_whitelisted_admin_ip())) {
     if (isset($var_linksList)) {
         unset($var_linksList);
     }

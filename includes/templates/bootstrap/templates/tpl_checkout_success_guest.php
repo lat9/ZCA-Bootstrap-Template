@@ -73,7 +73,7 @@ if ($offer_account_creation) {
 <?php
 }
 
-if (in_array(zen_config('DEFINE_CHECKOUT_SUCCESS_STATUS'), ['1', '2'], true)) {
+if (in_array($tplSetting->DEFINE_CHECKOUT_SUCCESS_STATUS, ['1', '2'], true)) {
 ?>
     <div id="checkoutSuccessMainContent" class="content"><?php require $define_page; ?></div>
 <?php 

@@ -18,12 +18,12 @@
 
     <div id="indexProductList-cat-wrap">
 <?php
-if (zen_config('PRODUCT_LIST_CATEGORIES_IMAGE_STATUS') === 'true') {
+if ($tplSetting->PRODUCT_LIST_CATEGORIES_IMAGE_STATUS === 'true') {
 // categories_image
     if ($categories_image = zen_get_categories_image($current_category_id)) {
 ?>
         <div id="indexProductList-categoryImage" class="categoryImage">
-            <?= zen_image(DIR_WS_IMAGES . $categories_image, '', zen_config('CATEGORY_ICON_IMAGE_WIDTH'), zen_config('CATEGORY_ICON_IMAGE_HEIGHT')) ?>
+            <?= zen_image(DIR_WS_IMAGES . $categories_image, '', $tplSetting->CATEGORY_ICON_IMAGE_WIDTH, $tplSetting->CATEGORY_ICON_IMAGE_HEIGHT) ?>
         </div>
 <?php
     }
@@ -47,7 +47,7 @@ if ($current_categories_description != '') {
 $check_for_alpha = $listing_sql;
 $check_for_alpha = $db->Execute($check_for_alpha);
 
-if ($do_filter_list || isset($_GET['alpha_filter_id']) || (zen_config('PRODUCT_LIST_ALPHA_SORTER') === 'true' && !$check_for_alpha->EOF)) {
+if ($do_filter_list || isset($_GET['alpha_filter_id']) || ($tplSetting->PRODUCT_LIST_ALPHA_SORTER === 'true' && !$check_for_alpha->EOF)) {
     echo
         zen_draw_form('filter', zen_href_link(FILENAME_DEFAULT), 'get', 'class="form-inline"') .
         '<label class="inputLabel">' . TEXT_SHOW . '</label>' .

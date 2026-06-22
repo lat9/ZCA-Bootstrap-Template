@@ -16,7 +16,7 @@
 <div id="siteMapDefault" class="centerColumn">
     <h1 id="siteMapDefault-pageHeading" class="pageHeading"><?= HEADING_TITLE ?></h1>
 <?php
-if (zen_config('DEFINE_SITE_MAP_STATUS') === '1') {
+if ($tplSetting->DEFINE_SITE_MAP_STATUS === '1') {
 ?>
     <div id="siteMapDefault-defineContent" class="defineContent">
 <?php
@@ -39,7 +39,7 @@ if (!empty($flag_show_about_us_sidebox_link)) {
 <?php
 }
 
-if (zen_config('SHOW_ACCOUNT_LINKS_ON_SITE_MAP') === 'Yes') {
+if ($tplSetting->SHOW_ACCOUNT_LINKS_ON_SITE_MAP === 'Yes') {
 ?>
         <li class="list-group-item"><a href="<?= zen_href_link(FILENAME_ACCOUNT, '', 'SSL') ?>"><?= PAGE_ACCOUNT ?></a>
             <ul class="list-group">
@@ -61,18 +61,18 @@ if (zen_config('SHOW_ACCOUNT_LINKS_ON_SITE_MAP') === 'Yes') {
         <li class="list-group-item"><?= BOX_HEADING_INFORMATION ?>
             <ul class="list-group">
 <?php
-if (zen_config('DEFINE_SHIPPINGINFO_STATUS') <= '1') {
+if ($tplSetting->DEFINE_SHIPPINGINFO_STATUS <= '1') {
 ?>
                 <li class="list-group-item"><?= '<a href="' . zen_href_link(FILENAME_SHIPPING) . '">' . BOX_INFORMATION_SHIPPING . '</a>' ?></li>
 <?php
 }
 
-if (zen_config('DEFINE_PRIVACY_STATUS') <= '1') {
+if ($tplSetting->DEFINE_PRIVACY_STATUS <= '1') {
 ?>
                 <li class="list-group-item"><?= '<a href="' . zen_href_link(FILENAME_PRIVACY) . '">' . BOX_INFORMATION_PRIVACY . '</a>' ?></li>
 <?php
 }
-if (zen_config('DEFINE_CONDITIONS_STATUS') <= '1') {
+if ($tplSetting->DEFINE_CONDITIONS_STATUS <= '1') {
 ?>
                 <li class="list-group-item"><?= '<a href="' . zen_href_link(FILENAME_CONDITIONS) . '">' . BOX_INFORMATION_CONDITIONS . '</a>' ?></li>
 <?php
@@ -84,7 +84,7 @@ if (defined('FILENAME_ACCESSIBILITY') && !empty($flag_show_accessibility_sidebox
 <?php
 }
 
-if (zen_config('DEFINE_CONTACT_US_STATUS') <= '1') {
+if ($tplSetting->DEFINE_CONTACT_US_STATUS <= '1') {
 ?>
                 <li class="list-group-item"><?= '<a href="' . zen_href_link(FILENAME_CONTACT_US, '', 'SSL') . '">' . BOX_INFORMATION_CONTACT . '</a>' ?></li>
 <?php
@@ -114,19 +114,19 @@ if (zen_config('SHOW_NEWSLETTER_UNSUBSCRIBE_LINK') === 'true') {
 <?php
 }
 
-if (zen_config('DEFINE_PAGE_2_STATUS') <= '1') {
+if ($tplSetting->DEFINE_PAGE_2_STATUS <= '1') {
 ?>
                 <li class="list-group-item"><?= '<a href="' . zen_href_link(FILENAME_PAGE_2) . '">' . BOX_INFORMATION_PAGE_2 . '</a>' ?></li>
 <?php
 }
 
-if (zen_config('DEFINE_PAGE_3_STATUS') <= '1') {
+if ($tplSetting->DEFINE_PAGE_3_STATUS <= '1') {
 ?>
                 <li class="list-group-item"><?= '<a href="' . zen_href_link(FILENAME_PAGE_3) . '">' . BOX_INFORMATION_PAGE_3 . '</a>' ?></li>
 <?php
 }
 
-if (zen_config('DEFINE_PAGE_4_STATUS') <= '1') {
+if ($tplSetting->DEFINE_PAGE_4_STATUS <= '1') {
 ?>
                 <li class="list-group-item"><?= '<a href="' . zen_href_link(FILENAME_PAGE_4) . '">' . BOX_INFORMATION_PAGE_4 . '</a>' ?></li>
 <?php

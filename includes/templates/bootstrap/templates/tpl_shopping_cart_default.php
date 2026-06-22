@@ -166,7 +166,7 @@ if ($flagHasCartContents) {
 
 <?php
     // show update cart button
-    if (in_array(zen_config('SHOW_SHOPPING_CART_UPDATE'), ['2', '3'], true)) {
+    if (in_array($tplSetting->SHOW_SHOPPING_CART_UPDATE, ['2', '3'], true)) {
 ?>
                     <div id="cartUpdate" class="text-center">
                         <button type="submit" class="btn btn-sm" aria-label="<?= BUTTON_UPDATE_ALT ?>"><i class="fas fa-sm fa-sync-alt"></i></button>
@@ -191,7 +191,7 @@ if ($flagHasCartContents) {
 
     <?= '</form>' ?>
 <?php
-    if (zen_config('SHOW_SHIPPING_ESTIMATOR_BUTTON') === '1') {
+    if ($tplSetting->SHOW_SHIPPING_ESTIMATOR_BUTTON === '1') {
         // -----
         // Determine whether the modal should be shown on the page's initial rendering.  It will be if its
         // form was just posted.
@@ -222,7 +222,7 @@ if ($flagHasCartContents) {
 <!-- ** END PAYPAL EXPRESS CHECKOUT ** -->
 
 <?php
-    if (zen_config('SHOW_SHIPPING_ESTIMATOR_BUTTON') === '2') {
+    if ($tplSetting->SHOW_SHIPPING_ESTIMATOR_BUTTON === '2') {
 /**
  * load the shipping estimator code if needed
  */

@@ -7,10 +7,10 @@
  * Prepares attributes content for rendering in the template system
  * Prepares HTML for input fields with required uniqueness so template can display them as needed and keep collected data in proper fields
  *
- * @copyright Copyright 2003-2023 Zen Cart Development Team
+ * @copyright Copyright 2003-2025 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: nickwhaley 2022 Dec 12 Modified in v1.5.8a $
+ * @version $Id: pRose on amour 2025 Oct 06 Modified in v2.2.0 $
  */
 if (!defined('IS_ADMIN_FLAG')) {
     die('Illegal Access');
@@ -20,7 +20,7 @@ $show_onetime_charges_description = false;
 $show_attributes_qty_prices_description = false;
 
 // Determine number of attributes associated with this product
-$sql = "SELECT count(*) as total
+$sql = "SELECT COUNT(*) as total
         FROM " . TABLE_PRODUCTS_OPTIONS . " popt
         LEFT JOIN " . TABLE_PRODUCTS_ATTRIBUTES . " patrib ON (popt.products_options_id = patrib.options_id)
         WHERE patrib.products_id = :products_id
@@ -30,25 +30,48 @@ $sql = $db->bindVars($sql, ':products_id', $_GET['products_id'], 'integer');
 $sql = $db->bindVars($sql, ':language_id', $_SESSION['languages_id'], 'integer');
 $pr_attr = $db->Execute($sql);
 
-if ($pr_attr->fields['total'] < 1) return;
+if ($pr_attr->fields['total'] < 1) {
+    return;
+}
+
 // Only process the rest of this file if attributes are defined for this product
 
+// -----
+// Some back-porting for Zen Cart versions prior to 2.2.0.
+//
+// zc158/zc20x/zc210 don't provide the $product_data variable (an array from
+// the Product class' getDataForLanguage() method. What's provided is a SQL query
+// output ($product_info) that contains the products' fields.
+//
+// If the $product_data variable isn't currently set (presumption is that it's an
+// earlier ZC version than 2.2.0), that variable is filled with the `fields` array
+// present in the $product_info variable.
+//
+// This enables the rest of this module to use the majority of the zc220+ code,
+// other than form-input formatting, without change.
+//
+$product_data ??= $product_info->fields;
 
 $prod_id = $_GET['products_id'];
 $number_of_uploads = 0;
 $zv_display_select_option = 0;
-$options_name = $options_menu = $options_html_id = $options_inputfield_id = $options_comment = $options_comment_position = $options_attributes_image = array();
-$attributeDetailsArrayForJson = array();
+$options_name = [];
+$options_menu = [];
+$options_html_id = [];
+$options_inputfield_id = [];
+$options_comment = [];
+$options_comment_position = [];
+$options_attributes_image = [];
+$attributeDetailsArrayForJson = [];
 
 $discount_type = zen_get_products_sale_discount_type((int)$_GET['products_id']);
 $discount_amount = zen_get_discount_calc((int)$_GET['products_id']);
 $products_price_is_priced_by_attributes = zen_get_products_price_is_priced_by_attributes((int)$_GET['products_id']);
 
-
-if (PRODUCTS_OPTIONS_SORT_ORDER == '0') {
+if (zen_config('PRODUCTS_OPTIONS_SORT_ORDER') === '0') {
     $options_order_by = " ORDER BY LPAD(popt.products_options_sort_order,11,'0'), popt.products_options_name";
 } else {
-    $options_order_by = ' order by popt.products_options_name';
+    $options_order_by = ' ORDER BY popt.products_options_name';
 }
 
 $sql = "SELECT DISTINCT popt.products_options_id, popt.products_options_name, popt.products_options_sort_order,
@@ -66,20 +89,18 @@ $sql = $db->bindVars($sql, ':products_id', $_GET['products_id'], 'integer');
 $sql = $db->bindVars($sql, ':language_id', $_SESSION['languages_id'], 'integer');
 $products_options_names = $db->Execute($sql);
 
-
-if (PRODUCTS_OPTIONS_SORT_BY_PRICE == '1') {
+if (zen_config('PRODUCTS_OPTIONS_SORT_BY_PRICE') === '1') {
     $order_by = " ORDER BY LPAD(pa.products_options_sort_order,11,'0'), pov.products_options_values_name";
 } else {
     $order_by = " ORDER BY LPAD(pa.products_options_sort_order,11,'0'), pa.options_values_price";
 }
 
-while (!$products_options_names->EOF) {
-    $products_options_array = array();
+foreach ($products_options_names as $next_option_name) {
+    $products_options_array = [];
 
-    $products_options_id = $products_options_names->fields['products_options_id'];
-    $products_options_type = $products_options_names->fields['products_options_type'];
-    $products_options_name = $products_options_names->fields['products_options_name'];
-
+    $products_options_id = $next_option_name['products_options_id'];
+    $products_options_type = $next_option_name['products_options_type'];
+    $products_options_name = $next_option_name['products_options_name'];
 
     /* Field names for dev reference
         pov.products_options_values_id
@@ -111,18 +132,26 @@ while (!$products_options_names->EOF) {
     $tmp_radio = '';
     $tmp_checkbox = '';
     $tmp_html = '';
-    $selected_attribute = $selected_dropdown_attribute = false; // boolean, used for radio/checkbox/select
+    $selected_attribute = false;
+    $selected_dropdown_attribute = false; // boolean, used for radio/checkbox/select
 
     $tmp_attributes_image = '';
     $tmp_attributes_image_row = 0;
     $show_attributes_qty_prices_icon = false;
     $i = 0;
 
-    $zco_notifier->notify('NOTIFY_ATTRIBUTES_MODULE_START_OPTION', $products_options_names->fields);
+    // -----
+    // Preset common variables for use in the option's values' loop.
+    //
+    $option_form_name = 'id[' . $products_options_id . ']';
+    $option_is_text_or_file = ($products_options_type === zen_config('PRODUCTS_OPTIONS_TYPE_FILE') || $products_options_type === zen_config('PRODUCTS_OPTIONS_TYPE_TEXT'));
+    $products_tax_rate ??= zen_get_tax_rate($product_data['products_tax_class_id']);
+
+    $zco_notifier->notify('NOTIFY_ATTRIBUTES_MODULE_START_OPTION', $next_option_name);
 
     // loop through each Attribute
-    while (!$products_options->EOF) {
-        $products_options_value_id = $products_options->fields['products_options_values_id'];
+    foreach ($products_options as $next_option) {
+        $products_options_value_id = $next_option['products_options_values_id'];
 
         // for generated html labels to match input fields, and client-side code to identify fields
         $inputFieldId = 'attrib-' . $products_options_id . ($products_options_type === zen_config('PRODUCTS_OPTIONS_TYPE_SELECT') ? '' : '-' . $products_options_value_id);
@@ -135,19 +164,22 @@ while (!$products_options_names->EOF) {
         $new_attributes_price = '';
         $price_onetime = '';
 
-        $products_options_array[] = array(
+        $products_options_array[] = [
             'id'   => $products_options_value_id,
-            'text' => $products_options->fields['products_options_values_name'],
-        );
+            'text' => $next_option['products_options_values_name'],
+        ];
 
         $attributeDetailsArrayForJson[$inputFieldId] = array_merge(
-            array(
+            [
                 'field_id' => $inputFieldId,
-                'name' => $products_options_names->fields['products_options_name'],
-                'attr_id' => $products_options_names->fields['products_options_id'],
-            ), $products_options->fields, $products_options_names->fields);
+                'name' => $next_option_name['products_options_name'],
+                'attr_id' => $next_option_name['products_options_id'],
+            ],
+            $next_option,
+            $next_option_name
+        );
 
-        $zco_notifier->notify('NOTIFY_ATTRIBUTES_MODULE_START_OPTIONS_LOOP', $i++, $products_options->fields, $products_options_names->fields, $data_properties, $field_disabled, $attributeDetailsArrayForJson);
+        $zco_notifier->notify('NOTIFY_ATTRIBUTES_MODULE_START_OPTIONS_LOOP', $i++, $next_option, $next_option_name, $data_properties, $field_disabled, $attributeDetailsArrayForJson);
 
 
         // DEAL WITH PRICE AND WEIGHT DISPLAY
@@ -157,20 +189,19 @@ while (!$products_options_names->EOF) {
             || (zen_config('CUSTOMERS_APPROVAL') === '2' && $_SESSION['customers_authorization'] == '2')
             || (zen_config('CUSTOMERS_APPROVAL_AUTHORIZATION') === '2' && $_SESSION['customers_authorization'] != 0)
         ) {
-
             $new_attributes_price = 0;
             $new_options_values_price = 0;
             $products_options_display_price = '';
             $price_onetime = '';
         } else {
             // collect price information if it exists
-            if ($products_options->fields['attributes_discounted'] == 1) {
+            if ($next_option['attributes_discounted'] === '1') {
                 // apply product discount to attributes if discount is on
-                $new_attributes_price = zen_get_attributes_price_final($products_options->fields["products_attributes_id"], 1, '', false, $products_price_is_priced_by_attributes);
+                $new_attributes_price = zen_get_attributes_price_final($next_option['products_attributes_id'], 1, '', false, $products_price_is_priced_by_attributes);
                 //$new_attributes_price = zen_get_discount_calc((int)$_GET['products_id'], true, $new_attributes_price);
             } else {
                 // discount is off do not apply
-                $new_attributes_price = $products_options->fields['options_values_price'];
+                $new_attributes_price = $next_option['options_values_price'];
 
                 // -----
                 // If the attribute's price is 0, set it to an (int) 0 so that follow-on checks
@@ -186,35 +217,44 @@ while (!$products_options_names->EOF) {
                 $new_attributes_price = -$new_attributes_price;
             }
 
-            if ($products_options->fields['attributes_price_onetime'] != 0 || $products_options->fields['attributes_price_factor_onetime'] != 0) {
+            if ($next_option['attributes_price_onetime'] != 0 || $next_option['attributes_price_factor_onetime'] != 0) {
                 $show_onetime_charges_description = true;
-                $new_onetime_charges = zen_get_attributes_price_final_onetime($products_options->fields["products_attributes_id"], 1, '');
-                $price_onetime = TEXT_ONETIME_CHARGE_SYMBOL . $currencies->display_price($new_onetime_charges, zen_get_tax_rate($product_info->fields['products_tax_class_id']));
+                $new_onetime_charges = zen_get_attributes_price_final_onetime($next_option['products_attributes_id'], 1, '');
+                $price_onetime = TEXT_ONETIME_CHARGE_SYMBOL . $currencies->display_price($new_onetime_charges, $products_tax_rate);
             } else {
                 $price_onetime = '';
             }
 
-            if ($products_options->fields['attributes_qty_prices'] != '' || $products_options->fields['attributes_qty_prices_onetime'] != '') {
+            if (!empty($next_option['attributes_qty_prices']) || !empty($next_option['attributes_qty_prices_onetime'])) {
                 $show_attributes_qty_prices_description = true;
                 $show_attributes_qty_prices_icon = true;
             }
 
-            if ($products_options->fields['options_values_price'] != '0' && ($products_options->fields['product_attribute_is_free'] != '1' && $product_info->fields['product_is_free'] != '1')) {
+            if ($next_option['options_values_price'] != 0 && $next_option['product_attribute_is_free'] !== '1' && $product_data['product_is_free'] !== '1') {
                 // show sale maker discount if a percentage
-                $products_options_display_price = ATTRIBUTES_PRICE_DELIMITER_PREFIX . $products_options->fields['price_prefix'] . $currencies->display_price($new_attributes_price, zen_get_tax_rate($product_info->fields['products_tax_class_id'])) . ATTRIBUTES_PRICE_DELIMITER_SUFFIX;
+                $products_options_display_price =
+                    ATTRIBUTES_PRICE_DELIMITER_PREFIX . $next_option['price_prefix'] .
+                    $currencies->display_price($new_attributes_price, $products_tax_rate) .
+                    ATTRIBUTES_PRICE_DELIMITER_SUFFIX;
 
-                $zco_notifier->notify('NOTIFY_ATTRIBUTES_MODULE_SALEMAKER_DISPLAY_PRICE_PERCENTAGE', $products_options->fields, $product_info->fields, $products_options_display_price, $data_properties);
+                $zco_notifier->notify('NOTIFY_ATTRIBUTES_MODULE_SALEMAKER_DISPLAY_PRICE_PERCENTAGE', $next_option, $product_data, $products_options_display_price, $data_properties);
 
             } else {
                 // if product_is_free and product_attribute_is_free
-                if ($products_options->fields['product_attribute_is_free'] == '1' && $product_info->fields['product_is_free'] == '1') {
-                    $products_options_display_price = TEXT_ATTRIBUTES_PRICE_WAS . $products_options->fields['price_prefix'] . $currencies->display_price($new_attributes_price, zen_get_tax_rate($product_info->fields['products_tax_class_id'])) . TEXT_ATTRIBUTE_IS_FREE;
+                if ($next_option['product_attribute_is_free'] === '1' && $product_data['product_is_free'] === '1') {
+                    $products_options_display_price =
+                        TEXT_ATTRIBUTES_PRICE_WAS . $next_option['price_prefix'] .
+                        $currencies->display_price($new_attributes_price, $products_tax_rate) .
+                        TEXT_ATTRIBUTE_IS_FREE;
                 } else {
                     // normal price
                     if (empty($new_attributes_price)) {
                         $products_options_display_price = '';
                     } else {
-                        $products_options_display_price = ATTRIBUTES_PRICE_DELIMITER_PREFIX . $products_options->fields['price_prefix'] . $currencies->display_price($new_attributes_price, zen_get_tax_rate($product_info->fields['products_tax_class_id'])) . ATTRIBUTES_PRICE_DELIMITER_SUFFIX;
+                        $products_options_display_price =
+                            ATTRIBUTES_PRICE_DELIMITER_PREFIX . $next_option['price_prefix'] .
+                            $currencies->display_price($new_attributes_price, $products_tax_rate) .
+                            ATTRIBUTES_PRICE_DELIMITER_SUFFIX;
                     }
                 }
             }
@@ -223,13 +263,16 @@ while (!$products_options_names->EOF) {
 
         } // approve
 
-        $zco_notifier->notify('NOTIFY_ATTRIBUTES_MODULE_ORIGINAL_PRICE', $products_options->fields, $products_options_array, $products_options_display_price, $data_properties);
+        $zco_notifier->notify('NOTIFY_ATTRIBUTES_MODULE_ORIGINAL_PRICE', $next_option, $products_options_array, $products_options_display_price, $data_properties);
 
         $products_options_array[count($products_options_array) - 1]['text'] .= $products_options_display_price;
 
         // collect weight information if it exists
-        if ($flag_show_weight_attrib_for_this_prod_type == '1' && $products_options->fields['products_attributes_weight'] != '0') {
-            $products_options_display_weight = ATTRIBUTES_WEIGHT_DELIMITER_PREFIX . $products_options->fields['products_attributes_weight_prefix'] . round($products_options->fields['products_attributes_weight'], 2) .  TEXT_PRODUCT_WEIGHT_UNIT . ATTRIBUTES_WEIGHT_DELIMITER_SUFFIX;
+        if ($flag_show_weight_attrib_for_this_prod_type == '1' && $next_option['products_attributes_weight'] != 0) {
+            $products_options_display_weight =
+                ATTRIBUTES_WEIGHT_DELIMITER_PREFIX . $next_option['products_attributes_weight_prefix'] .
+                round($next_option['products_attributes_weight'], 2) .
+                TEXT_PRODUCT_WEIGHT_UNIT . ATTRIBUTES_WEIGHT_DELIMITER_SUFFIX;
             $products_options_array[count($products_options_array) - 1]['text'] .= $products_options_display_weight;
         } else {
             // reset
@@ -237,27 +280,26 @@ while (!$products_options_names->EOF) {
         }
 
         // prepare product options details
-
         if ($products_options->RecordCount() == 1
-            || in_array($products_options_type, array(
-                PRODUCTS_OPTIONS_TYPE_FILE,
-                PRODUCTS_OPTIONS_TYPE_TEXT,
-                PRODUCTS_OPTIONS_TYPE_CHECKBOX,
-                PRODUCTS_OPTIONS_TYPE_RADIO,
-                PRODUCTS_OPTIONS_TYPE_READONLY,
-                )
+            || in_array($products_options_type, [
+                zen_config('PRODUCTS_OPTIONS_TYPE_FILE'),
+                zen_config('PRODUCTS_OPTIONS_TYPE_TEXT'),
+                zen_config('PRODUCTS_OPTIONS_TYPE_CHECKBOX'),
+                zen_config('PRODUCTS_OPTIONS_TYPE_RADIO'),
+                zen_config('PRODUCTS_OPTIONS_TYPE_READONLY'),
+                ]
             )
         ) {
             $products_options_details = '';
             // don't show option value name on TEXT or filename
-            if (!in_array($products_options_type, [zen_config('PRODUCTS_OPTIONS_TYPE_TEXT'), zen_config('PRODUCTS_OPTIONS_TYPE_FILE')], true)) {
-                $products_options_details = $products_options->fields['products_options_values_name'];
+            if ($option_is_text_or_file === false) {
+                $products_options_details = $next_option['products_options_values_name'];
             }
             $products_options_details .= $products_options_display_price;
             $products_options_details_noname = $products_options_display_price;
 
-            if ($products_options->fields['products_attributes_weight'] != 0) {
-                if ($products_options_names->fields['products_options_images_style'] >= 3) {
+            if ($next_option['products_attributes_weight'] != 0) {
+                if ($next_option_name['products_options_images_style'] >= 3) {
                     $products_options_details .= '<br>';
                     $products_options_details_noname .= '<br>';
                 } else {
@@ -269,17 +311,16 @@ while (!$products_options_names->EOF) {
             }
         }
 
-
         // DEAL WITH OPTION TYPES
 
         // radio buttons
         if ($products_options_type === zen_config('PRODUCTS_OPTIONS_TYPE_RADIO')) {
             if ($_SESSION['cart']->in_cart($prod_id)) {
-                if (isset($_SESSION['cart']->contents[$prod_id]['attributes'][$products_options_id]) && $_SESSION['cart']->contents[$prod_id]['attributes'][$products_options_id] == $products_options_value_id) {
+                if (($_SESSION['cart']->contents[$prod_id]['attributes'][$products_options_id] ?? -99) == $products_options_value_id) {
                     $selected_attribute = $_SESSION['cart']->contents[$prod_id]['attributes'][$products_options_id];
                 }
             } else {
-                // $selected_attribute = ($products_options->fields['attributes_default']=='1' ? true : false);
+                // $selected_attribute = ($next_option['attributes_default']=='1' ? true : false);
                 // if an error, set to customer setting
                 if (!empty($_POST['id']) && is_array($_POST['id'])) {
                     foreach ($_POST['id'] as $key => $value) {
@@ -290,65 +331,132 @@ while (!$products_options_names->EOF) {
                     }
                 } else {
                     // select default but do NOT auto select single radio buttons
-                        //$selected_attribute = ($products_options->fields['attributes_default']=='1' ? true : false);
+                    //$selected_attribute = ($next_option['attributes_default']=='1' ? true : false);
                     // select default radio button or auto select single radio buttons
-                    $selected_attribute = ($products_options->fields['attributes_default'] == '1' ? true : ($products_options->RecordCount() == 1));
+                    $selected_attribute = ($next_option['attributes_default'] === '1' ? true : ($products_options->RecordCount() == 1));
                 }
             }
 
-            $zco_notifier->notify('NOTIFY_ATTRIBUTES_MODULE_RADIO_SELECTED', $products_options->fields, $data_properties);
+            $zco_notifier->notify('NOTIFY_ATTRIBUTES_MODULE_RADIO_SELECTED', $next_option, $data_properties);
 
-            switch ($products_options_names->fields['products_options_images_style']) {
+            switch ($next_option_name['products_options_images_style']) {
                 case '0':
-                    $tmp_radio .= '<div class="custom-control custom-radio">' . zen_draw_radio_field('id[' . $products_options_id . ']', $products_options_value_id, $selected_attribute, 'id="' . $inputFieldId . '" ' . $data_properties . $field_disabled) . '<label class="custom-control-label attribsRadioButton zero" for="' . $inputFieldId . '">' . $products_options_details . '</label></div>' . "\n";
+                    $tmp_radio .=
+                        '<div class="custom-control custom-radio">' . 
+                            zen_draw_radio_field($option_form_name, $products_options_value_id, $selected_attribute, 'id="' . $inputFieldId . '" ' . $data_properties . $field_disabled) .
+                            '<label class="custom-control-label attribsRadioButton zero" for="' . $inputFieldId . '">' .
+                                $products_options_details .
+                            '</label>' .
+                        '</div>' . "\n";
                     break;
                 case '1':
-                    $tmp_radio .= '<div class="custom-control custom-radio">' . zen_draw_radio_field('id[' . $products_options_id . ']', $products_options_value_id, $selected_attribute, 'id="' . $inputFieldId . '" ' . $data_properties . $field_disabled) . '<label class="custom-control-label attribsRadioButton one" for="' . $inputFieldId . '">' . (!empty($products_options->fields['attributes_image']) ? zen_image(DIR_WS_IMAGES . $products_options->fields['attributes_image'], '', '', '' ) . '  ' : '') . $products_options_details . '</label></div>' . "\n";
+                    $tmp_radio .=
+                        '<div class="custom-control custom-radio">' .
+                            zen_draw_radio_field($option_form_name, $products_options_value_id, $selected_attribute, 'id="' . $inputFieldId . '" ' . $data_properties . $field_disabled) .
+                            '<label class="custom-control-label attribsRadioButton one" for="' . $inputFieldId . '">' .
+                                (!empty($next_option['attributes_image']) ? zen_image(DIR_WS_IMAGES . $next_option['attributes_image'], '', '', '' ) . '  ' : '') .
+                                $products_options_details .
+                            '</label>' .
+                        '</div>' . "\n";
                     break;
                 case '2':
-                    $tmp_radio .= '<div class="custom-control custom-radio">' . zen_draw_radio_field('id[' . $products_options_id . ']', $products_options_value_id, $selected_attribute, 'id="' . $inputFieldId . '" ' . $data_properties . $field_disabled) . '<label class="custom-control-label attribsRadioButton two" for="' . $inputFieldId . '">' . $products_options_details . (!empty($products_options->fields['attributes_image']) ? '<br>' . zen_image(DIR_WS_IMAGES . $products_options->fields['attributes_image'], '', '', '' ) : '') . '</label></div>' . "\n";
+                    $tmp_radio .=
+                        '<div class="custom-control custom-radio">' .
+                            zen_draw_radio_field($option_form_name, $products_options_value_id, $selected_attribute, 'id="' . $inputFieldId . '" ' . $data_properties . $field_disabled) .
+                            '<label class="custom-control-label attribsRadioButton two" for="' . $inputFieldId . '">' .
+                                $products_options_details .
+                                (!empty($next_option['attributes_image']) ? '<br>' . zen_image(DIR_WS_IMAGES . $next_option['attributes_image'], '', '', '' ) : '') . 
+                            '</label>' .
+                        '</div>' . "\n";
                     break;
                 case '3':
                     $tmp_attributes_image_row++;
-                    if ($tmp_attributes_image_row > $products_options_names->fields['products_options_images_per_row']) {
+                    if ($tmp_attributes_image_row > $next_option_name['products_options_images_per_row']) {
                         $tmp_attributes_image .= '<br class="clearBoth">' . "\n";
                         $tmp_attributes_image_row = 1;
                     }
 
-                    if (!empty($products_options->fields['attributes_image'])) {
-                        $tmp_attributes_image .= '<div class="custom-control custom-radio attribImg">' . zen_draw_radio_field('id[' . $products_options_id . ']', $products_options_value_id, $selected_attribute, 'id="' . $inputFieldId . '" ' . $data_properties . $field_disabled) . '<label class="custom-control-label attribsRadioButton three" for="' . $inputFieldId . '">' . zen_image(DIR_WS_IMAGES . $products_options->fields['attributes_image']) . (zen_config('PRODUCT_IMAGES_ATTRIBUTES_NAMES') === '1' ? '<br>' . $products_options->fields['products_options_values_name'] : '') . $products_options_details_noname . '</label></div>' . "\n";
+                    if (!empty($next_option['attributes_image'])) {
+                        $tmp_attributes_image .=
+                            '<div class="custom-control custom-radio attribImg">' .
+                                zen_draw_radio_field($option_form_name, $products_options_value_id, $selected_attribute, 'id="' . $inputFieldId . '" ' . $data_properties . $field_disabled) .
+                                '<label class="custom-control-label attribsRadioButton three" for="' . $inputFieldId . '">' .
+                                    zen_image(DIR_WS_IMAGES . $next_option['attributes_image']) .
+                                    (zen_config('PRODUCT_IMAGES_ATTRIBUTES_NAMES') === '1' ? '<br>' . $next_option['products_options_values_name'] : '') .
+                                    $products_options_details_noname .
+                                '</label>' .
+                            '</div>' . "\n";
                     } else {
-                        $tmp_attributes_image .= '<div class="custom-control custom-radio attribImg">' . zen_draw_radio_field('id[' . $products_options_id . ']',  $products_options_value_id, $selected_attribute, 'id="' . $inputFieldId . '" ' . $data_properties . $field_disabled) . '<br>' . '<label class="custom-control-label attribsRadioButton threeA" for="' . $inputFieldId . '">' . $products_options->fields['products_options_values_name'] . $products_options_details_noname . '</label></div>' . "\n";
+                        $tmp_attributes_image .=
+                            '<div class="custom-control custom-radio attribImg">' .
+                                zen_draw_radio_field($option_form_name,  $products_options_value_id, $selected_attribute, 'id="' . $inputFieldId . '" ' . $data_properties . $field_disabled) .
+                                '<br>' .
+                                '<label class="custom-control-label attribsRadioButton threeA" for="' . $inputFieldId . '">' .
+                                    $next_option['products_options_values_name'] . $products_options_details_noname .
+                                '</label>' .
+                            '</div>' . "\n";
                     }
                     break;
 
                 case '4':
                     $tmp_attributes_image_row++;
 
-                    if ($tmp_attributes_image_row > $products_options_names->fields['products_options_images_per_row']) {
+                    if ($tmp_attributes_image_row > $next_option_name['products_options_images_per_row']) {
                         $tmp_attributes_image .= '<br class="clearBoth">' . "\n";
                         $tmp_attributes_image_row = 1;
                     }
 
-                    if (!empty($products_options->fields['attributes_image'])) {
-                        $tmp_attributes_image .= '<div class="custom-control custom-radio attribImg">' . '<label class="custom-control-label attribsRadioButton four" for="' . $inputFieldId . '">' . zen_image(DIR_WS_IMAGES . $products_options->fields['attributes_image']) . (zen_config('PRODUCT_IMAGES_ATTRIBUTES_NAMES') === '1' ? '<br>' . $products_options->fields['products_options_values_name'] : '') . (!empty($products_options_details_noname) ? '<br>' . $products_options_details_noname : '') . '</label><br>' . zen_draw_radio_field('id[' . $products_options_id . ']', $products_options_value_id, $selected_attribute, 'id="' . $inputFieldId . '" ' . $data_properties . $field_disabled) . '</div>' . "\n";
+                    if (!empty($next_option['attributes_image'])) {
+                        $tmp_attributes_image .=
+                            '<div class="custom-control custom-radio attribImg">' .
+                                '<label class="custom-control-label attribsRadioButton four" for="' . $inputFieldId . '">' .
+                                    zen_image(DIR_WS_IMAGES . $next_option['attributes_image']) .
+                                    (zen_config('PRODUCT_IMAGES_ATTRIBUTES_NAMES') === '1' ? '<br>' . $next_option['products_options_values_name'] : '') .
+                                    (!empty($products_options_details_noname) ? '<br>' . $products_options_details_noname : '') .
+                                '</label><br>' .
+                                zen_draw_radio_field($option_form_name, $products_options_value_id, $selected_attribute, 'id="' . $inputFieldId . '" ' . $data_properties . $field_disabled) .
+                            '</div>' . "\n";
                     } else {
-                        $tmp_attributes_image .= '<div class="custom-control custom-radio attribImg">' . '<label class="custom-control-label attribsRadioButton fourA" for="' . $inputFieldId . '">' . $products_options->fields['products_options_values_name'] . (!empty($products_options_details_noname) ? '<br>' . $products_options_details_noname : '') . '</label><br>' . zen_draw_radio_field('id[' . $products_options_id . ']', $products_options_value_id, $selected_attribute, 'id="' . $inputFieldId . '" ' . $data_properties . $field_disabled) . '</div>' . "\n";
+                        $tmp_attributes_image .=
+                            '<div class="custom-control custom-radio attribImg">' .
+                                '<label class="custom-control-label attribsRadioButton fourA" for="' . $inputFieldId . '">' .
+                                    $next_option['products_options_values_name'] .
+                                    (!empty($products_options_details_noname) ? '<br>' . $products_options_details_noname : '') .
+                                '</label><br>' .
+                                zen_draw_radio_field($option_form_name, $products_options_value_id, $selected_attribute, 'id="' . $inputFieldId . '" ' . $data_properties . $field_disabled) .
+                            '</div>' . "\n";
                     }
                     break;
 
                 case '5':
                     $tmp_attributes_image_row++;
 
-                    if ($tmp_attributes_image_row > $products_options_names->fields['products_options_images_per_row']) {
+                    if ($tmp_attributes_image_row > $next_option_name['products_options_images_per_row']) {
                         $tmp_attributes_image .= '<br class="clearBoth">' . "\n";
                         $tmp_attributes_image_row = 1;
                     }
 
-                    if (!empty($products_options->fields['attributes_image'])) {
-                        $tmp_attributes_image .= '<div class="custom-control custom-radio attribImg">' . zen_draw_radio_field('id[' . $products_options_id . ']', $products_options_value_id, $selected_attribute, 'id="' . $inputFieldId. '" ' . $data_properties . $field_disabled) . '<br>' . '<label class="custom-control-label attribsRadioButton five" for="' . $inputFieldId . '">' . zen_image(DIR_WS_IMAGES . $products_options->fields['attributes_image']) . (zen_config('PRODUCT_IMAGES_ATTRIBUTES_NAMES') === '1' ? '<br>' . $products_options->fields['products_options_values_name'] : '') . (!empty($products_options_details_noname) ? '<br>' . $products_options_details_noname : '') . '</label></div>';
+                    if (!empty($next_option['attributes_image'])) {
+                        $tmp_attributes_image .=
+                            '<div class="custom-control custom-radio attribImg">' .
+                                zen_draw_radio_field($option_form_name, $products_options_value_id, $selected_attribute, 'id="' . $inputFieldId. '" ' . $data_properties . $field_disabled) .
+                                '<br>' .
+                                '<label class="custom-control-label attribsRadioButton five" for="' . $inputFieldId . '">' .
+                                    zen_image(DIR_WS_IMAGES . $next_option['attributes_image']) .
+                                    (zen_config('PRODUCT_IMAGES_ATTRIBUTES_NAMES') === '1' ? '<br>' . $next_option['products_options_values_name'] : '') .
+                                    (!empty($products_options_details_noname) ? '<br>' . $products_options_details_noname : '') .
+                                '</label>' .
+                            '</div>';
                     } else {
-                        $tmp_attributes_image .= '<div class="custom-control custom-radio attribImg">' . zen_draw_radio_field('id[' . $products_options_id . ']', $products_options_value_id, $selected_attribute, 'id="' . $inputFieldId . '" ' . $data_properties . $field_disabled) . '<br>' . '<label class="custom-control-label attribsRadioButton fiveA" for="' . $inputFieldId . '">' . $products_options->fields['products_options_values_name'] . (!empty($products_options_details_noname) ? '<br>' . $products_options_details_noname : '') . '</label></div>';
+                        $tmp_attributes_image .=
+                            '<div class="custom-control custom-radio attribImg">' .
+                                zen_draw_radio_field($option_form_name, $products_options_value_id, $selected_attribute, 'id="' . $inputFieldId . '" ' . $data_properties . $field_disabled) .
+                                '<br>' .
+                                '<label class="custom-control-label attribsRadioButton fiveA" for="' . $inputFieldId . '">' .
+                                    $next_option['products_options_values_name'] .
+                                    (!empty($products_options_details_noname) ? '<br>' . $products_options_details_noname : '') .
+                                '</label>' .
+                            '</div>';
                     }
                     break;
             }
@@ -362,7 +470,7 @@ while (!$products_options_names->EOF) {
                     $selected_attribute = true;
                 }
             } else {
-                // $selected_attribute = ($products_options->fields['attributes_default']=='1' ? true : false);
+                // $selected_attribute = ($next_option['attributes_default']=='1' ? true : false);
                 // if an error, set to customer setting
                 if (!empty($_POST['id']) && is_array($_POST['id'])) {
                     foreach ($_POST['id'] as $key => $value) {
@@ -381,129 +489,219 @@ while (!$products_options_names->EOF) {
                         }
                     }
                 } else {
-                    $selected_attribute = ($products_options->fields['attributes_default'] == '1');
+                    $selected_attribute = ($next_option['attributes_default'] === '1');
                 }
             }
 
-            $zco_notifier->notify('NOTIFY_ATTRIBUTES_MODULE_CHECKBOX_SELECTED', $products_options->fields, $data_properties);
+            $zco_notifier->notify('NOTIFY_ATTRIBUTES_MODULE_CHECKBOX_SELECTED', $next_option, $data_properties);
 
-            switch ($products_options_names->fields['products_options_images_style']) {
+            $checkbox_form_name = $option_form_name . '[' . $products_options_value_id . ']';
+            switch ($next_option_name['products_options_images_style']) {
                 case '0':
-                    $tmp_checkbox .= '<div class="custom-control custom-checkbox">' . zen_draw_checkbox_field('id[' . $products_options_id . ']['.$products_options_value_id.']', $products_options_value_id, $selected_attribute, 'id="' . $inputFieldId . '" ' . $data_properties . $field_disabled) . '<label class="custom-control-label attribsCheckbox" for="' . $inputFieldId . '">' . $products_options_details . '</label></div>' . "\n";
+                    $tmp_checkbox .=
+                        '<div class="custom-control custom-checkbox">' .
+                            zen_draw_checkbox_field($checkbox_form_name, $products_options_value_id, $selected_attribute, 'id="' . $inputFieldId . '" ' . $data_properties . $field_disabled) .
+                            '<label class="custom-control-label attribsCheckbox" for="' . $inputFieldId . '">' .
+                                $products_options_details .
+                            '</label>' .
+                        '</div>' . "\n";
                     break;
                 case '1':
-                    $tmp_checkbox .= '<div class="custom-control custom-checkbox">' . zen_draw_checkbox_field('id[' . $products_options_id . ']['.$products_options_value_id.']', $products_options_value_id, $selected_attribute, 'id="' . $inputFieldId . '" ' . $data_properties . $field_disabled) . '<label class="custom-control-label attribsCheckbox" for="' . $inputFieldId . '">' . (!empty($products_options->fields['attributes_image']) ? zen_image(DIR_WS_IMAGES . $products_options->fields['attributes_image'], '', '', '' ) . '  ' : '') . $products_options_details . '</label></div>' . "\n";
+                    $tmp_checkbox .=
+                        '<div class="custom-control custom-checkbox">' .
+                            zen_draw_checkbox_field($checkbox_form_name, $products_options_value_id, $selected_attribute, 'id="' . $inputFieldId . '" ' . $data_properties . $field_disabled) .
+                            '<label class="custom-control-label attribsCheckbox" for="' . $inputFieldId . '">' .
+                                (!empty($next_option['attributes_image']) ? zen_image(DIR_WS_IMAGES . $next_option['attributes_image'], '', '', '' ) . '  ' : '') .
+                                $products_options_details .
+                            '</label>' .
+                        '</div>' . "\n";
                     break;
                 case '2':
-                    $tmp_checkbox .= '<div class="custom-control custom-checkbox">' . zen_draw_checkbox_field('id[' . $products_options_id . ']['.$products_options_value_id.']', $products_options_value_id, $selected_attribute, 'id="' . $inputFieldId . '" ' . $data_properties . $field_disabled) . '<label class="custom-control-label attribsCheckbox" for="' . $inputFieldId . '">' . $products_options_details . (!empty($products_options->fields['attributes_image']) ? '<br>' . zen_image(DIR_WS_IMAGES . $products_options->fields['attributes_image'], '', '', '' ) : '') . '</label></div>' . "\n";
+                    $tmp_checkbox .=
+                        '<div class="custom-control custom-checkbox">' .
+                            zen_draw_checkbox_field($checkbox_form_name, $products_options_value_id, $selected_attribute, 'id="' . $inputFieldId . '" ' . $data_properties . $field_disabled) .
+                            '<label class="custom-control-label attribsCheckbox" for="' . $inputFieldId . '">' .
+                                $products_options_details .
+                                (!empty($next_option['attributes_image']) ? '<br>' . zen_image(DIR_WS_IMAGES . $next_option['attributes_image'], '', '', '' ) : '') .
+                            '</label>' .
+                        '</div>' . "\n";
                     break;
 
                 case '3':
                     $tmp_attributes_image_row++;
 
-                    if ($tmp_attributes_image_row > $products_options_names->fields['products_options_images_per_row']) {
+                    if ($tmp_attributes_image_row > $next_option_name['products_options_images_per_row']) {
                         $tmp_attributes_image .= '<br class="clearBoth">' . "\n";
                         $tmp_attributes_image_row = 1;
                     }
 
-                    if (!empty($products_options->fields['attributes_image'])) {
-                        $tmp_attributes_image .= '<div class="custom-control custom-checkbox attribImg">' . zen_draw_checkbox_field('id[' . $products_options_id . ']['.$products_options_value_id.']', $products_options_value_id, $selected_attribute, 'id="' . $inputFieldId . '" ' . $data_properties . $field_disabled) . '<label class="custom-control-label attribsCheckbox" for="' . $inputFieldId . '">' . zen_image(DIR_WS_IMAGES . $products_options->fields['attributes_image']) . (zen_config('PRODUCT_IMAGES_ATTRIBUTES_NAMES') === '1' ? '<br>' . $products_options->fields['products_options_values_name'] : '') . $products_options_details_noname . '</label></div>' . "\n";
+                    if (!empty($next_option['attributes_image'])) {
+                        $tmp_attributes_image .=
+                            '<div class="custom-control custom-checkbox attribImg">' .
+                                zen_draw_checkbox_field($checkbox_form_name, $products_options_value_id, $selected_attribute, 'id="' . $inputFieldId . '" ' . $data_properties . $field_disabled) .
+                                '<label class="custom-control-label attribsCheckbox" for="' . $inputFieldId . '">' .
+                                    zen_image(DIR_WS_IMAGES . $next_option['attributes_image']) .
+                                    (zen_config('PRODUCT_IMAGES_ATTRIBUTES_NAMES') === '1' ? '<br>' . $next_option['products_options_values_name'] : '') .
+                                    $products_options_details_noname .
+                                '</label>' .
+                            '</div>' . "\n";
                     } else {
-                        $tmp_attributes_image .= '<div class="custom-control custom-checkbox attribImg">' . zen_draw_checkbox_field('id[' . $products_options_id . ']['.$products_options_value_id.']', $products_options_value_id, $selected_attribute, 'id="' . $inputFieldId . '" ' . $data_properties . $field_disabled) . '<br>' . '<label class="custom-control-label attribsCheckbox" for="' . $inputFieldId . '">' . $products_options->fields['products_options_values_name'] . $products_options_details_noname . '</label></div>' . "\n";
+                        $tmp_attributes_image .=
+                            '<div class="custom-control custom-checkbox attribImg">' .
+                                zen_draw_checkbox_field($checkbox_form_name, $products_options_value_id, $selected_attribute, 'id="' . $inputFieldId . '" ' . $data_properties . $field_disabled) .
+                                '<br>' .
+                                '<label class="custom-control-label attribsCheckbox" for="' . $inputFieldId . '">' .
+                                    $next_option['products_options_values_name'] .
+                                    $products_options_details_noname .
+                                '</label>' .
+                            '</div>' . "\n";
                     }
                     break;
 
                 case '4':
                     $tmp_attributes_image_row++;
 
-                    if ($tmp_attributes_image_row > $products_options_names->fields['products_options_images_per_row']) {
+                    if ($tmp_attributes_image_row > $next_option_name['products_options_images_per_row']) {
                         $tmp_attributes_image .= '<br class="clearBoth">' . "\n";
                         $tmp_attributes_image_row = 1;
                     }
 
-                    if (!empty($products_options->fields['attributes_image'])) {
-                        $tmp_attributes_image .= '<div class="custom-control custom-checkbox attribImg">' . '<label class="custom-control-label attribsCheckbox" for="' . $inputFieldId . '">' . zen_image(DIR_WS_IMAGES . $products_options->fields['attributes_image']) . (zen_config('PRODUCT_IMAGES_ATTRIBUTES_NAMES') === '1' ? '<br>' . $products_options->fields['products_options_values_name'] : '') . (!empty($products_options_details_noname) ? '<br>' . $products_options_details_noname : '') . '</label><br>' . zen_draw_checkbox_field('id[' . $products_options_id . ']['.$products_options_value_id.']', $products_options_value_id, $selected_attribute, 'id="' . $inputFieldId . '" ' . $data_properties . $field_disabled) . '</div>' . "\n";
+                    if (!empty($next_option['attributes_image'])) {
+                        $tmp_attributes_image .=
+                            '<div class="custom-control custom-checkbox attribImg">' .
+                                '<label class="custom-control-label attribsCheckbox" for="' . $inputFieldId . '">' .
+                                    zen_image(DIR_WS_IMAGES . $next_option['attributes_image']) .
+                                    (zen_config('PRODUCT_IMAGES_ATTRIBUTES_NAMES') === '1' ? '<br>' . $next_option['products_options_values_name'] : '') .
+                                    (!empty($products_options_details_noname) ? '<br>' . $products_options_details_noname : '') .
+                                '</label><br>' .
+                                zen_draw_checkbox_field($checkbox_form_name, $products_options_value_id, $selected_attribute, 'id="' . $inputFieldId . '" ' . $data_properties . $field_disabled) .
+                            '</div>' . "\n";
                     } else {
-                        $tmp_attributes_image .= '<div class="custom-control custom-checkbox attribImg">' . '<label class="custom-control-label attribsCheckbox" for="' . $inputFieldId . '">' . $products_options->fields['products_options_values_name'] . (!empty($products_options_details_noname) ? '<br>' . $products_options_details_noname : '') . '</label><br>' . zen_draw_checkbox_field('id[' . $products_options_id . ']['.$products_options_value_id.']',$products_options_value_id, $selected_attribute, 'id="' . $inputFieldId . '" ' . $data_properties . $field_disabled) . '</div>' . "\n";
+                        $tmp_attributes_image .=
+                            '<div class="custom-control custom-checkbox attribImg">' .
+                                '<label class="custom-control-label attribsCheckbox" for="' . $inputFieldId . '">' .
+                                    $next_option['products_options_values_name'] .
+                                    (!empty($products_options_details_noname) ? '<br>' . $products_options_details_noname : '') .
+                                '</label><br>' .
+                                zen_draw_checkbox_field($checkbox_form_name, $products_options_value_id, $selected_attribute, 'id="' . $inputFieldId . '" ' . $data_properties . $field_disabled) .
+                            '</div>' . "\n";
                     }
                     break;
 
                 case '5':
                     $tmp_attributes_image_row++;
 
-                    if ($tmp_attributes_image_row > $products_options_names->fields['products_options_images_per_row']) {
+                    if ($tmp_attributes_image_row > $next_option_name['products_options_images_per_row']) {
                         $tmp_attributes_image .= '<br class="clearBoth">' . "\n";
                         $tmp_attributes_image_row = 1;
                     }
 
-                    if (!empty($products_options->fields['attributes_image'])) {
-                        $tmp_attributes_image .= '<div class="custom-control custom-checkbox attribImg">' . zen_draw_checkbox_field('id[' . $products_options_id . ']['.$products_options_value_id.']', $products_options_value_id, $selected_attribute, 'id="' . $inputFieldId . '" ' . $data_properties . $field_disabled) . '<br>' . zen_image(DIR_WS_IMAGES . $products_options->fields['attributes_image']) . '<label class="custom-control-label attribsCheckbox" for="' . $inputFieldId . '">' . (zen_config('PRODUCT_IMAGES_ATTRIBUTES_NAMES') === '1' ? '<br>' . $products_options->fields['products_options_values_name'] : '') . (!empty($products_options_details_noname) ? '<br>' . $products_options_details_noname : '') . '</label></div>' . "\n";
+                    if (!empty($next_option['attributes_image'])) {
+                        $tmp_attributes_image .=
+                            '<div class="custom-control custom-checkbox attribImg">' .
+                                zen_draw_checkbox_field($checkbox_form_name, $products_options_value_id, $selected_attribute, 'id="' . $inputFieldId . '" ' . $data_properties . $field_disabled) .
+                                '<br>' .
+                                zen_image(DIR_WS_IMAGES . $next_option['attributes_image']) .
+                                '<label class="custom-control-label attribsCheckbox" for="' . $inputFieldId . '">' .
+                                    (zen_config('PRODUCT_IMAGES_ATTRIBUTES_NAMES') === '1' ? '<br>' . $next_option['products_options_values_name'] : '') .
+                                    (!empty($products_options_details_noname) ? '<br>' . $products_options_details_noname : '') .
+                                '</label>' .
+                            '</div>' . "\n";
                     } else {
-                        $tmp_attributes_image .= '<div class="custom-control custom-checkbox attribImg">' . zen_draw_checkbox_field('id[' . $products_options_id . ']['.$products_options_value_id.']', $products_options_value_id, $selected_attribute, 'id="' . $inputFieldId . '" ' . $data_properties . $field_disabled) . '<br>' . '<label class="custom-control-label attribsCheckbox" for="' . $inputFieldId . '">' . $products_options->fields['products_options_values_name'] . (!empty($products_options_details_noname) ? '<br>' . $products_options_details_noname : '') . '</label></div>' . "\n";
+                        $tmp_attributes_image .=
+                            '<div class="custom-control custom-checkbox attribImg">' .
+                                zen_draw_checkbox_field($checkbox_form_name, $products_options_value_id, $selected_attribute, 'id="' . $inputFieldId . '" ' . $data_properties . $field_disabled) .
+                                '<br>' .
+                                '<label class="custom-control-label attribsCheckbox" for="' . $inputFieldId . '">' .
+                                    $next_option['products_options_values_name'] .
+                                    (!empty($products_options_details_noname) ? '<br>' . $products_options_details_noname : '') .
+                                '</label>' .
+                            '</div>' . "\n";
                     }
                     break;
             }
         }
 
-
         // text
         if ($products_options_type === zen_config('PRODUCTS_OPTIONS_TYPE_TEXT')) {
             $text_prefix = zen_config('TEXT_PREFIX');
+            $option_form_name = 'id[' . $text_prefix . $products_options_id . ']';
+            $remaining_form_name = 'remaining' . $text_prefix . $products_options_id;
+            $rows_and_cols = 'rows="' . $next_option_name['products_options_rows'] . '" cols="' . $next_option_name['products_options_size'] . '"';
+            $onkeydown = 'onkeydown="characterCount(this.form[\'' . $option_form_name . '\'],this.form.' . $remaining_form_name . ',' . $next_option_name['products_options_length'] . ');"';
+            $onkeyup = 'onkeyup="characterCount(this.form[\'' . $option_form_name . '\'],this.form.' . $remaining_form_name . ',' . $next_option_name['products_options_length'] . ');"';
             if (!empty($_POST['id']) && is_array($_POST['id'])) {
                 foreach ($_POST['id'] as $key => $value) {
                     if (preg_replace('/txt_/', '', $key) == $products_options_id) {
                         // use text area or input box based on setting of products_options_rows in the products_options table
-                        if ($products_options_names->fields['products_options_rows'] > 1) {
-                            $tmp_html = '  <input disabled="disabled" class="form-control" type="text" name="remaining' . $text_prefix . $products_options_id . '" size="3" maxlength="3" value="' . $products_options_names->fields['products_options_length'] . '"> ' . TEXT_MAXIMUM_CHARACTERS_ALLOWED . '<br>';
-                            $tmp_html .= '<textarea class="form-control attribsTextarea" name="id[' . $text_prefix . $products_options_id . ']" rows="' . $products_options_names->fields['products_options_rows'] . '" cols="' . $products_options_names->fields['products_options_size'] . '" onKeyDown="characterCount(this.form[\'' . 'id[' . $text_prefix . $products_options_id . ']\'],this.form.remaining' . $text_prefix . $products_options_id . ',' . $products_options_names->fields['products_options_length'] . ');" onKeyUp="characterCount(this.form[\'' . 'id[' . $text_prefix . $products_options_id . ']\'],this.form.remaining' . $text_prefix . $products_options_id . ',' . $products_options_names->fields['products_options_length'] . ');" id="' . $inputFieldId . '" >' . stripslashes($value) .'</textarea>' . "\n";
+                        if ($next_option_name['products_options_rows'] > 1) {
+                            $tmp_html =
+                                '  <input disabled="disabled" class="form-control" type="text" name="' . $remaining_form_name . '" size="3" maxlength="3" value="' . $next_option_name['products_options_length'] . '"> ' .
+                                TEXT_MAXIMUM_CHARACTERS_ALLOWED .
+                                '<br>';
+                            $tmp_html .=
+                                '<textarea class="form-control attribsTextarea" name="' . $option_form_name . '" ' . $rows_and_cols . ' ' . $onkeydown . ' ' . $onkeyup . ' id="' . $inputFieldId . '">' .
+                                    stripslashes($value) .
+                                '</textarea>' . "\n";
                         } else {
-                            $tmp_html = '<input type="text" name="id[' . $text_prefix . $products_options_id . ']" size="' . $products_options_names->fields['products_options_size'] . '" maxlength="' . $products_options_names->fields['products_options_length'] . '" value="' . htmlspecialchars($value, ENT_COMPAT, CHARSET, true) . '" id="' . $inputFieldId . '"'  . $data_properties . $field_disabled . '>  ';
+                            $tmp_html =
+                                '<input type="text" name="' . $option_form_name . '" size="' . $next_option_name['products_options_size'] . '" maxlength="' . $next_option_name['products_options_length'] . '" value="' . htmlspecialchars($value, ENT_COMPAT, CHARSET, true) . '" id="' . $inputFieldId . '"'  . $data_properties . $field_disabled . '>  ';
                         }
                         $tmp_html .= $products_options_details;
                         break;
                     }
                 }
             } else {
-                $tmp_value = isset($_SESSION['cart']->contents[$_GET['products_id']]['attributes_values'][$products_options_id]) ? $_SESSION['cart']->contents[$_GET['products_id']]['attributes_values'][$products_options_id] : '';
+                $tmp_value = $_SESSION['cart']->contents[$_GET['products_id']]['attributes_values'][$products_options_id] ?? '';
                 // use text area or input box based on setting of products_options_rows in the products_options table
-                if ($products_options_names->fields['products_options_rows'] > 1) {
-                    $tmp_html = '  <input disabled="disabled" class="form-control" type="text" name="remaining' . $text_prefix . $products_options_id . '" size="3" maxlength="3" value="' . $products_options_names->fields['products_options_length'] . '"> ' . TEXT_MAXIMUM_CHARACTERS_ALLOWED . '<br>';
-                    $tmp_html .= '<textarea class="form-control attribsTextarea" name="id[' . $text_prefix . $products_options_id . ']" rows="' . $products_options_names->fields['products_options_rows'] . '" cols="' . $products_options_names->fields['products_options_size'] . '" onkeydown="characterCount(this.form[\'' . 'id[' . $text_prefix . $products_options_id . ']\'],this.form.remaining' . $text_prefix . $products_options_id . ',' . $products_options_names->fields['products_options_length'] . ');" onkeyup="characterCount(this.form[\'' . 'id[' . $text_prefix . $products_options_id . ']\'],this.form.remaining' . $text_prefix . $products_options_id . ',' . $products_options_names->fields['products_options_length'] . ');" id="' . $inputFieldId . '" >' . stripslashes($tmp_value) .'</textarea>' . "\n";
+                if ($next_option_name['products_options_rows'] > 1) {
+                    $tmp_html =
+                        '  <input disabled="disabled" class="form-control" type="text" name="' . $remaining_form_name . '" size="3" maxlength="3" value="' . $next_option_name['products_options_length'] . '"> ' .
+                        TEXT_MAXIMUM_CHARACTERS_ALLOWED .
+                        '<br>';
+                    $tmp_html .=
+                        '<textarea class="form-control attribsTextarea" name="' . $option_form_name . '" ' . $rows_and_cols . ' ' . $onkeydown . ' ' . $onkeyup . ' id="' . $inputFieldId . '">' .
+                            stripslashes($tmp_value) .
+                        '</textarea>' . "\n";
                     // $tmp_html .= '  <input type="reset">';
                 } else {
-                    $tmp_html = '<input class="form-control" type="text" name="id[' . $text_prefix . $products_options_id . ']" size="' . $products_options_names->fields['products_options_size'] .'" maxlength="' . $products_options_names->fields['products_options_length'] . '" value="' . htmlspecialchars($tmp_value, ENT_COMPAT, CHARSET, true) .'" id="' . $inputFieldId . '"'  . $data_properties . $field_disabled . '>  ';
+                    $tmp_html =
+                        '<input class="form-control" type="text" name="' . $option_form_name . '" size="' . $next_option_name['products_options_size'] .'" maxlength="' . $next_option_name['products_options_length'] . '" value="' . htmlspecialchars($tmp_value, ENT_COMPAT, CHARSET, true) .'" id="' . $inputFieldId . '"' . $data_properties . $field_disabled . '>  ';
                 }
                 $tmp_html .= $products_options_details;
-                
-               if (defined('ATTRIBUTES_ENABLED_TEXT_PRICES') && ATTRIBUTES_ENABLED_TEXT_PRICES == 'true') { // test ATTRIBUTES_ENABLED_TEXT_PRICES
-                $tmp_word_cnt_string = '';
-                // calculate word charges
-                $tmp_word_cnt = 0;
-                $tmp_word_cnt_string = $tmp_value;
-                $tmp_word_cnt = zen_get_word_count($tmp_word_cnt_string, $products_options->fields['attributes_price_words_free']);
-                $tmp_word_price = zen_get_word_count_price($tmp_word_cnt_string, $products_options->fields['attributes_price_words_free'], $products_options->fields['attributes_price_words']);
 
-                if ($products_options->fields['attributes_price_words'] != 0) {
-                    $tmp_html .= TEXT_PER_WORD . $currencies->display_price($products_options->fields['attributes_price_words'], zen_get_tax_rate($product_info->fields['products_tax_class_id'])) . ($products_options->fields['attributes_price_words_free'] !=0 ? TEXT_WORDS_FREE . $products_options->fields['attributes_price_words_free'] : '');
-                }
-                if ($tmp_word_cnt != 0 && $tmp_word_price != 0) {
-                    $tmp_word_price = $currencies->display_price($tmp_word_price, zen_get_tax_rate($product_info->fields['products_tax_class_id']));
-                    $tmp_html .= '<br>' . TEXT_CHARGES_WORD . ' ' . $tmp_word_cnt . ' = ' . $tmp_word_price;
-                }
-                // calculate letter charges
-                $tmp_letters_cnt = 0;
-                $tmp_letters_cnt_string = $tmp_value;
-                $tmp_letters_cnt = zen_get_letters_count($tmp_letters_cnt_string, $products_options->fields['attributes_price_letters_free']);
-                $tmp_letters_price = zen_get_letters_count_price($tmp_letters_cnt_string, $products_options->fields['attributes_price_letters_free'], $products_options->fields['attributes_price_letters']);
+                if (zen_config('ATTRIBUTES_ENABLED_TEXT_PRICES') === 'true') {
+                    // calculate word charges
+                    $tmp_word_cnt_string = $tmp_value;
+                    $tmp_word_cnt = zen_get_word_count($tmp_word_cnt_string, $next_option['attributes_price_words_free']);
+                    $tmp_word_price = zen_get_word_count_price($tmp_word_cnt_string, $next_option['attributes_price_words_free'], $next_option['attributes_price_words']);
 
-                if ($products_options->fields['attributes_price_letters'] != 0) {
-                    $tmp_html .= TEXT_PER_LETTER . $currencies->display_price($products_options->fields['attributes_price_letters'], zen_get_tax_rate($product_info->fields['products_tax_class_id'])) . ($products_options->fields['attributes_price_letters_free'] != 0 ? TEXT_LETTERS_FREE . $products_options->fields['attributes_price_letters_free'] : '');
-                }
-                if ($tmp_letters_cnt != 0 && $tmp_letters_price != 0) {
-                    $tmp_letters_price = $currencies->display_price($tmp_letters_price, zen_get_tax_rate($product_info->fields['products_tax_class_id']));
-                    $tmp_html .= '<br>' . TEXT_CHARGES_LETTERS . ' ' . $tmp_letters_cnt . ' = ' . $tmp_letters_price;
-                }
-               } // test ATTRIBUTES_ENABLED_TEXT_PRICES
+                    if ($next_option['attributes_price_words'] != 0) {
+                        $tmp_html .=
+                            TEXT_PER_WORD .
+                            $currencies->display_price($next_option['attributes_price_words'], $products_tax_rate) .
+                            ($next_option['attributes_price_words_free'] != 0 ? TEXT_WORDS_FREE . $next_option['attributes_price_words_free'] : '');
+                    }
+                    if ($tmp_word_cnt != 0 && $tmp_word_price != 0) {
+                        $tmp_word_price = $currencies->display_price($tmp_word_price, $products_tax_rate);
+                        $tmp_html .= '<br>' . TEXT_CHARGES_WORD . ' ' . $tmp_word_cnt . ' = ' . $tmp_word_price;
+                    }
+                    // calculate letter charges
+                    $tmp_letters_cnt_string = $tmp_value;
+                    $tmp_letters_cnt = zen_get_letters_count($tmp_letters_cnt_string, $next_option['attributes_price_letters_free']);
+                    $tmp_letters_price = zen_get_letters_count_price($tmp_letters_cnt_string, $next_option['attributes_price_letters_free'], $next_option['attributes_price_letters']);
+
+                    if ($next_option['attributes_price_letters'] != 0) {
+                        $tmp_html .=
+                            TEXT_PER_LETTER .
+                            $currencies->display_price($next_option['attributes_price_letters'], $products_tax_rate) .
+                            ($next_option['attributes_price_letters_free'] != 0 ? TEXT_LETTERS_FREE . $next_option['attributes_price_letters_free'] : '');
+                    }
+                    if ($tmp_letters_cnt != 0 && $tmp_letters_price != 0) {
+                        $tmp_letters_price = $currencies->display_price($tmp_letters_price, $products_tax_rate);
+                        $tmp_html .= '<br>' . TEXT_CHARGES_LETTERS . ' ' . $tmp_letters_cnt . ' = ' . $tmp_letters_price;
+                    }
+                } 
                 $tmp_html .= "\n";
             }
         }
@@ -513,60 +711,58 @@ while (!$products_options_names->EOF) {
             $number_of_uploads++;
             $tmp_html = '';
             if (zen_run_normal() && zen_check_show_prices()) {
-                $file_attribute_value = isset($_SESSION['cart']->contents[$prod_id]['attributes_values'][$products_options_id]) ? $_SESSION['cart']->contents[$prod_id]['attributes_values'][$products_options_id] : '';
-                $tmp_html = '<input class="form-control-file" type="file" name="id[' . zen_config('TEXT_PREFIX') . $products_options_id . ']"  id="' . $inputFieldId . '" ' . $data_properties . '><br>' . $file_attribute_value . "\n" .
+                $file_attribute_value = $_SESSION['cart']->contents[$prod_id]['attributes_values'][$products_options_id] ?? '';
+                $tmp_html =
+                    '<input class="form-control-file" type="file" name="id[' . zen_config('TEXT_PREFIX') . $products_options_id . ']"  id="' . $inputFieldId . '" ' . $data_properties . '><br>' . 
+                    $file_attribute_value . "\n" .
                     zen_draw_hidden_field(zen_config('UPLOAD_PREFIX') . $number_of_uploads, $products_options_id) . "\n" .
                     zen_draw_hidden_field(zen_config('TEXT_PREFIX') . zen_config('UPLOAD_PREFIX') . $number_of_uploads, $file_attribute_value);
             }
             $tmp_html .= $products_options_details;
         }
 
-
-        $zco_notifier->notify('NOTIFY_ATTRIBUTES_MODULE_FORMAT_VALUE', array_merge($products_options->fields, $products_options_names->fields), $data_properties, $field_disabled, $attributeDetailsArrayForJson);
-
+        $zco_notifier->notify('NOTIFY_ATTRIBUTES_MODULE_FORMAT_VALUE', array_merge($next_option, $next_option_name), $data_properties, $field_disabled, $attributeDetailsArrayForJson);
 
         // collect attribute image if it exists and to be drawn in table below
-        if ($products_options_names->fields['products_options_images_style'] == '0' || (in_array($products_options_type, [zen_config('PRODUCTS_OPTIONS_TYPE_FILE'), zen_config('PRODUCTS_OPTIONS_TYPE_TEXT')], true) || $products_options_type == '0')) {
-            if (!empty($products_options->fields['attributes_image'])) {
+        if ($next_option_name['products_options_images_style'] == '0' || ($option_is_text_or_file || $products_options_type === '0')) {
+            if (!empty($next_option['attributes_image'])) {
                 $tmp_attributes_image_row++;
 
-                if ($tmp_attributes_image_row > $products_options_names->fields['products_options_images_per_row']) {
+                if ($tmp_attributes_image_row > $next_option_name['products_options_images_per_row']) {
                     $tmp_attributes_image .= '<br class="clearBoth">' . "\n";
                     $tmp_attributes_image_row = 1;
                 }
 
                 // Do not show TEXT option value on images
-                $tmp_attributes_image .= '<div class="col attribImg">' . zen_image(DIR_WS_IMAGES . $products_options->fields['attributes_image']) . (zen_config('PRODUCT_IMAGES_ATTRIBUTES_NAMES') === '1' ? ( (!in_array($products_options_type, [zen_config('PRODUCTS_OPTIONS_TYPE_TEXT'), zen_config('PRODUCTS_OPTIONS_TYPE_FILE')], true)) ? '<br>' . $products_options->fields['products_options_values_name'] : '') : '') . '</div>' . "\n";
+                $tmp_attributes_image .=
+                    '<div class="col attribImg">' .
+                        zen_image(DIR_WS_IMAGES . $next_option['attributes_image']) .
+                        (zen_config('PRODUCT_IMAGES_ATTRIBUTES_NAMES') === '1' ? (($option_is_text_or_file === false) ? '<br>' . $next_option['products_options_values_name'] : '') : '') .
+                    '</div>' . "\n";
             }
         }
 
         // Read Only - just for display purposes
-        if ($products_options_type === zen_config('PRODUCTS_OPTIONS_TYPE_READONLY')) {
-            // $tmp_html .= '<input type="hidden" name ="id[' . $products_options_id . ']"' . '" value="' . stripslashes($products_options->fields['products_options_values_name']) . ' SELECTED' . '">  ' . $products_options->fields['products_options_values_name'];
+        if ($products_options_type == zen_config('PRODUCTS_OPTIONS_TYPE_READONLY')) {
+            // $tmp_html .= '<input type="hidden" name ="' . $option_form_name . '"' . '" value="' . stripslashes($next_option['products_options_values_name']) . ' SELECTED' . '">  ' . $next_option['products_options_values_name'];
             $tmp_html .= $products_options_details . '<br>';
         } else {
             $zv_display_select_option++;
         }
 
-
         // default
         // find default attribute if set for default dropdown
-        if ($products_options->fields['attributes_default'] == '1') {
+        if ($next_option['attributes_default'] === '1') {
             $selected_dropdown_attribute = $products_options_value_id;
         }
         $selected_attribute = $selected_dropdown_attribute;
-
-        $products_options->MoveNext();
-        // end of inner while() loop
     }
 
-
-
-    $zco_notifier->notify('NOTIFY_ATTRIBUTES_MODULE_BEFORE_ASSEMBLE_OUTPUTS', $products_options->fields, $data_properties, $inputFieldId, $field_disabled);
+    $zco_notifier->notify('NOTIFY_ATTRIBUTES_MODULE_BEFORE_ASSEMBLE_OUTPUTS', $next_option, $data_properties, $inputFieldId, $field_disabled);
 
     $options_inputfield_id[] = $inputFieldId;
-    $options_comment[] = $products_options_names->fields['products_options_comment'];
-    $options_comment_position[] = ($products_options_names->fields['products_options_comment_position'] == '1' ? '1' : '0');
+    $options_comment[] = $next_option_name['products_options_comment'];
+    $options_comment_position[] = ($next_option_name['products_options_comment_position'] === '1' ? '1' : '0');
 
     // Option Name Type Display
     switch (true) {
@@ -608,7 +804,7 @@ while (!$products_options_names->EOF) {
                 $options_name[] = $products_options_name;
             }
             $options_html_id[] = 'drprad-attrib-' . $products_options_id;
-            $options_menu[] = '<div class="custom-control custom-radio">' . zen_draw_radio_field('id[' . $products_options_id . ']', $products_options_value_id, true, 'id="' . $inputFieldId . '" ' . $data_properties . $field_disabled) . '<label class="custom-control-label attribsRadioButton" for="' . $inputFieldId . '">' . $products_options_details . '</label></div>' . "\n";
+            $options_menu[] = '<div class="custom-control custom-radio">' . zen_draw_radio_field($option_form_name, $products_options_value_id, true, 'id="' . $inputFieldId . '" ' . $data_properties . $field_disabled) . '<label class="custom-control-label attribsRadioButton" for="' . $inputFieldId . '">' . $products_options_details . '</label></div>' . "\n";
             break;
 
         // SELECT dropdown
@@ -634,20 +830,18 @@ while (!$products_options_names->EOF) {
                 $options_name[] = '<label class="attribsSelect" for="' . $inputFieldId . '">' . $products_options_name . '</label>';
             }
             $options_html_id[] = 'drp-attrib-' . $products_options_id;
-            $options_menu[] = zen_draw_pull_down_menu('id[' . $products_options_id . ']', $products_options_array, $selected_attribute, 'id="' . $inputFieldId . '" ' . $data_properties . $field_disabled) . "\n";
+            $options_menu[] = zen_draw_pull_down_menu($option_form_name, $products_options_array, $selected_attribute, 'id="' . $inputFieldId . '" ' . $data_properties . $field_disabled) . "\n";
             break;
 
         default:
-            $zco_notifier->notify('NOTIFY_ATTRIBUTES_MODULE_DEFAULT_SWITCH', $products_options_names->fields, $options_name, $options_menu, $options_comment, $options_comment_position, $options_html_id, $data_properties, $options_inputfield_id);
+            $zco_notifier->notify('NOTIFY_ATTRIBUTES_MODULE_DEFAULT_SWITCH', $next_option_name, $options_name, $options_menu, $options_comment, $options_comment_position, $options_html_id, $data_properties, $options_inputfield_id);
             break;
     }
 
     // attributes images table
     $options_attributes_image[] = trim($tmp_attributes_image) . "\n";
 
-    $zco_notifier->notify('NOTIFY_ATTRIBUTES_MODULE_OPTION_BUILT', $products_options_names->fields, $options_name, $options_menu, $options_comment, $options_comment_position, $options_html_id, $options_attributes_image, $data_properties, $options_inputfield_id);
-
-    $products_options_names->MoveNext();
+    $zco_notifier->notify('NOTIFY_ATTRIBUTES_MODULE_OPTION_BUILT', $next_option_name, $options_name, $options_menu, $options_comment, $options_comment_position, $options_html_id, $options_attributes_image, $data_properties, $options_inputfield_id);
 }
 
 $zco_notifier->notify('NOTIFY_ATTRIBUTES_MODULE_END', $prod_id, $options_name, $options_menu, $options_comment, $options_comment_position, $options_html_id, $options_attributes_image, $options_inputfield_id, $attributeDetailsArrayForJson);
@@ -656,4 +850,3 @@ $zco_notifier->notify('NOTIFY_ATTRIBUTES_MODULE_END', $prod_id, $options_name, $
 // manage filename uploads
 $_GET['number_of_uploads'] = $number_of_uploads;
 zen_draw_hidden_field('number_of_uploads', $number_of_uploads);
-

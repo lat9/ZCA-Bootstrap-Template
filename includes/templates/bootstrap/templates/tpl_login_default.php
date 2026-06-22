@@ -17,7 +17,7 @@ if ($messageStack->size('login') > 0) {
     echo $messageStack->output('login');
 }
 
-if (zen_config('USE_SPLIT_LOGIN_MODE') === 'True' || $ec_button_enabled) {
+if ($tplSetting->USE_SPLIT_LOGIN_MODE === 'True' || $ec_button_enabled) {
 ?>
 <!--BOF PPEC split login- DO NOT REMOVE-->
 

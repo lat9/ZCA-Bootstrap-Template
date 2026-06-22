@@ -2,7 +2,7 @@
 /**
  * Page Template
  * 
- * BOOTSTRAP 3.7.0
+ * BOOTSTRAP 3.8.0
  *
  * @package templateSystem
  * @copyright Copyright 2003-2016 Zen Cart Development Team
@@ -15,7 +15,7 @@
     <h1 id="productsAllDefault-pageHeading" class="pageHeading"><?= HEADING_TITLE ?></h1>
     <div class="row">
 <?php
-if (zen_config('PRODUCT_LIST_ALPHA_SORTER') === 'true') {
+if ($tplSetting->PRODUCT_LIST_ALPHA_SORTER === 'true') {
 ?>
         <div class="col">
 <?php
