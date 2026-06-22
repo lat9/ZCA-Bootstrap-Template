@@ -16,7 +16,7 @@ if (zen_config('PRODUCT_INFO_SHOW_BOOTSTRAP_MODAL_POPUPS') === 'Yes') {
 ?>
 <div id="productMainImage">
     <a data-toggle="modal" data-target=".image-modal-lg" href="#image-modal-lg">
-        <?= zen_image($products_image_medium, $products_name, zen_config('MEDIUM_IMAGE_WIDTH'), zen_config('MEDIUM_IMAGE_HEIGHT')) ?>
+        <?= zen_image($products_image_medium, $products_name, $tplSetting->MEDIUM_IMAGE_WIDTH, $tplSetting->MEDIUM_IMAGE_HEIGHT) ?>
         <div class="p-1"></div>
         <span class="imgLink"><?= TEXT_CLICK_TO_ENLARGE ?></span>
     </a>
@@ -26,11 +26,11 @@ if (zen_config('PRODUCT_INFO_SHOW_BOOTSTRAP_MODAL_POPUPS') === 'Yes') {
 ?>
 <div id="productMainImage" class="centeredContent back">
 <script>
-document.write('<?= '<a href="javascript:popupWindow(\\\'' . zen_href_link(FILENAME_POPUP_IMAGE, 'pID=' . $_GET['products_id']) . '\\\')">' . zen_image(addslashes($products_image_medium), addslashes($products_name), zen_config('MEDIUM_IMAGE_WIDTH'), zen_config('MEDIUM_IMAGE_HEIGHT')) . '<br><span class="imgLink">' . TEXT_CLICK_TO_ENLARGE . '</span></a>'; ?>');
+document.write('<?= '<a href="javascript:popupWindow(\\\'' . zen_href_link(FILENAME_POPUP_IMAGE, 'pID=' . $_GET['products_id']) . '\\\')">' . zen_image(addslashes($products_image_medium), addslashes($products_name), $tplSetting->MEDIUM_IMAGE_WIDTH, $tplSetting->MEDIUM_IMAGE_HEIGHT) . '<br><span class="imgLink">' . TEXT_CLICK_TO_ENLARGE . '</span></a>'; ?>');
 </script>
 <noscript>
 <?php
-    echo '<a href="' . zen_href_link(FILENAME_POPUP_IMAGE, 'pID=' . $_GET['products_id']) . '" target="_blank">' . zen_image($products_image_medium, $products_name, zen_config('MEDIUM_IMAGE_WIDTH'), zen_config('MEDIUM_IMAGE_HEIGHT')) . '<br><span class="imgLink">' . TEXT_CLICK_TO_ENLARGE . '</span></a>';
+    echo '<a href="' . zen_href_link(FILENAME_POPUP_IMAGE, 'pID=' . $_GET['products_id']) . '" target="_blank">' . zen_image($products_image_medium, $products_name, $tplSetting->MEDIUM_IMAGE_WIDTH, $tplSetting->MEDIUM_IMAGE_HEIGHT) . '<br><span class="imgLink">' . TEXT_CLICK_TO_ENLARGE . '</span></a>';
 ?>
 </noscript>
 </div>

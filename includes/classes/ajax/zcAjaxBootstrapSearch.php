@@ -13,7 +13,7 @@ class zcAjaxBootstrapSearch extends base
     //
     public function searchProducts()
     {
-        global $db, $currencies, $template, $template_dir, $language_page_directory, $current_page_base, $current_page, $request_type, $zco_notifier;
+        global $db, $currencies, $template, $template_dir, $language_page_directory, $current_page_base, $current_page, $request_type, $zco_notifier, $tplSetting;
 
         $search_html = '';
 
@@ -35,14 +35,14 @@ class zcAjaxBootstrapSearch extends base
                     'pd.products_name',
                     'p.products_model',
                 ];
-                if (zen_config('BS4_AJAX_SEARCH_INC_DESC') === 'true') {
+                if ($tplSetting->BS4_AJAX_SEARCH_INC_DESC === 'true') {
                     $search_fields[] = 'pd.products_description';
                 }
                 $where_clause .= zen_build_keyword_where_clause($search_fields, $keywords);
 
                 $select_clause = 'SELECT DISTINCT p.products_image, p.products_id, p.products_sort_order, pd.products_name, p.master_categories_id, p.products_model';
                 $order_by_clause = ' ORDER BY p.products_sort_order, pd.products_name';
-                $limit_clause = ' LIMIT ' . (int)zen_config('BS4_AJAX_SEARCH_RESULTS_PER_PAGE');
+                $limit_clause = ' LIMIT ' . (int)$tplSetting->BS4_AJAX_SEARCH_RESULTS_PER_PAGE;
 
                 // -----
                 // Give a watching observer the opportunity to modify any of the query's clauses.
@@ -57,7 +57,7 @@ class zcAjaxBootstrapSearch extends base
                     foreach ($results as $next_item) {
                         $products_id = $next_item['products_id'];
                         $next_search_result = [
-                            'image' => zen_image(DIR_WS_IMAGES . $next_item['products_image'], $next_item['products_name'], (int)zen_config('BS4_AJAX_SEARCH_IMAGE_WIDTH'), (int)zen_config('BS4_AJAX_SEARCH_IMAGE_HEIGHT')),
+                            'image' => zen_image(DIR_WS_IMAGES . $next_item['products_image'], $next_item['products_name'], (int)$tplSetting->BS4_AJAX_SEARCH_IMAGE_WIDTH, (int)$tplSetting->BS4_AJAX_SEARCH_IMAGE_HEIGHT),
                             'name' => $next_item['products_name'],
                             'model' => $next_item['products_model'],
                             'products_id' => $products_id,

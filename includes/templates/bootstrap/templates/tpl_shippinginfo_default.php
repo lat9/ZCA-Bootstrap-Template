@@ -15,7 +15,7 @@
     <h1 id="shippinginfoDefault-pageHeading" class="pageHeading"><?= HEADING_TITLE ?></h1>
 
 <?php
-if (in_array(zen_config('DEFINE_SHIPPINGINFO_STATUS'), ['1', '2'], true)) {
+if (in_array($tplSetting->DEFINE_SHIPPINGINFO_STATUS, ['1', '2'], true)) {
 ?>
     <div id="shippinginfoDefault-defineContent" class="defineContent">
 <?php

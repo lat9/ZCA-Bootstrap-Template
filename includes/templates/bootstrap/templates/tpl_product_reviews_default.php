@@ -76,7 +76,7 @@ if (!zen_has_product_attributes($products_id)) {
     </div>
 <?php
 if ($reviews_split->number_of_rows > 0) {
-    if (in_array(zen_config('PREV_NEXT_BAR_LOCATION'), ['1', '3'], true)) {
+    if (in_array($tplSetting->PREV_NEXT_BAR_LOCATION, ['1', '3'], true)) {
 ?>
     <div id="productReviewsDefault-topRow" class="row mb-3">
         <div id="productReviewsDefault-topNumber" class="topNumber col-sm"><?= $reviews_split->display_count(TEXT_DISPLAY_NUMBER_OF_REVIEWS) ?></div>
@@ -98,7 +98,7 @@ if ($reviews_split->number_of_rows > 0) {
             </div>      
             <blockquote class="blockquote mb-3">
                 <div id="productsReview<?= $reviews['id'] ?>-content" class="content">
-                    <?= zen_trunc_string(zen_output_string_protected(stripslashes($reviews['reviewsText'])), zen_config('MAX_PREVIEW')) ?>
+                    <?= zen_trunc_string(zen_output_string_protected(stripslashes($reviews['reviewsText'])), $tplSetting->MAX_PREVIEW) ?>
                 </div>
                 <footer class="blockquote-footer"><cite title="Source Title"><?= sprintf(TEXT_REVIEW_BY, zen_output_string_protected($reviews['customersName'])) ?></cite></footer>
             </blockquote>
@@ -119,7 +119,7 @@ if ($reviews_split->number_of_rows > 0) {
 <?php
 }
 
-if ($reviews_split->number_of_rows > 0 && in_array(zen_config('PREV_NEXT_BAR_LOCATION'), ['2', '3'], true)) {
+if ($reviews_split->number_of_rows > 0 && in_array($tplSetting->PREV_NEXT_BAR_LOCATION, ['2', '3'], true)) {
 ?>
     <div id="productReviewsDefault-bottomRow" class="row">
         <div id="productReviewsDefault-bottomNumber" class="bottomNumber col-sm"><?= $reviews_split->display_count(TEXT_DISPLAY_NUMBER_OF_REVIEWS) ?></div>

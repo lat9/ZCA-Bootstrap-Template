@@ -15,7 +15,7 @@
     <h1 id="page2Default-pageHeading" class="pageHeading"><?= HEADING_TITLE ?></h1>
 
 <?php
-if (in_array(zen_config('DEFINE_PAGE_2_STATUS'), ['1', '2'], true)) {
+if (in_array($tplSetting->DEFINE_PAGE_2_STATUS, ['1', '2'], true)) {
 ?>
     <div id="page2Default-defineContent" class="defineContent">
 <?php

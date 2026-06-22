@@ -57,10 +57,11 @@ $title = '';
 
 // show only when 1 or more
 if ($num_products_count > 0) {
-    if ($num_products_count < zen_config('SHOW_PRODUCT_INFO_COLUMNS_NEW_PRODUCTS') || zen_config('SHOW_PRODUCT_INFO_COLUMNS_NEW_PRODUCTS') === '0') {
+    $new_products_columns = $tplSetting->SHOW_PRODUCT_INFO_COLUMNS_NEW_PRODUCTS;
+    if ($num_products_count < $new_products_columns || $new_products_columns === '0') {
         $col_width = floor(100 / $num_products_count);
     } else {
-        $col_width = floor(100 / zen_config('SHOW_PRODUCT_INFO_COLUMNS_NEW_PRODUCTS'));
+        $col_width = floor(100 / $new_products_columns);
     }
 
     while (!$new_products->EOF) {
@@ -74,10 +75,10 @@ if ($num_products_count > 0) {
         $new_products_name = $new_products->fields['products_name'];
 
         $new_products_image = '';
-        if (!($new_products->fields['products_image'] === '' && zen_config('PRODUCTS_IMAGE_NO_IMAGE_STATUS') === '0')) {
+        if (!($new_products->fields['products_image'] === '' && $tplSetting->PRODUCTS_IMAGE_NO_IMAGE_STATUS === '0')) {
             $new_products_image =
                 '<a href="' . $new_products_link . '" title="' . zen_output_string_protected($new_products_name) . '">' .
-                    zen_image(DIR_WS_IMAGES . $new_products->fields['products_image'], $new_products_name, zen_config('IMAGE_PRODUCT_NEW_WIDTH'), zen_config('IMAGE_PRODUCT_NEW_HEIGHT')) .
+                    zen_image(DIR_WS_IMAGES . $new_products->fields['products_image'], $new_products_name, $tplSetting->IMAGE_PRODUCT_NEW_WIDTH, $tplSetting->IMAGE_PRODUCT_NEW_HEIGHT) .
                 '</a><br>';
         }
 
@@ -89,7 +90,7 @@ if ($num_products_count > 0) {
         ];
 
         $col++;
-        if ($col >= zen_config('SHOW_PRODUCT_INFO_COLUMNS_NEW_PRODUCTS')) {
+        if ($col >= $tplSetting->SHOW_PRODUCT_INFO_COLUMNS_NEW_PRODUCTS) {
             $col = 0;
             $row++;
         }
@@ -97,11 +98,13 @@ if ($num_products_count > 0) {
     }
 
     $heading_month_name = sprintf(TABLE_HEADING_NEW_PRODUCTS, zca_get_translated_month_name());
-    if (!empty($new_products_category_id)) {
-        $category_title = zen_get_category_name((int)$new_products_category_id, $_SESSION['languages_id']);
-        $title = '<p id="newCenterbox-card-header" class="centerBoxHeading card-header h3">' . $heading_month_name . ($category_title !== '' ? ' - ' . $category_title : '') . '</p>';
-    } else {
-        $title = '<p id="newCenterbox-card-header" class="centerBoxHeading card-header h3">' . $heading_month_name . '</p>';
+    $category_title = '';
+    if (!empty($current_category_id)) {
+        $category_title = zen_get_category_name((int)$current_category_id);
+        if ($category_title !== '') {
+            $category_title = ' - ' . $category_title;
+        }
     }
+    $title = '<p id="newCenterbox-card-header" class="centerBoxHeading card-header h3">' . $heading_month_name . $category_title . '</p>';
     $zc_show_new_products = true;
 }

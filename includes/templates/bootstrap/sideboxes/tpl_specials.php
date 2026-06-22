@@ -37,7 +37,7 @@ while (!$random_specials_sidebox_product->EOF) {
         $carousel_start .
         '<div class="card mb-3 p-3 sideBoxContentItem">' .
             '<a href="' . $specials_link . '" title="' . zen_output_string_protected($specials_name) . '">' .
-                zen_image(DIR_WS_IMAGES . $current_special['products_image'], $specials_name, zen_config('SMALL_IMAGE_WIDTH'), zen_config('SMALL_IMAGE_HEIGHT')) .
+                zen_image(DIR_WS_IMAGES . $current_special['products_image'], $specials_name, $tplSetting->SMALL_IMAGE_WIDTH, $tplSetting->SMALL_IMAGE_HEIGHT) .
                 '<br>' .
                 $specials_name .
             '</a>' .

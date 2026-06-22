@@ -13,7 +13,7 @@
  */
 include DIR_WS_MODULES . zen_get_module_directory(FILENAME_CATEGORIES_TABS);
 
-if (zen_config('CATEGORIES_TABS_STATUS') === '1' && (!empty($links_list) || !empty($links_list_by_category))) {
+if ($tplSetting->CATEGORIES_TABS_STATUS === '1' && (!empty($links_list) || !empty($links_list_by_category))) {
 ?>
 <div id="categoriesTabs" class="d-none d-lg-block">
     <nav class="nav nav-pills nav-fill" id="navCatTabs">

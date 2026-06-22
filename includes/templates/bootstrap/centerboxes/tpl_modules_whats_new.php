@@ -23,7 +23,7 @@ $card_body_id = 'newCenterbox-card-body';
 ?>
 <!-- bof: whats_new -->
 <?php
-if (zen_config('BS4_NEW_CENTERBOX_CAROUSEL') === '') {
+if ($tplSetting->BS4_NEW_CENTERBOX_CAROUSEL === '') {
     // -----
     // If not rendering as a carousel, output the columnar display.
     //
@@ -32,7 +32,7 @@ if (zen_config('BS4_NEW_CENTERBOX_CAROUSEL') === '') {
     // -----
     // Otherwise, rendering as a carousel.
     //
-    $carousel_config = zen_config('BS4_NEW_CENTERBOX_CAROUSEL');
+    $carousel_config = $tplSetting->BS4_NEW_CENTERBOX_CAROUSEL;
     require $template->get_template_dir('tpl_columnar_display_carousel.php', DIR_WS_TEMPLATE, $current_page_base, 'common') . '/tpl_columnar_display_carousel.php';
 }
 ?>

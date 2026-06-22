@@ -17,22 +17,22 @@
 // that are used below (as of v3.6.0) that make more sense.
 //
 $renamed_colors = [
-    'ZCA_BUTTON_BACKGROUND_COLOR' => zen_config('ZCA_BUTTON_COLOR'),
-    'ZCA_BUTTON_BACKGROUND_COLOR_HOVER' => zen_config('ZCA_BUTTON_COLOR_HOVER'),
-    'ZCA_HEADER_TABS_BACKGROUND_COLOR' => zen_config('ZCA_HEADER_TABS_COLOR'),
-    'ZCA_HEADER_TABS_BACKGROUND_COLOR_HOVER' => zen_config('ZCA_HEADER_TABS_COLOR_HOVER'),
+    'ZCA_BUTTON_BACKGROUND_COLOR' => $tplSetting->ZCA_BUTTON_COLOR,
+    'ZCA_BUTTON_BACKGROUND_COLOR_HOVER' => $tplSetting->ZCA_BUTTON_COLOR_HOVER,
+    'ZCA_HEADER_TABS_BACKGROUND_COLOR' => $tplSetting->ZCA_HEADER_TABS_COLOR,
+    'ZCA_HEADER_TABS_BACKGROUND_COLOR_HOVER' => $tplSetting->ZCA_HEADER_TABS_COLOR_HOVER,
 
     // -----
     // Ditto for some of the color-settings that affect *only* the hamburger-menu-icon used
     // on the mobile display.  Define aliases for use in the CSS-generating portion of this
     // script for clarity.
     //
-    'ZCA_HEADER_NAVBAR_TOGGLER_COLOR' => zen_config('ZCA_HEADER_NAVBAR_BUTTON_TEXT_COLOR'),
-    'ZCA_HEADER_NAVBAR_TOGGLER_COLOR_HOVER' => zen_config('ZCA_HEADER_NAVBAR_BUTTON_TEXT_COLOR_HOVER'),
-    'ZCA_HEADER_NAVBAR_TOGGLER_BACKGROUND_COLOR' => zen_config('ZCA_HEADER_NAVBAR_BUTTON_COLOR'),
-    'ZCA_HEADER_NAVBAR_TOGGLER_BACKGROUND_COLOR_HOVER' => zen_config('ZCA_HEADER_NAVBAR_BUTTON_COLOR_HOVER'),
-    'ZCA_HEADER_NAVBAR_TOGGLER_BORDER_COLOR' => zen_config('ZCA_HEADER_NAVBAR_BUTTON_BORDER_COLOR'),
-    'ZCA_HEADER_NAVBAR_TOGGLER_BORDER_COLOR_HOVER' => zen_config('ZCA_HEADER_NAVBAR_BUTTON_BORDER_COLOR_HOVER'),
+    'ZCA_HEADER_NAVBAR_TOGGLER_COLOR' => $tplSetting->ZCA_HEADER_NAVBAR_BUTTON_TEXT_COLOR,
+    'ZCA_HEADER_NAVBAR_TOGGLER_COLOR_HOVER' => $tplSetting->ZCA_HEADER_NAVBAR_BUTTON_TEXT_COLOR_HOVER,
+    'ZCA_HEADER_NAVBAR_TOGGLER_BACKGROUND_COLOR' => $tplSetting->ZCA_HEADER_NAVBAR_BUTTON_COLOR,
+    'ZCA_HEADER_NAVBAR_TOGGLER_BACKGROUND_COLOR_HOVER' => $tplSetting->ZCA_HEADER_NAVBAR_BUTTON_COLOR_HOVER,
+    'ZCA_HEADER_NAVBAR_TOGGLER_BORDER_COLOR' => $tplSetting->ZCA_HEADER_NAVBAR_BUTTON_BORDER_COLOR,
+    'ZCA_HEADER_NAVBAR_TOGGLER_BORDER_COLOR_HOVER' => $tplSetting->ZCA_HEADER_NAVBAR_BUTTON_BORDER_COLOR_HOVER,
 ];
 
 $bootstrap_colors = [
@@ -171,7 +171,7 @@ $bootstrap_colors = [
 :root {
 <?php
 foreach ($bootstrap_colors as $color_key) {
-    $color_val = zen_config($color_key) ?? $renamed_colors[$color_key] ?? 'inherit';
+    $color_val = $tplSetting->$color_key ?? $renamed_colors[$color_key] ?? 'inherit';
     if ($color_val === 'not-set') {
         $color_val = 'inherit';
     }

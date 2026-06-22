@@ -13,7 +13,7 @@ if (function_exists('zca_bootstrap_active') && zca_bootstrap_active()) {
     }
     
     unset($reviews_split, $reviews, $reviewsArray);
-    $reviews_split = new zca_splitPageResults($reviews_query_raw, zen_config('MAX_DISPLAY_NEW_REVIEWS'));
+    $reviews_split = new zca_splitPageResults($reviews_query_raw, $tplSetting->MAX_DISPLAY_NEW_REVIEWS);
     $reviews = $db->Execute($reviews_split->sql_query);
     $reviewsArray = [];
     foreach ($reviews as $next_review) {

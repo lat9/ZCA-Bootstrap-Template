@@ -29,7 +29,7 @@ $sql =
                AND cd.language_id = " . (int)$_SESSION['languages_id'] . "
       WHERE c.categories_status = 1
         AND fc.status = 1";
-$featured_categories = $db->ExecuteRandomMulti($sql, zen_config('MAX_DISPLAY_SEARCH_RESULTS_FEATURED'));
+$featured_categories = $db->ExecuteRandomMulti($sql, $tplSetting->MAX_DISPLAY_SEARCH_RESULTS_FEATURED);
 
 $row = 0;
 $col = 0;
@@ -47,10 +47,10 @@ if ($num_categories_count > 0) {
         $featured_cat_link = zen_href_link(FILENAME_DEFAULT, 'cPath=' .  zen_get_generated_category_path_rev($data['categories_id']));
 
         $featured_cat_image = '';
-        if (!(empty($data['categories_image']) && zen_config('PRODUCTS_IMAGE_NO_IMAGE_STATUS') === '0')) {
+        if (!(empty($data['categories_image']) && $tplSetting->PRODUCTS_IMAGE_NO_IMAGE_STATUS === '0')) {
             $featured_cat_image =
                 '<a href="' . $featured_cat_link . '" title="' . zen_output_string_protected($data['categories_name']) . '">' .
-                    zen_image(DIR_WS_IMAGES . (string)$data['categories_image'], $data['categories_name'], zen_config('SMALL_IMAGE_WIDTH'), zen_config('SMALL_IMAGE_HEIGHT')) .
+                    zen_image(DIR_WS_IMAGES . (string)$data['categories_image'], $data['categories_name'], $tplSetting->SMALL_IMAGE_WIDTH, $tplSetting->SMALL_IMAGE_HEIGHT) .
                 '</a><br>';
         }
         $list_box_contents[$row][$col] = [
@@ -59,18 +59,23 @@ if ($num_categories_count > 0) {
         ];
 
         $col++;
-        if ($col > (zen_config('SHOW_PRODUCT_INFO_COLUMNS_FEATURED_PRODUCTS') - 1)) {
+        if ($col >= $tplSetting->SHOW_PRODUCT_INFO_COLUMNS_FEATURED_PRODUCTS) {
             $col = 0;
             $row++;
         }
         $featured_categories->MoveNextRandom();
     }
 
+    $category_title = '';
     if (!empty($current_category_id)) {
         $category_title = zen_get_category_name((int)$current_category_id);
-        $title = '<p id="featuredCategoryCenterbox-card-header" class="centerBoxHeading card-header h3">' . TABLE_HEADING_FEATURED_CATEGORIES . ($category_title !== '' ? ' - ' . $category_title : '') . '</p>';
-    } else {
-        $title = '<p id="featuredCategoryCenterbox-card-header" class="centerBoxHeading card-header h3">' . TABLE_HEADING_FEATURED_CATEGORIES . '</p>';
+        if ($category_title !== '') {
+            $category_title = ' - ' . $category_title;
+        }
     }
+    $title =
+        '<p id="featuredCategoryCenterbox-card-header" class="centerBoxHeading card-header h3">' .
+            TABLE_HEADING_FEATURED_CATEGORIES . $category_title .
+        '</p>';
     $zc_show_featured = true;
 }

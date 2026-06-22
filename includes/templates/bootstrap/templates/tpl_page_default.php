@@ -16,7 +16,7 @@
 <div id="pageDefault" class="centerColumn">
     <h1 id="pageDefault-pageHeading" class="pageHeading"><?= $var_pageDetails->fields['pages_title'] ?></h1>
 <?php
-if (zen_config('EZPAGES_SHOW_PREV_NEXT_BUTTONS') === '2' && $counter > 1) {
+if ($tplSetting->EZPAGES_SHOW_PREV_NEXT_BUTTONS === '2' && $counter > 1) {
 ?>
     <div id="pageDefault-btn-group" class="btn-group my-3 text-center d-none d-sm-block" role="group">
         <a href="<?= $prev_link ?>"><?= $previous_button ?></a>
@@ -30,7 +30,7 @@ if (zen_config('EZPAGES_SHOW_PREV_NEXT_BUTTONS') === '2' && $counter > 1) {
         <a href="<?= $next_link ?>"><span class="btn btn-primary"><?= '<i class="fas fa-angle-right" title="' . BUTTON_NEXT_ALT . '"></i>' ?></span></a>
     </div>
 <?php
-} elseif (zen_config('EZPAGES_SHOW_PREV_NEXT_BUTTONS') === '1') {
+} elseif ($tplSetting->EZPAGES_SHOW_PREV_NEXT_BUTTONS === '1') {
 ?>
     <div id="pageDefault-btn-toolbar" class="btn-toolbar justify-content-center my-3" role="toolbar">
         <?= zen_back_link() . $home_button . '</a>' ?>
@@ -42,7 +42,7 @@ if (zen_config('EZPAGES_SHOW_PREV_NEXT_BUTTONS') === '2' && $counter > 1) {
 <?php
 // vertical TOC listing
 // create a table of contents for chapter when more than 1 page in the TOC
-if (count($toc_links) > 1 && zen_config('EZPAGES_SHOW_TABLE_CONTENTS') === '1') {
+if (count($toc_links) > 1 && $tplSetting->EZPAGES_SHOW_TABLE_CONTENTS === '1') {
 ?>
     <ul id="pageDefault-list-group" class="list-group mb-3">
         <li class="list-group-item list-group-item-secondary"><?= TEXT_EZ_PAGES_TABLE_CONTEXT ?></li>

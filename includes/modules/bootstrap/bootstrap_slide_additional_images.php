@@ -33,8 +33,7 @@ if ($products_image !== '' && $flag_show_product_info_additional_images !== '0')
     // additional images' "mode" setting indicates that we're running in 'strict' mode,
     // in which case the intervening '_' is also needed.
     //
-    zen_define_default('ADDITIONAL_IMAGES_MODE', 'legacy');
-    if (zen_config('ADDITIONAL_IMAGES_MODE') === 'legacy' && $products_image_directory === '.') {
+    if ($tplSetting->ADDITIONAL_IMAGES_MODE === 'legacy' && $products_image_directory === '.') {
         $products_image_base .= '?';
         $products_image_directory = '';
     } else {
@@ -58,7 +57,7 @@ $title = '';
 if ($num_images !== 0) {
     $row = 0;
     $col = 0;
-    $images_auto_added = (int)zen_config('IMAGES_AUTO_ADDED');
+    $images_auto_added = (int)$tplSetting->IMAGES_AUTO_ADDED;
     if ($num_images < $images_auto_added || $images_auto_added === 0) {
         $col_width = floor(100 / $num_images);
     } else {
@@ -90,10 +89,13 @@ if ($num_images !== 0) {
 
         $flag_has_large = file_exists($products_image_large);
         $products_image_large = ($flag_has_large === true) ? $products_image_large : $file;
-        $flag_display_large = (zen_config('IMAGE_ADDITIONAL_DISPLAY_LINK_EVEN_WHEN_NO_LARGE') === 'Yes' || $flag_has_large === true);
+
+        zen_define_default('IMAGE_ADDITIONAL_DISPLAY_LINK_EVEN_WHEN_NO_LARGE', 'Yes');
+        $flag_display_large = (IMAGE_ADDITIONAL_DISPLAY_LINK_EVEN_WHEN_NO_LARGE === 'Yes' || $flag_has_large === true);
+
         $base_image = $file;
-        $thumb_slashes = zen_image(addslashes($base_image), addslashes($products_name), zen_config('SMALL_IMAGE_WIDTH'), zen_config('SMALL_IMAGE_HEIGHT'));
-        $thumb_regular = zen_image($base_image, $products_name, zen_config('SMALL_IMAGE_WIDTH'), zen_config('SMALL_IMAGE_HEIGHT'));
+        $thumb_slashes = zen_image(addslashes($base_image), addslashes($products_name), $tplSetting->SMALL_IMAGE_WIDTH, $tplSetting->SMALL_IMAGE_HEIGHT);
+        $thumb_regular = zen_image($base_image, $products_name, $tplSetting->SMALL_IMAGE_WIDTH, $tplSetting->SMALL_IMAGE_HEIGHT);
         $large_link = zen_href_link(FILENAME_POPUP_IMAGE_ADDITIONAL, 'pID=' . $_GET['products_id'] . '&pic=' . $slideNumber . '&products_image_large_additional=' . $products_image_large);
         $slideNumber++;
 

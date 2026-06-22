@@ -2,7 +2,7 @@
 /**
  * more_information sidebox - displays list of links to additional pages on the site.  Must separately build those pages' content.
  *
- * BOOTSTRAP v3.7.0
+ * BOOTSTRAP v3.8.0
  *
  * @copyright Copyright 2003-2020 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
@@ -23,13 +23,13 @@ $more_information_classes = (!empty($more_information_sidebox_class)) ? $more_in
 $more_information = [];
 
 // test if links should display
-if (DEFINE_PAGE_2_STATUS <= 1) {
+if ($tplSetting->DEFINE_PAGE_2_STATUS <= 1) {
     $more_information[] = '<a class="' . $more_information_classes . '" href="' . zen_href_link(FILENAME_PAGE_2) . '">' . BOX_INFORMATION_PAGE_2 . '</a>';
 }
-if (DEFINE_PAGE_3_STATUS <= 1) {
+if ($tplSetting->DEFINE_PAGE_3_STATUS <= 1) {
     $more_information[] = '<a class="' . $more_information_classes . '" href="' . zen_href_link(FILENAME_PAGE_3) . '">' . BOX_INFORMATION_PAGE_3 . '</a>';
 }
-if (DEFINE_PAGE_4_STATUS <= 1) {
+if ($tplSetting->DEFINE_PAGE_4_STATUS <= 1) {
     $more_information[] = '<a class="' . $more_information_classes . '" href="' . zen_href_link(FILENAME_PAGE_4) . '">' . BOX_INFORMATION_PAGE_4 . '</a>';
 }
 

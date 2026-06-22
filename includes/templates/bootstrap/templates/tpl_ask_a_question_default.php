@@ -39,7 +39,7 @@ if (($_GET['action'] ?? false) === 'success') {
 } else {
 ?>
     <a href="<?= zen_href_link(zen_get_info_page((int)$pid), 'products_id=' . (int)$pid, 'SSL') ?>">
-        <?= zen_image(DIR_WS_IMAGES . $product_details['products_image'], $product_details['products_name'], IMAGE_PRODUCT_LISTING_WIDTH, IMAGE_PRODUCT_LISTING_HEIGHT) ?>
+        <?= zen_image(DIR_WS_IMAGES . $product_details['products_image'], $product_details['products_name'], $tplSetting->IMAGE_PRODUCT_LISTING_WIDTH, $tplSetting->IMAGE_PRODUCT_LISTING_HEIGHT) ?>
     </a>
 
     <div id="contactUsNoticeContent" class="definecontent">

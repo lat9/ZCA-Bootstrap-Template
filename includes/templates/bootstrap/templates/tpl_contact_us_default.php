@@ -33,7 +33,7 @@ if (($_GET['action'] ?? false) === 'success') {
     // -----
     // If configured, include the define-page for the contact_us page.
     //
-    if (in_array(zen_config('DEFINE_CONTACT_US_STATUS'), ['1', '2'], true)) {
+    if (in_array($tplSetting->DEFINE_CONTACT_US_STATUS, ['1', '2'], true)) {
 ?>
     <div id="contactUsDefault-defineContent" class="defineContent">
         <?php require $define_page; ?>

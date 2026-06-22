@@ -12,5 +12,5 @@ if ($accountHasHistory && function_exists('zca_bootstrap_active') && zca_bootstr
     //
     $history_query = $history_split->getSqlQuery();
     $history_query = substr($history_query, 0, strripos($history_query, ' limit'));
-    $history_split = new zca_splitPageResults($history_query, zen_config('MAX_DISPLAY_ORDER_HISTORY'));
+    $history_split = new zca_splitPageResults($history_query, $tplSetting->MAX_DISPLAY_ORDER_HISTORY);
 }

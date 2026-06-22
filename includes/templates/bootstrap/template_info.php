@@ -11,7 +11,7 @@
 $template_name = 'ZCA Bootstrap-4';
 $template_version = 'Version 3.8.0';
 $template_author = 'rbarbour (zcadditions.com), lat9 (vinosdefrutastropicales.com), drbyte (zen-cart.com)';
-$template_description = 'A responsive Zen Cart template built for <em>Zen Cart <b>1.5.8, 1.5.8a, v2.0.x, v2.1.0 and v2.2.x</b></em> and PHP versions 7.4 through 8.5. The template uses Bootstrap 4.6.2 and Font Awesome 6.5.2.  Additional documentation is available on the template\'s <a href="https://github.com/lat9/ZCA-Bootstrap-Template" target="_blank" rel="noreferrer noopener">GitHub repository</a>.';
+$template_description = 'A responsive Zen Cart template built for <em>Zen Cart <b>v2.0.x, v2.1.0, v2.2.x and v3.0.0-dev</b></em> and PHP versions 8.0 through 8.5. The template uses Bootstrap 4.6.2 and Font Awesome 6.5.2.  Additional documentation is available on the template\'s <a href="https://github.com/lat9/ZCA-Bootstrap-Template" target="_blank" rel="noreferrer noopener">GitHub repository</a>.';
 $template_screenshot = 'ZCA_BOOTSTRAP_TEMPLATE.png';
 
 // -----

@@ -15,7 +15,7 @@
     <h1 id="page4Default-pageHeading" class="pageHeading"><?= HEADING_TITLE ?></h1>
 
 <?php
-if (in_array(zen_config('DEFINE_PAGE_4_STATUS'), ['1', '2'], true)) {
+if (in_array($tplSetting->DEFINE_PAGE_4_STATUS, ['1', '2'], true)) {
 ?>
     <div id="page4Default-defineContent" class="defineContent">
 <?php

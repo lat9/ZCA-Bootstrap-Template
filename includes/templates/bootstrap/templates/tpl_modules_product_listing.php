@@ -15,7 +15,7 @@ require DIR_WS_MODULES . zen_get_module_directory(FILENAME_PRODUCT_LISTING);
 // v3.6.4 adds a configuration setting to override the "Add Selected to Cart"
 // button's default positioning.  The default, if not yet configured, is 'Always'.
 //
-switch (zen_config('BS4_FLOAT_ADD_SELECTED', 'Always')) {
+switch ($tplSetting->BS4_FLOAT_ADD_SELECTED) {
     case 'Never':
         $top_button_extra_class = '';
         $bottom_button_extra_class = '';
@@ -40,7 +40,7 @@ if ($show_top_submit_button === true) {
 <?php
 } // show top submit
 
-if ($listing_split->number_of_rows > 0 && in_array(zen_config('PREV_NEXT_BAR_LOCATION'), ['1', '3'], true)) {
+if ($listing_split->number_of_rows > 0 && in_array($tplSetting->PREV_NEXT_BAR_LOCATION, ['1', '3'], true)) {
 ?>
     <div id="productsListing-topRow" class="d-flex align-items-center justify-content-between flex-column flex-md-row">
         <div id="productsListing-topNumber" class="topNumber"><?= $listing_split->display_count(TEXT_DISPLAY_NUMBER_OF_PRODUCTS) ?></div>
@@ -60,7 +60,7 @@ if (in_array($product_listing_layout_style, ['columns', 'fluid'])) {
     require $template->get_template_dir('tpl_tabular_display.php',DIR_WS_TEMPLATE, $current_page_base,'common'). '/tpl_tabular_display.php';
 }
 
-if ($listing_split->number_of_rows && in_array(zen_config('PREV_NEXT_BAR_LOCATION'), ['2', '3'], true)) {
+if ($listing_split->number_of_rows && in_array($tplSetting->PREV_NEXT_BAR_LOCATION, ['2', '3'], true)) {
 ?>
     <div id="productsListing-bottomRow" class="d-flex align-items-center justify-content-between flex-column flex-md-row">
         <div id="productsListing-bottomNumber" class="bottomNumber"><?= $listing_split->display_count(TEXT_DISPLAY_NUMBER_OF_PRODUCTS) ?></div>

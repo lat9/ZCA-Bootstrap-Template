@@ -37,7 +37,7 @@ if ($shipping_module_available) {
         // the class is submitted to the function as part of the to-be-created parameter list.
         //
         $ot_class = str_replace('ot_', '', $current_selection['id']);
-        if (strtolower(zen_config('IMAGE_USE_CSS_BUTTONS')) === 'yes') {
+        if (strtolower($tplSetting->IMAGE_USE_CSS_BUTTONS) === 'yes') {
             $secondary_class = 'opc-cc-submit';
             $additional_parms = '';
         } else {

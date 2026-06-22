@@ -15,7 +15,7 @@
 
 <?php
 if ($reviews_split->number_of_rows > 0) {
-    if (in_array(zen_config('PREV_NEXT_BAR_LOCATION'), ['1', '3'], true)) {
+    if (in_array($tplSetting->PREV_NEXT_BAR_LOCATION, ['1', '3'], true)) {
 ?>
     <div id="reviewsDefault-topRow" class="row p-3">
         <div id="reviewsDefault-topNumber" class="topNumber col-sm"><?= $reviews_split->display_count(TEXT_DISPLAY_NUMBER_OF_REVIEWS) ?></div>
@@ -43,7 +43,7 @@ if ($reviews_split->number_of_rows > 0) {
             <div class="row">
                 <div class="col-sm text-center">
                     <a href="<?= zen_href_link(FILENAME_PRODUCT_REVIEWS_INFO, 'products_id=' . $products_id . '&reviews_id=' . $reviews_id) ?>">
-                        <?= zen_image(DIR_WS_IMAGES . $review['products_image'], $review['products_name'], zen_config('SMALL_IMAGE_WIDTH'), zen_config('SMALL_IMAGE_HEIGHT')) ?>
+                        <?= zen_image(DIR_WS_IMAGES . $review['products_image'], $review['products_name'], $tplSetting->SMALL_IMAGE_WIDTH, $tplSetting->SMALL_IMAGE_HEIGHT) ?>
                     </a>
                 </div>
                 <div class="col-sm">
@@ -60,7 +60,7 @@ if ($reviews_split->number_of_rows > 0) {
             </div>
             <blockquote class="blockquote mb-0">
                 <div id="review<?= $reviews_id ?>-content" class="content">
-                    <?= zen_trunc_string(nl2br(zen_output_string_protected(stripslashes($review['reviews_text'])), false), zen_config('MAX_PREVIEW')) ?>
+                    <?= zen_trunc_string(nl2br(zen_output_string_protected(stripslashes($review['reviews_text'])), false), $tplSetting->MAX_PREVIEW) ?>
                 </div>
                 <footer class="blockquote-footer">
                     <cite title="Source Title"><?= sprintf(TEXT_REVIEW_BY, zen_output_string_protected($review['customers_name'])) ?></cite>
@@ -82,7 +82,7 @@ if ($reviews_split->number_of_rows > 0) {
 }
 ?>
 <?php
-if ($reviews_split->number_of_rows > 0 && in_array(zen_config('PREV_NEXT_BAR_LOCATION'), ['2', '3'], true))) {
+if ($reviews_split->number_of_rows > 0 && in_array($tplSetting->PREV_NEXT_BAR_LOCATION, ['2', '3'], true)) {
 ?>
     <div id="reviewsDefault-bottomRow" class="row">
         <div id="reviewsDefault-bottomNumber" class="bottomNumber col-sm"><?= $reviews_split->display_count(TEXT_DISPLAY_NUMBER_OF_REVIEWS) ?></div>

@@ -12,5 +12,5 @@
  */
 require DIR_WS_MODULES . zen_get_module_directory(FILENAME_MAIN_PRODUCT_IMAGE);
 ?>
-<?= zen_image(addslashes($products_image_medium), addslashes($products_name), zen_config('MEDIUM_IMAGE_WIDTH'), zen_config('MEDIUM_IMAGE_HEIGHT')) ?>
+<?= zen_image(addslashes($products_image_medium), addslashes($products_name), $tplSetting->MEDIUM_IMAGE_WIDTH, $tplSetting->MEDIUM_IMAGE_HEIGHT) ?>
 <div class="p-3"></div>

@@ -23,7 +23,7 @@ if ($messageStack->size('search') > 0) {
 ?>
     <div id="search-result-forms" class="row">
 <?php
-if ($do_filter_list || zen_config('PRODUCT_LIST_ALPHA_SORTER') === 'true') {
+if ($do_filter_list || $tplSetting->PRODUCT_LIST_ALPHA_SORTER === 'true') {
 ?>
         <div id="search-result-filter-form" class="col-md-6">
             <?= zen_draw_form('filter', zen_href_link(FILENAME_SEARCH_RESULT), 'get') ?>

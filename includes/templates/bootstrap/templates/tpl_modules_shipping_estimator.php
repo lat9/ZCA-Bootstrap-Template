@@ -28,7 +28,7 @@ if (empty($extra)) {
 <div id="shippingEstimatorContent" class="mx-auto">
     <a id="seView"></a>
 <?php
-if (zen_config('SHOW_SHIPPING_ESTIMATOR_BUTTON') === '2') {
+if ($tplSetting->SHOW_SHIPPING_ESTIMATOR_BUTTON === '2') {
 ?>
     <h2 class="text-center"><?= CART_SHIPPING_OPTIONS ?></h2>
 <?php
