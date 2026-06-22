@@ -68,7 +68,7 @@ img {
 </head>
 
 <body>
-    <h1>Bootstrap-4 Template for Zen Cart v1.5.8, v2.0.x, v2.1.0 and v2.2.x</h1>
+    <h1>Bootstrap-4 Template for Zen Cart v2.0.x, v2.1.0, v2.2.x and v3.0.0-dev</h1>
     <p>Version 3.8.0 by lat9, drbyte, scottcwilson, marco-pm, dbltoe, dennisns7d, brittainmark, torvista, proseLA, daphilli224, retched, highburyeye and piloujp</p>
     <p>Current Support Thread at Zen Cart Forums: <a href="https://www.zen-cart.com/showthread.php?223910-ZCA-Bootstrap-4-Template-Support-Thread" target="_blank">https://www.zen-cart.com/showthread.php?223910-ZCA-Bootstrap-4-Template-Support-Thread</a></p>
     <p>Zen Cart Download Link: <a href="https://www.zen-cart.com/downloads.php?do=file&id=2191" target="_blank">https://www.zen-cart.com/downloads.php?do=file&id=2191</a></p>
@@ -76,7 +76,7 @@ img {
     <p>GitHub Wiki: <a href="https://github.com/lat9/ZCA-Bootstrap-Template/wiki" target="_blank">https://github.com/lat9/ZCA-Bootstrap-Template/wiki</a></p>
 
     <h2>What it does</h2>
-    <p>This template uses <a href="https://getbootstrap.com/docs/4.6/getting-started/introduction/" target="_blank">Bootstrap-4.6.2</a> to provide its styling and builds on the base that Raymond Barbour provided over the past few years, supporting Zen Cart versions 1.5.8 and later &mdash; <em>best supported</em> by zc222 and later.</p>
+    <p>This template uses <a href="https://getbootstrap.com/docs/4.6/getting-started/introduction/" target="_blank">Bootstrap-4.6.2</a> to provide its styling and builds on the base that Raymond Barbour provided over the past few years, supporting Zen Cart versions 2.0.0 and later &mdash; <em>best supported</em> by version 2.2.2 and later.</p>
     <p>Starting with v3.4.0 of the template, the template-related files needed when used with <a href="https://www.zen-cart.com/downloads.php?do=file&id=2095" target="_blank">One-Page Checkout</a> are also provided:</p>
     <ul>
         <li>These changes have been validated with v2.6.2 of <em>OPC</em>, I'll suggest upgrading to that version or later prior to upgrading to v3.8.0 or later of the Bootstrap-4 template.</li>
@@ -175,7 +175,7 @@ img {
     <h2>Version History</h2>
     <p>This section identifies the template's version history and changes, starting with its v2.0.0c release.  Prior version changes can be found in the root of the template's distribution zip-file (<code>CHANGELOG.txt</code>).</p>
     <ul>
-        <li>v3.8.0-beta3, 2026-05-26 (lat9)<ul>
+        <li>v3.8.0-beta3, 2026-06-22 (lat9)<ul>
             <li>BUGFIX: Remove additional checks for Zen Cart versions prior to 1.5.8.</li>
             <li>CHANGE: Use <code>zen_config</code> to access configuration settings, preparation for encapsulation.</li>
             <li>CHANGE: Update the <em>ZCA Bootstrap Colors</em> tool, allowing all colors to be modified in a single view.</li>
@@ -184,6 +184,7 @@ img {
             <li>CHANGE: Use CSS <var>variables</var> for the Bootstrap Colors.</li>
             <li>CHANGE: Add a tool that removes the template's files and database settings.</li>
             <li>BUGFIX: Supply 2nd parameter to <code>nl2br</code> so that HTML5 tags are generated.</li>
+            <li>CHANGE: Using <code>$tplSetting</code> to access template-specific configuration settings.</li>
             <li>The following files were changed, <span class="added">added</span> or <span class="removed">removed</span>:<ol>
                 <li><span class="removed">/docs/bootstrap/uninstall/bootstrap_colors_uninstall.sql</span></li>
                 <li>/includes/classes/ajax/zcAjaxBootstrapSearch.php</li>
