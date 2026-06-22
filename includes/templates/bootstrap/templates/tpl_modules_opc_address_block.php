@@ -92,11 +92,16 @@ if (zen_config('ACCOUNT_GENDER') === 'true') {
     $field_name = "gender[$which]";
     $male_id = "gender-male-$which";
     $female_id = "gender-female-$which";
-    echo '<span class="custom-control custom-radio custom-control-inline">' . zen_draw_radio_field ($field_name, 'm', ($address['gender'] === 'm'), "id=\"$male_id\"") .
-    "<label class=\"custom-control-label radioButtonLabel\" for=\"$male_id\">" . MALE . '</label></span><span class="custom-control custom-radio custom-control-inline">' .
-    zen_draw_radio_field ($field_name, 'f', ($address['gender'] === 'f'), "id=\"$female_id\"") .
-    "<label class=\"custom-control-label radioButtonLabel\" for=\"$female_id\">" . FEMALE . '</label></span>' .
-    (!empty(ENTRY_GENDER_TEXT) ? '<span class="alert">' . ENTRY_GENDER_TEXT . '</span>': ''); 
+    echo 
+        '<span class="custom-control custom-radio custom-control-inline">' .
+            zen_draw_radio_field ($field_name, 'm', ($address['gender'] === 'm'), "id=\"$male_id\"") .
+            "<label class=\"custom-control-label radioButtonLabel\" for=\"$male_id\">" . MALE . '</label>' .
+        '</span>' .
+        '<span class="custom-control custom-radio custom-control-inline">' .
+            zen_draw_radio_field ($field_name, 'f', ($address['gender'] === 'f'), "id=\"$female_id\"") .
+            "<label class=\"custom-control-label radioButtonLabel\" for=\"$female_id\">" . FEMALE . '</label>' .
+        '</span>' .
+        (!empty(ENTRY_GENDER_TEXT) ? '<span class="alert">' . ENTRY_GENDER_TEXT . '</span>': ''); 
 
     echo $clear_both;
 }

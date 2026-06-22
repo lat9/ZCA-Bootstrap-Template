@@ -1,9 +1,9 @@
 <?php
 // -----
 // Part of the One-Page Checkout plugin, provided under GPL 2.0 license by lat9 (cindy@vinosdefrutastropicales.com).
-// Copyright (C) 2013-2024, Vinos de Frutas Tropicales.  All rights reserved.
+// Copyright (C) 2013-2026, Vinos de Frutas Tropicales.  All rights reserved.
 //
-// Last updated: OPC v2.4.7/Bootstrap v3.8.0
+// Last updated: OPC v2.6.0/Bootstrap v3.8.0
 //
 // -----
 // The "display: none;" on the loading icon enables that to "not display" if javascript is disabled in the customer's browser.  The
@@ -117,7 +117,8 @@ if ($confirmation_required === true) {
         <div id="orderComment-card" class="card mb-3">
             <h4 id="orderComment-card-header" class="card-header"><?= HEADING_ORDER_COMMENTS ?></h4>
             <div id="orderComment-card-body" class="card-body p-3">
-                <?= (empty($order->info['comments']) ? NO_COMMENTS_TEXT : nl2br(zen_output_string_protected($order->info['comments']), false) . zen_draw_hidden_field('comments', $order->info['comments'])) ?>
+                <?= empty($order->info['comments']) ? NO_COMMENTS_TEXT : nl2br(zen_output_string_protected($order->info['comments']), false) ?>
+                <?= zen_draw_hidden_field('comments', zen_output_string_protected($order->info['comments'])) ?>
 
                 <div id="orderComment-btn-toolbar" class="btn-toolbar justify-content-end mt-3" role="toolbar">
                     <?= zca_button_link(zen_href_link(FILENAME_CHECKOUT_PAYMENT, '', 'SSL'), BUTTON_EDIT_SMALL_ALT, 'small_edit') ?>

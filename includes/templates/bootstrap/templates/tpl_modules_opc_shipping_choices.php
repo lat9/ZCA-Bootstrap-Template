@@ -42,7 +42,9 @@ if ($is_virtual_order === true) {
             <?= FREE_SHIPPING_TITLE ?>
         </div>
         <div id="defaultSelected">
-            <?= (!empty(MODULE_ORDER_TOTAL_SHIPPING_FREE_SHIPPING_OVER)) ? sprintf(FREE_SHIPPING_DESCRIPTION, $currencies->format(zen_config('MODULE_ORDER_TOTAL_SHIPPING_FREE_SHIPPING_OVER'))) : '' ?>
+            <?= (!empty(zen_config('MODULE_ORDER_TOTAL_SHIPPING_FREE_SHIPPING_OVER')))
+                ? sprintf(FREE_SHIPPING_DESCRIPTION, $currencies->format(zen_config('MODULE_ORDER_TOTAL_SHIPPING_FREE_SHIPPING_OVER')))
+                : '' ?>
         </div>
         <?= zen_draw_hidden_field('shipping', 'free_free') ?>
 <?php

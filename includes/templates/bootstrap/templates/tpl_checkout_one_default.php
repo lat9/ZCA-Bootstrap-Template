@@ -1,9 +1,9 @@
 <?php
 // -----
 // Part of the One-Page Checkout plugin, provided under GPL 2.0 license by lat9
-// Copyright (C) 2013-2022, Vinos de Frutas Tropicales.  All rights reserved.
+// Copyright (C) 2013-2026, Vinos de Frutas Tropicales.  All rights reserved.
 //
-// Last updated: OPC v2.4.2/Bootstrap v3.4.0
+// Last updated: OPC v2.4.2/Bootstrap v3.8.0
 //
 ?>
 <?php 
@@ -104,7 +104,7 @@ require $template->get_template_dir('tpl_modules_opc_submit_block.php', DIR_WS_T
 <?php
     echo '</form>';
 
-if (defined('MODULE_ORDER_TOTAL_COUPON_STATUS') && MODULE_ORDER_TOTAL_COUPON_STATUS === 'true') {
+if (zen_config('MODULE_ORDER_TOTAL_COUPON_STATUS') === 'true') {
     require $template->get_template_dir('tpl_coupon_help.php', DIR_WS_TEMPLATE, $current_page_base, 'modalboxes') . '/tpl_coupon_help.php';
 }
 
