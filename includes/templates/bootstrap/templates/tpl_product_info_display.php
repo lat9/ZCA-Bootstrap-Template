@@ -71,7 +71,7 @@ if (!empty($products_image)) {
 /**
  * display the products additional images in a model carousel
  */
-if (zen_config('PRODUCT_INFO_SHOW_BOOTSTRAP_MODAL_POPUPS') === 'Yes' && zen_config('PRODUCT_INFO_SHOW_BOOTSTRAP_MODAL_SLIDE') === '1') {
+if ($tplSetting->PRODUCT_INFO_SHOW_BOOTSTRAP_MODAL_POPUPS === 'Yes' && $tplSetting->PRODUCT_INFO_SHOW_BOOTSTRAP_MODAL_SLIDE === '1') {
     require $template->get_template_dir('tpl_bootstrap_images.php', DIR_WS_TEMPLATE, $current_page_base, 'modalboxes') . '/tpl_bootstrap_images.php';
 
     if ($num_images > 0) {
@@ -188,8 +188,8 @@ if ($pr_attr->fields['total'] > 0) {
         $display_price_top = false;
         $display_price_bottom = false;
     } else {
-        $display_price_top = in_array(zen_config('BS4_PRICING_LOCATION'), ['Both', 'Above Only'], true);
-        $display_price_bottom = in_array(zen_config('BS4_PRICING_LOCATION'), ['Both', 'Below Only'], true);
+        $display_price_top = in_array($tplSetting->BS4_PRICING_LOCATION, ['Both', 'Above Only'], true);
+        $display_price_bottom = in_array($tplSetting->BS4_PRICING_LOCATION, ['Both', 'Below Only'], true);
     }
 ?>
             <!--bof Product Price block above Attributes -->
@@ -312,7 +312,7 @@ if (zen_config('CUSTOMERS_APPROVAL') === '3' && TEXT_LOGIN_FOR_PRICE_BUTTON_REPL
 
     <div id="<?= $html_id_prefix ?>-moduledDisplayRow" class="row">
 <?php
-if (zen_config('PRODUCT_INFO_SHOW_NOTIFICATIONS_BOX') === '1') {
+if ($tplSetting->PRODUCT_INFO_SHOW_NOTIFICATIONS_BOX === '1') {
 ?>
         <!--bof Products Notification Module-->
         <div id="<?= $html_id_prefix ?>-moduleDisplayColLeft" class="col-sm">
@@ -322,7 +322,7 @@ if (zen_config('PRODUCT_INFO_SHOW_NOTIFICATIONS_BOX') === '1') {
 <?php
 }
 
-if (zen_config('PRODUCT_INFO_SHOW_MANUFACTURER_BOX') === '1') {
+if ($tplSetting->PRODUCT_INFO_SHOW_MANUFACTURER_BOX === '1') {
 ?>
         <!--bof Products Manufacturer Info Module-->
         <div id="<?= $html_id_prefix ?>-moduleDisplayColRight" class="col-sm">

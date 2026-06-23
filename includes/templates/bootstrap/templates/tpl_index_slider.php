@@ -9,7 +9,11 @@
 // Zen Cart's 'base' banner management requires that a 'banners_history' record be present for a 'banner' if that banner is
 // to be expired.  Add a dummy record for any slider banners that don't already have such a record.
 //
-$bs4_slider_banner_group = (string)zen_config('BS4_SLIDER_BANNER_GROUP');
+$bs4_slider_banner_group = trim((string)$tplSetting->BS4_SLIDER_BANNER_GROUP);
+if ($bs4_slider_banner_group === '') {
+    return;
+}
+
 $slider_banner_check = $db->Execute(
     "SELECT b.banners_id
        FROM " . TABLE_BANNERS . " b
@@ -60,7 +64,7 @@ foreach ($bs4_hp_banners as $row) {
 ?>
         <div class="carousel-item <?= $hp_class ?>">
             <a href="<?= $banner_href ?>" <?= $anchor_target ?>>
-                <?= zen_image(DIR_WS_IMAGES . $row['banners_image'], $row['banners_title'], zen_config('BS4_SLIDER_WIDTH'), zen_config('BS4_SLIDER_HEIGHT'), ' class="mx-auto d-block"') ?>
+                <?= zen_image(DIR_WS_IMAGES . $row['banners_image'], $row['banners_title'], $tplSetting->BS4_SLIDER_WIDTH, $tplSetting->BS4_SLIDER_HEIGHT, ' class="mx-auto d-block"') ?>
             </a>
         </div>
 <?php

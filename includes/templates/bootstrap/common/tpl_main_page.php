@@ -99,7 +99,7 @@ $body_onload = ($zv_onload !== '') ? ' onload="' . $zv_onload . '"' : '';
 $zco_notifier->notify('NOTIFY_PAGE_BODY_BEGIN', $current_page);
 ?>
 <?php
-if (zen_config('BS4_AJAX_SEARCH_ENABLE') === 'true') {
+if ($tplSetting->BS4_AJAX_SEARCH_ENABLE === 'true') {
     require $template->get_template_dir('tpl_ajax_search.php', DIR_WS_TEMPLATE, $current_page_base, 'modalboxes') . '/tpl_ajax_search.php';
 }
 ?>

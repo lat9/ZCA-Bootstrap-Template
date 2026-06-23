@@ -24,7 +24,7 @@ $search_header_status = $db->Execute(
 );
 
 if (!$search_header_status->EOF) {
-    if (zen_config('BS4_AJAX_SEARCH_ENABLE') === 'true') {
+    if ($tplSetting->BS4_AJAX_SEARCH_ENABLE === 'true') {
         require $template->get_template_dir('tpl_ajax_search_header.php', DIR_WS_TEMPLATE, $current_page_base, 'sideboxes') . '/tpl_ajax_search_header.php';
     } else {
         require $template->get_template_dir('tpl_search_header.php', DIR_WS_TEMPLATE, $current_page_base, 'sideboxes') . '/tpl_search_header.php';
