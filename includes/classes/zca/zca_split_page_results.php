@@ -2,7 +2,7 @@
 /**
  * split_page_results Class.
  *
- * BOOTSTRAP v3.4.1
+ * BOOTSTRAP v3.8.0
  *
  * @copyright Copyright 2003-2020 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
@@ -205,8 +205,8 @@ class zca_splitPageResults extends base
         // next group of pages
         if ($cur_window_num < $max_window_num) {
             $href_link = zen_href_link($_GET['main_page'], $parameters . $this->page_name . '=' . (($cur_window_num) * $max_page_links + 1), $request_type);
-            $link = '<li><a class="page-link" href="' . $href_link . '" title="' . sprintf(PREVNEXT_TITLE_NEXT_SET_OF_NO_PAGE, $max_page_links) . '" aria-label="' . ARIA_PAGINATION_ELLIPSIS_NEXT . '">...</a></li>';
-            $display_links_string .= $link;
+            $link = '<a class="page-link" href="' . $href_link . '" title="' . sprintf(PREVNEXT_TITLE_NEXT_SET_OF_NO_PAGE, $max_page_links) . '" aria-label="' . ARIA_PAGINATION_ELLIPSIS_NEXT . '">...</a>';
+            $display_links_string .= '<li>' . $link . '</li>';
             $ul_elements .= '  <li class="ellipsis page-item">' . $link . '</li>' . "\n";
         } else {
             // $ul_elements .= '  <li class="ellipsis" aria-hidden="true">' . $link . '</li>' . "\n";
