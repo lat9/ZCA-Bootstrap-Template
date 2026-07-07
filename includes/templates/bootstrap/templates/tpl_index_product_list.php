@@ -114,21 +114,12 @@ if ($do_filter_list || isset($_GET['alpha_filter_id']) || ($tplSetting->PRODUCT_
     <?= '</form>' ?>
 <?php
 }
-
-// -----
-// Zen Cart versions prior to 2.0.0 don't include the display-order sort, so neither
-// does this template when run on an earlier version.
-//
-if (PROJECT_VERSION_MAJOR > 1) {
 ?>
         <div class="col-sm-4">
 <?php
-    require $template->get_template_dir('/tpl_modules_listing_display_order.php', DIR_WS_TEMPLATE, $current_page_base, 'templates') . '/tpl_modules_listing_display_order.php';
+require $template->get_template_dir('/tpl_modules_listing_display_order.php', DIR_WS_TEMPLATE, $current_page_base, 'templates') . '/tpl_modules_listing_display_order.php';
 ?>
         </div>
-<?php
-}
-?>
     </div>
 <?php
 /**

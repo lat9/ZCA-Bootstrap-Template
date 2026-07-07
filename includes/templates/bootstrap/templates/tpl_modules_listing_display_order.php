@@ -18,12 +18,6 @@ if ($disp_order <= 0 || $disp_order > 8) {
     $disp_order = 8;
 }
 
-// -----
-// Language constant, added in v200, define here if not previously defined; can be
-// removed once support for ZC versions < 2.0.0 is dropped.
-//
-zen_define_default('TEXT_INFO_SORT_BY_RECOMMENDED', 'Recommended');
-
 // NOTE: to remove a sort order option add a PHP comment around the option to be removed
 $display_order_options = [
     ['id' => '8', 'text' => TEXT_INFO_SORT_BY_RECOMMENDED],
