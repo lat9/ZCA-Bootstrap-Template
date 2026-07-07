@@ -2,7 +2,7 @@
 /**
  * split_page_results Class.
  *
- * BOOTSTRAP v3.4.1
+ * BOOTSTRAP v3.8.0
  *
  * @copyright Copyright 2003-2020 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
@@ -28,21 +28,20 @@ if (!defined('IS_ADMIN_FLAG')) {
 //
 class zca_splitPageResults extends base
 {
-    public
-        $sql_query,
-        $number_of_rows,
-        $current_page_number,
-        $number_of_pages,
-        $number_of_rows_per_page,
-        $page_name,
-        $countQuery;
+    public $sql_query;
+    public $number_of_rows;
+    public $current_page_number;
+    public $number_of_pages;
+    public $number_of_rows_per_page;
+    public $page_name;
+    public $countQuery;
 
     /* class constructor */
     public function __construct($query, $max_rows, $count_key = '*', $page_holder = 'page', $debug = false, $countQuery = '')
     {
         global $db;
 
-        $max_rows = ($max_rows == '' || $max_rows == 0) ? 20 : $max_rows;
+        $max_rows = ((int)$max_rows > 0) ? $max_rows : 20;
 
         $this->sql_query = str_replace(["\n", "\r"], ' ', $query);
         if ($countQuery !== '') {
@@ -51,27 +50,13 @@ class zca_splitPageResults extends base
         $this->countQuery = ($countQuery !== '') ? $countQuery : $this->sql_query;
         $this->page_name = $page_holder;
 
-        if ($debug !== false) {
-            echo '<br><br>';
-            echo 'original_query=' . $query . '<br><br>';
-            echo 'original_count_query=' . $countQuery . '<br><br>';
-            echo 'sql_query=' . $this->sql_query . '<br><br>';
-            echo 'count_query=' . $this->countQuery . '<br><br>';
-        }
-        if (isset($_GET[$page_holder])) {
-            $page = $_GET[$page_holder];
-        } elseif (isset($_POST[$page_holder])) {
-            $page = $_POST[$page_holder];
-        } else {
-            $page = '';
-        }
-
+        $page = $_GET[$page_holder] ?? $_POST[$page_holder] ?? '';
         if (empty($page) || !ctype_digit((string)$page)) {
             $page = 1;
         }
-        $this->current_page_number = $page;
+        $this->current_page_number = (int)$page;
 
-        $this->number_of_rows_per_page = $max_rows;
+        $this->number_of_rows_per_page = (int)$max_rows;
 
         $pos_to = strlen($this->countQuery);
 
@@ -99,12 +84,9 @@ class zca_splitPageResults extends base
             $count_string = zen_db_input($count_key);
         }
         $count_query = "SELECT COUNT(" . $count_string . ") AS total " . substr($this->countQuery, $pos_from, $pos_to - $pos_from);
-        if ($debug !== false) {
-            echo 'count_query=' . $count_query . '<br><br>';
-        }
         $count = $db->Execute($count_query);
 
-        $this->number_of_rows = $count->fields['total'];
+        $this->number_of_rows = (int)$count->fields['total'];
 
         $this->number_of_pages = ceil($this->number_of_rows / $this->number_of_rows_per_page);
 
@@ -148,7 +130,7 @@ class zca_splitPageResults extends base
 
         // previous button - not displayed on first page
         $href_link = zen_href_link($_GET['main_page'], $parameters . ($this->current_page_number > 2 ? $this->page_name . '=' . ($this->current_page_number - 1) : ''), $request_type);
-        $link = 
+        $link =
             '<a class="page-link" href="' . $href_link . '" title="' . PREVNEXT_TITLE_PREVIOUS_PAGE . '" aria-label="' . ARIA_PAGINATION_PREVIOUS_PAGE . '">' .
                 PREVNEXT_BUTTON_PREV .
             '</a>';
@@ -205,8 +187,8 @@ class zca_splitPageResults extends base
         // next group of pages
         if ($cur_window_num < $max_window_num) {
             $href_link = zen_href_link($_GET['main_page'], $parameters . $this->page_name . '=' . (($cur_window_num) * $max_page_links + 1), $request_type);
-            $link = '<li><a class="page-link" href="' . $href_link . '" title="' . sprintf(PREVNEXT_TITLE_NEXT_SET_OF_NO_PAGE, $max_page_links) . '" aria-label="' . ARIA_PAGINATION_ELLIPSIS_NEXT . '">...</a></li>';
-            $display_links_string .= $link;
+            $link = '<a class="page-link" href="' . $href_link . '" title="' . sprintf(PREVNEXT_TITLE_NEXT_SET_OF_NO_PAGE, $max_page_links) . '" aria-label="' . ARIA_PAGINATION_ELLIPSIS_NEXT . '">...</a>';
+            $display_links_string .= '<li>' . $link . '</li>';
             $ul_elements .= '  <li class="ellipsis page-item">' . $link . '</li>' . "\n";
         } else {
             // $ul_elements .= '  <li class="ellipsis" aria-hidden="true">' . $link . '</li>' . "\n";
