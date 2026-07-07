@@ -1,14 +1,18 @@
 <?php
 /**
  * Module Template
- * 
- * BOOTSTRAP 3.6.5
+ *
+ * BOOTSTRAP 3.8.0
  *
  * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
  * @version $Id: Scott Wilson 2024 Mar 09 Modified in v2.0.0-rc2 $
  */
+if (isset($show_sort_by_on_product_listing) && $show_sort_by_on_product_listing === false) {
+    return;
+}
+
 $disp_order = (int)($disp_order ?? 0);
 if ($disp_order <= 0 || $disp_order > 8) {
     $disp_order = 8;
@@ -18,9 +22,8 @@ if ($disp_order <= 0 || $disp_order > 8) {
 // Language constant, added in v200, define here if not previously defined; can be
 // removed once support for ZC versions < 2.0.0 is dropped.
 //
-if (!defined('TEXT_INFO_SORT_BY_RECOMMENDED')) {
-    define('TEXT_INFO_SORT_BY_RECOMMENDED', 'Recommended');
-}
+zen_define_default('TEXT_INFO_SORT_BY_RECOMMENDED', 'Recommended');
+
 // NOTE: to remove a sort order option add a PHP comment around the option to be removed
 $display_order_options = [
     ['id' => '8', 'text' => TEXT_INFO_SORT_BY_RECOMMENDED],
