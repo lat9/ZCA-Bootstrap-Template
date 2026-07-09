@@ -239,7 +239,7 @@ unset($not_set_check);
         <p class="pt-2"><b><?= TEXT_NOTES ?></b></p>
         <ul>
             <?= TEXT_NOTE_LIST ?>
-            <?= ($not_set_present === true) ? TEXT_NOTE_UNSET_LIST : '' ?>
+            <?= ($not_set_present === true) ? TEXT_NOTE_NOTSET_LIST : '' ?>
         </ul>
 <?php
 $filter_types = [
