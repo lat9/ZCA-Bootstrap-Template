@@ -6,7 +6,7 @@
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
  * @version $Id: Author: DrByte  Fri Feb 26 00:25:51 2016 -0500 Modified in v1.5.5 $
  *
- * BOOTSTRAP v3.8.0
+ * BOOTSTRAP v3.8.1
  */
 require 'includes/application_top.php';
 
@@ -239,7 +239,7 @@ unset($not_set_check);
         <p class="pt-2"><b><?= TEXT_NOTES ?></b></p>
         <ul>
             <?= TEXT_NOTE_LIST ?>
-            <?= ($not_set_present === true) ? TEXT_NOTE_UNSET_LIST : '' ?>
+            <?= ($not_set_present === true) ? TEXT_NOTE_NOTSET_LIST : '' ?>
         </ul>
 <?php
 $filter_types = [
