@@ -1,0 +1,94 @@
+<?php
+/**
+ * Page Template
+ * 
+ * BOOTSTRAP v3.8.0
+ *
+ * Loaded automatically by index.php?main_page=contact_us.<br />
+ * Displays contact us page form.
+ *
+ * @copyright Copyright 2003-2020 Zen Cart Development Team
+ * @copyright Portions Copyright 2003 osCommerce
+ * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
+ * @version $Id: rbarbour zcadditions.com 2019 Jul 22 Modified in v1.5.7 $
+ */
+?>
+<div id="contactUsDefault" class="centerColumn">
+<?php
+if (zen_config('CONTACT_US_STORE_NAME_ADDRESS') === '1') {
+?>
+    <address><?= nl2br(STORE_NAME_ADDRESS, false) ?></address>
+<?php
+}
+
+if (($_GET['action'] ?? false) === 'success') {
+?>
+    <div id="contactUsDefault-content" class="content"><?= TEXT_SUCCESS ?></div>
+
+    <div id="contactUsDefault-btn-toolbar" class="btn-toolbar my-3" role="toolbar">
+        <?= zca_back_link() ?>
+    </div>
+<?php
+} else {
+    // -----
+    // If configured, include the define-page for the contact_us page.
+    //
+    if (in_array($tplSetting->DEFINE_CONTACT_US_STATUS, ['1', '2'], true)) {
+?>
+    <div id="contactUsDefault-defineContent" class="defineContent">
+        <?php require $define_page; ?>
+    </div>
+<?php
+    }
+
+    if ($messageStack->size('contact') > 0) {
+        echo $messageStack->output('contact');
+    }
+?>
+    <?= zen_draw_form('contact_us', zen_href_link(FILENAME_CONTACT_US, 'action=send', 'SSL')) ?>
+    <div id="contactUs-card" class="card">
+        <h2 id="contactUs-card-header" class="card-header"><?= HEADING_TITLE ?></h2>
+        <div id="contactUs-card-body" class="card-body">
+            <div id="contactUs-required-info" class="required-info text-right my-3"><?= FORM_REQUIRED_INFORMATION ?></div>
+<?php
+    // show dropdown if set
+    if (zen_config('CONTACT_US_LIST') !== '') {
+?>
+            <label class="inputLabel" for="send-to"><?= SEND_TO_TEXT ?></label><?= '<span class="alert">' . ENTRY_REQUIRED_SYMBOL . '</span>' ?>
+            <?= zen_draw_pull_down_menu('send_to',  $send_to_array, $send_to_default, 'id="send-to" required size="' . count($send_to_array) . '"') ?>
+            <div class="p-2"></div>
+<?php
+    }
+?>
+            <label class="inputLabel" for="contactname"><?= ENTRY_NAME ?></label>
+            <?= zen_draw_input_field('contactname', $name, ' size="40" id="contactname" placeholder="' . ENTRY_REQUIRED_SYMBOL . '" required') ?>
+            <div class="p-2"></div>
+
+            <label class="inputLabel" for="email-address"><?= ENTRY_EMAIL ?></label>
+            <?= zen_draw_input_field('email', ($email_address), ' size="40" id="email-address" autocomplete="off" placeholder="' . ENTRY_REQUIRED_SYMBOL . '" required', 'email') ?>
+            <div class="p-2"></div>
+
+            <label class="inputLabel" for="telephone"><?= ENTRY_TELEPHONE_NUMBER ?></label>
+            <?= zen_draw_input_field('telephone', ($telephone), ' size="20" id="telephone" autocomplete="off"', 'tel') ?>
+            <div class="p-2"></div>
+
+            <label for="enquiry"><?= ENTRY_ENQUIRY ?></label>
+            <?= zen_draw_textarea_field('enquiry', '30', '7', $enquiry, 'id="enquiry" placeholder="' . ENTRY_REQUIRED_SYMBOL . '" required') ?>
+            <div class="p-2"></div>
+
+            <?= zen_draw_input_field($antiSpamFieldName, '', ' size="40" id="CUAS" style="visibility:hidden; display:none;" autocomplete="off"') ?>
+
+            <div id="contactUs-btn-toolbar" class="btn-toolbar justify-content-end mt-3" role="toolbar">
+                <?= zen_image_submit(BUTTON_IMAGE_SEND, BUTTON_SEND_ALT) ?>
+            </div>
+        </div>
+    </div>
+
+    <div id="contactUsDefault-btn-toolbar" class="btn-toolbar my-3" role="toolbar">
+        <?= zca_back_link() ?>
+    </div>
+    <?= '</form>' ?>
+<?php
+}
+?>
+</div>

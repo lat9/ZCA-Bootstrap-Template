@@ -1,0 +1,32 @@
+#search-wrapper.modal:before {
+    display: inline;
+}
+#search-wrapper {
+    opacity: 1;
+}
+.sugg {
+    text-align: center;
+    padding: 10px;
+}
+.sugg-content a {
+    display: inline-block;
+    border: 1px solid #0c6eaf;
+    border-radius: 10px;
+    padding: 5px;
+    text-decoration: none;
+    width: 100%;
+}
+.sugg-content > a:hover {
+    color: #0080c0;
+    background-color: #dff4ff;
+}
+.sugg-img {
+    height: 50px;
+}
+.sugg-name {
+    height: 4rem;
+    margin-bottom: 0.5rem;
+}
+.sugg-name, .sugg-price {
+    font-weight: bold;
+}

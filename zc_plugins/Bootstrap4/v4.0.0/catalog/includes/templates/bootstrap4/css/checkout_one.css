@@ -1,0 +1,22 @@
+#checkoutConfirmDefault { display: none; }
+#checkoutOneLoading { position: relative; height: 95vh; top: 50%; left: 50%; display: none; }
+#checkoutPaymentNoJs { box-sizing:border-box; text-align: center; border: 1px solid red; width: 95%; margin: 0 auto; }
+
+#choices-bill select, #choices-ship select { max-width: 100%; }
+
+.edit-button { text-align: right; }
+.opc-buttons { display: none; }
+
+.opc-changed { border: 1px solid #0000ff; }
+.opc-error { border: 2px solid red; }
+.opc-view { position: relative; z-index: 2; box-shadow: 3px 3px 5px 6px #ccc; }
+.opc-cc-submit, #opc-order-confirm, #opc-order-review, #opc-bill-cancel, #opc-bill-save, #opc-ship-cancel, #opc-ship-save, #opc-guest-cancel, #opc-guest-save, #opc-bill-edit, #opc-ship-edit { cursor: pointer; }
+.opc-base, .opc-credit { position: relative; }
+.opc-overlay.active { background: #dcdcdc; height: 100%; width: 100%; opacity: 0.5; top: 0; left: 0; position: absolute; padding: 0; z-index: 1; }
+.opc-disabled #opc-order-confirm, .opc-disabled #opc-order-review { background: #dcdcdc; opacity: 0.5; z-index: 1; cursor: not-allowed; pointer-events: none; }
+
+.back { float: left; }
+.forward { float: right; }
+.hiddenField { display: none; }
+.visibleField { display: inline; }
+.alert { padding-left: 0.5em; }

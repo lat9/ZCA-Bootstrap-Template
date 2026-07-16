@@ -1,0 +1,108 @@
+<?php
+/**
+ * BOOTSTRAP v3.8.0
+ *
+ * @copyright Copyright 2003-2022 Zen Cart Development Team
+ * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
+ * @version $Id: Scott C Wilson 2022 Jan 22 Modified in v1.5.8-alpha $
+ */
+// -----
+// zc158b+ creates a new variables in support of a question asked of a "call for price"
+// product.  Since this template supports zc157 and the full zc158 family, honor those
+// variables, if set, but default to the legacy values if not.
+//
+$heading_title ??= HEADING_TITLE;
+$form_title ??= FORM_TITLE;
+?>
+<div class="centerColumn" id="askAQuestion">
+    <?= zen_draw_form('ask_a_question', zen_href_link(FILENAME_ASK_A_QUESTION, 'action=send&pid=' . (int)$pid, 'SSL')) ?>
+
+<?php
+if (zen_config('CONTACT_US_STORE_NAME_ADDRESS') === '1') {
+?>
+    <address><?= nl2br(STORE_NAME_ADDRESS, false) ?></address>
+<?php
+}
+?>
+    <h1><?= $heading_title . $product_details['products_name'] ?></h1>
+
+<?php
+if (($_GET['action'] ?? false) === 'success') {
+?>
+    <div class="content"><?= TEXT_SUCCESS ?></div>
+
+    <div class="btn-toolbar my-3" role="toolbar">
+        <?= '<a class="p-2 btn button_back" href="' . zen_back_link(true) . '">' . BUTTON_BACK_ALT . '</a>' ?>
+    </div>
+
+<?php
+} else {
+?>
+    <a href="<?= zen_href_link(zen_get_info_page((int)$pid), 'products_id=' . (int)$pid, 'SSL') ?>">
+        <?= zen_image(DIR_WS_IMAGES . $product_details['products_image'], $product_details['products_name'], $tplSetting->IMAGE_PRODUCT_LISTING_WIDTH, $tplSetting->IMAGE_PRODUCT_LISTING_HEIGHT) ?>
+    </a>
+
+    <div id="contactUsNoticeContent" class="definecontent">
+<?php
+/**
+ * require html_define for the contact_us page
+ */
+require $define_page;
+?>
+    </div>
+<?php
+if ($messageStack->size('contact') > 0) {
+    echo $messageStack->output('contact');
+}
+?>
+    <div id="contactUsForm" class="card">
+        <h2 class="card-header"><?= $form_title ?></h2>
+        <div class="card-body">
+            <div class="required-info text-right my-3"><?= FORM_REQUIRED_INFORMATION ?></div>
+<?php
+// show dropdown if set
+    if (zen_config('CONTACT_US_LIST') !== '') {
+?>
+            <label class="inputLabel" for="send-to"><?= SEND_TO_TEXT ?></label><span class="alert"><?= ENTRY_REQUIRED_SYMBOL ?></span>
+            <?= zen_draw_pull_down_menu('send_to',  $send_to_array, 0, 'id="send-to"') ?>
+            <div class="p-2"></div>
+<?php
+    }
+
+    // -----
+    // zc158 adds a new definition for telephone-number labels; use that if present, otherwise
+    // fall-back to the previous definition.
+    //
+    $telephone_label = zen_config('ENTRY_TELEPHONE_NUMBER') ?? zen_config('ENTRY_TELEPHONE');
+?>
+            <label class="inputLabel" for="contactname"><?= ENTRY_NAME ?></label>
+            <?= zen_draw_input_field('contactname', $name, ' size="40" id="contactname" placeholder="' . ENTRY_REQUIRED_SYMBOL . '" autofocus required') ?>
+            <div class="p-2"></div>
+
+            <label class="inputLabel" for="email-address"><?= ENTRY_EMAIL ?></label>
+            <?= zen_draw_input_field('email', ($email_address), ' size="40" id="email-address" autocomplete="off" placeholder="' . ENTRY_REQUIRED_SYMBOL . '" required', 'email') ?>
+            <div class="p-2"></div>
+
+            <label class="inputLabel" for="telephone"><?= $telephone_label ?></label>
+            <?= zen_draw_input_field('telephone', ($telephone), ' size="20" id="telephone" autocomplete="off" placeholder="' . ENTRY_REQUIRED_SYMBOL . '" required', 'tel') ?>
+            <div class="p-2"></div>
+
+            <label for="enquiry"><?= ENTRY_ENQUIRY ?></label>
+            <?= zen_draw_textarea_field('enquiry', '30', '7', $enquiry, 'id="enquiry" placeholder="' . ENTRY_REQUIRED_SYMBOL . '" required') ?>
+
+            <?= zen_draw_input_field($antiSpamFieldName, '', ' size="40" id="CUAS" style="visibility:hidden; display:none;" autocomplete="off"') ?>
+            
+            <div class="btn-toolbar justify-content-end mt-3" role="toolbar">
+                <?= zen_image_submit(BUTTON_IMAGE_SEND, BUTTON_SEND_ALT) ?>
+            </div>
+        </div>
+    </div>
+
+    <div class="btn-toolbar my-3" role="toolbar">
+        <?= zca_back_link() ?>
+    </div>
+<?php
+}
+?>
+    <?= '</form>' ?>
+</div>
