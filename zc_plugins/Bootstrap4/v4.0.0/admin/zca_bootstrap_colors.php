@@ -242,7 +242,7 @@ $filter_types = [
         </div>
 
         <?= zen_draw_form('configuration', FILENAME_ZCA_BOOTSTRAP_COLORS, 'action=saveall', 'post', 'class="form-horizontal"') ?>
-        <div class="row dataTableHeadingRow py-3">
+        <div class="row dataTableHeadingRow py-3 d-xs-none">
             <div class="col-sm-4 dataTableHeadingContent"><?= TABLE_HEADING_CONFIGURATION_TITLE ?></div>
             <div class="col-sm-6 dataTableHeadingContent text-center"><?= TABLE_HEADING_CONFIGURATION_VALUE ?></div>
             <div class="col-sm-2 dataTableHeadingContent text-center"><?= TABLE_HEADING_DATES ?></div>
@@ -278,7 +278,7 @@ foreach ($configuration as $item) {
     //
     $cfg_default_color = strstr(str_replace('Default: ', '', $item['configuration_description']), '.', true);
 ?>
-        <div class="row dataTableRow row-hover align-items-center py-2">
+        <div class="row dataTableRow row-hover align-items-center mt-1 py-2">
             <div class="col-sm-4 bc-title">
                 <?= $item['configuration_title'] ?>
 <?php
@@ -292,12 +292,12 @@ foreach ($configuration as $item) {
 
             <div class="col-sm-6 color-value">
 <?php
-    $default_column_width = '8';
+    $default_column_width = '6';
     $disabled = '';
     if ($not_set_present === true) {
         $default_column_width = '4';
 ?>
-                <div class="col-sm-4">
+                <div class="col-sm-3">
 <?php
         if ($not_set_ok === true && $cfgValueColor === 'not-set') {
             $disabled = 'disabled';
@@ -315,21 +315,29 @@ foreach ($configuration as $item) {
                 <div class="col-sm-4 text-center">
                     <?= zen_draw_input_field("colors[$cID]", $cfgValueColor, 'class="form-control color-val" data-cid="' . $cID . '" data-color-format="hex" size="8" ' . $disabled) ?>
                 </div>
-                <div class="col-sm-<?= $default_column_width ?>">
-                    <div class="px-2"><small class="text-muted">
-                        <?= TEXT_DEFAULT ?>
-                        <i class="fa fa-square fa-border" aria-hidden="true" style="color: <?= $cfg_default_color ?>;"></i>
-                        <?= $cfg_default_color ?>
+                <div class="col-sm-<?= $default_column_width ?> col-md-4">
+                    <div class="row px-2"><small class="text-muted">
+                        <div class="col-xs-6 px-1 text-right">
+                            <?= TEXT_DEFAULT ?>
+                        </div>
+                        <div class="col-xs-6 px-1">
+                            <i class="fa fa-square fa-border" aria-hidden="true" style="color: <?= $cfg_default_color ?>;"></i>
+                            <?= $cfg_default_color ?>
+                        </div>
                     </small></div>
-                    <div class="px-2"><small class="text-muted">
-                        <?= TEXT_ORIGINAL ?>
+                    <div class="row px-2"><small class="text-muted">
+                        <div class="col-xs-6 px-1 text-right">
+                            <?= TEXT_CURRENT ?>
+                        </div>
+                        <div class="col-xs-6 px-1">
 <?php
     if ($cfgValueColor === 'not-set') {
         echo 'not-set';
     } else {
 ?>
-                        <i class="fa fa-square fa-border" aria-hidden="true" style="color: <?= $cfgValueColor ?>;"></i>
-                        <?= $cfgValueColor ?>
+                            <i class="fa fa-square fa-border" aria-hidden="true" style="color: <?= $cfgValueColor ?>;"></i>
+                            <?= $cfgValueColor ?>
+                        </div>
 <?php
     }
 ?>
@@ -363,17 +371,17 @@ foreach ($configuration as $item) {
             onchange: function(triggerelement, color) {
                 let changedColor = $('input[name="colors['+triggerelement.data('cid')+']"]');
                 if ($('input[name="orig['+triggerelement.data('cid')+']"]').val() === color.tiny.toHexString()) {
-                    changedColor.next('span.changed').remove();
+                    changedColor.next('div.changed').remove();
 
-                } else if (changedColor.next('span.changed').length === 0) {
-                    changedColor.after('<span class="changed"><small class="text-muted"><?= TEXT_CHANGED ?></small></span>');
+                } else if (changedColor.next('div.changed').length === 0) {
+                    changedColor.after('<div class="changed mt-1"><small><?= TEXT_CHANGED ?></small></div>');
                 }
             },
         });
 
         $('.color-choose').on('change', function(){
             let cID = $(this).data('cid');
-            $('input[name="colors['+cID+']"').after('<span class="changed"><small class="text-muted"><?= TEXT_CHANGED ?></small></span>');
+            $('input[name="colors['+cID+']"').after('<div class="changed mt-1"><small><?= TEXT_CHANGED ?></small></div>');
             $('input[name="colors['+cID+']"')
                 .attr('value', $(this).data('default'))
                 .prop('disabled', false)

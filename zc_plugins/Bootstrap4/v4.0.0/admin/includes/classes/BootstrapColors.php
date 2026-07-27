@@ -8,6 +8,8 @@ declare(strict_types=1);
  */
 namespace Zencart\Plugins\Admin\Bootstrap4;
 
+use Zencart\Templates\TemplateSelect as TemplateSelect;
+
 class BootstrapColors
 {
     private \queryFactory $db;
@@ -17,6 +19,7 @@ class BootstrapColors
     protected ?array $inheritedColorValues = null;
     protected ?array $childColorValues = null;
     protected ?array $baseColorValues = null;
+    protected ?TemplateSelect $templateSelect = null;
 
     public function __construct()
     {
@@ -138,7 +141,7 @@ class BootstrapColors
 
     /**
      * Returns the specified template's parent template, using 'template_default'
-     * if the template isn't a bootstrap child.
+     * if the template doesn't supply a parent/base.
      *
      * @since BOOTSTRAP 4.0.0
      */
@@ -222,7 +225,7 @@ class BootstrapColors
         }
 
         if ($this->isChildTemplate() === true) {
-            $this->updateTemplateSettingsFile($template_specific_colors);
+            $this->updateTemplateSettings($template_specific_colors);
         }
 
         return [$success_count, $fail_count];
@@ -288,7 +291,7 @@ class BootstrapColors
         }
 
         if ($this->isChildTemplate() === true) {
-            $this->updateTemplateSettingsFile($template_specific_colors);
+            $this->updateTemplateSettings($template_specific_colors);
         }
 
         return [$update_count, $error_count];
@@ -379,20 +382,20 @@ class BootstrapColors
 
     /**
      * Retrieves the template-specific color settings for a selected template. Those values are
-     * saved in the template's `template_settings.php` file as an associative array ($tpl_settings)
-     * whose key is the configuration_key and the value is the configured color value.
+     * saved in the template's `template_settings` array (json_encoded), present in the template's
+     * entry in the `template_settings` table ... for 'child' templates **ONLY**.
      *
      * @since BOOTSTRAP 4.0.0
      */
     protected function getTemplateSpecificColors(string $selected_template): array
     {
-        $template_settings_path = $this->bootstrapTemplates[$selected_template]['template_settings_path'];
-        if (!is_file($template_settings_path)) {
+        if ($this->isChildTemplate($selected_template) === false) {
             return [];
         }
 
-        require $template_settings_path;
-        if (!isset($tpl_settings) || !is_array($tpl_settings)) {
+        $this->templateSelect ??= new TemplateSelect();
+        $tpl_settings = $this->templateSelect->getTemplateSettings($selected_template);
+        if ($tpl_settings === null) {
             return [];
         }
 
@@ -413,12 +416,8 @@ class BootstrapColors
     }
 
     /**
-     * Updates a child template's `template_settings.php` file with any changes to
+     * Updates a child template's `template_settings` with any changes to
      * the child's colors.
-     *
-     * This processing inserts a bit of code within a 'START' and 'END' set of comments. The
-     * update locates and removes all lines starting with the 'START' comment and ending with
-     * the 'END' comment.
      *
      * Once any previous color settings have been removed, the current child colors are created
      * as an array and merged into any existing `$tpl_settings` array that might be present
@@ -426,57 +425,27 @@ class BootstrapColors
      *
      * @since BOOTSTRAP 4.0.0
      */
-    protected function updateTemplateSettingsFile(array $template_specific_colors): void
+    protected function updateTemplateSettings(array $template_specific_colors): void
     {
         // -----
-        // Retrieve the current `template_settings.php` file contents or start with
-        // a "blank slate", i.e. just a `<?php` start tag.
+        // Retrieve the current `template_settings` from the database.
         //
-        $template_settings_path = $this->bootstrapTemplates[$this->selectedTemplate]['template_settings_path'];
-        $template_settings = is_file($template_settings_path) ? file($template_settings_path) : ["<?php\n"];
-
-        // -----
-        // Define the starting/ending comments that surround the Bootstrap Colors'
-        // insertion into the template's `template_settings.php` file.
-        //
-        $start_comment = '// Bootstrap Colors -- START inserted content -- do not edit' . "\n";
-        $end_comment = '// Bootstrap Colors -- END inserted content -- do not edit' . "\n";
-
-        // -----
-        // Attempt to locate any previous insertion of the bootstrap colors in
-        // the file; if found, remove those lines.
-        //
-        $found_start_comment = false;
-        foreach ($template_settings as $index => $next_line) {
-            if ($found_start_comment === false) {
-                if ($next_line !== $start_comment) {
-                    continue;
-                }
-                $found_start_comment = true;
-                unset($template_settings[$index]);
-                continue;
-            }
-            unset($template_settings[$index]);
-            if ($next_line === $end_comment) {
-                break;
-            }
+        $this->templateSelect ??= new TemplateSelect();
+        $tpl_settings = $this->templateSelect->getTemplateSettings($this->selectedTemplate);
+        if ($tpl_settings === null) {
+            $tpl_settings = [];
         }
 
         // -----
-        // Add (at the end of the file) PHP code that merges the template's
-        // current color settings with any existing `$tpl_settings` array.
+        // Remove any of the Bootstrap Color settings from the current template settings,
+        // merge the updated settings into the current array of settings and write the
+        // values back to the database.
         //
-        $template_settings = implode('', $template_settings);
-        $encoded_colors = json_encode($template_specific_colors);
-        $encoded_colors = str_replace(
-            ['{', '}', '"', ':', "','"],
-            ['[', ']', "'", ' => ', "', '"],
-            $encoded_colors
-        );
-        $template_settings .=
-            $start_comment .
-            '$tpl_settings = array_merge($tpl_settings ?? [], ' . $encoded_colors . ');' . "\n" .
-            $end_comment;
-        file_put_contents($template_settings_path, $template_settings);
+        foreach ($this->getColorKeys() as $key) {
+            unset($tpl_settings[$key]);
+        }
+
+        $tpl_settings = array_merge($tpl_settings, $template_specific_colors);
+        $this->templateSelect->setTemplateSettings($this->selectedTemplate, $tpl_settings);
     }
 }

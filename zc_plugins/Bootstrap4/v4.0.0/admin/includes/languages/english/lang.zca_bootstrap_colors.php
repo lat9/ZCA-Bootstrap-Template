@@ -21,7 +21,7 @@ return [
         '<li>Colors that are currently <code>not-set</code> display with a <em>Use Default?</em> checkbox. Click that checkbox to initialize the color to its default.</li>',
 
     'TABLE_HEADING_CONFIGURATION_TITLE' => 'Title',
-    'TABLE_HEADING_CONFIGURATION_VALUE' => 'Current Value',
+    'TABLE_HEADING_CONFIGURATION_VALUE' => 'Value',
     'TABLE_HEADING_NOT_SET_OK' => '&quot;not-set&quot; OK?',
     'TABLE_HEADING_DATES' => 'Date Added / Last Modified',
 
@@ -32,12 +32,13 @@ return [
     'MESSAGE_NOTHING_CHANGED' => 'No colors were updated.',
     'SAVED_CONFIGURATION_MESSAGE' => '%1$u color(s) updated; %2$u bypassed due to error.',
     'TEXT_CHANGED' => '(Changed)',
+    'TEXT_CURRENT' => 'Current: ',
     'TEXT_DEFAULT' => 'Default: ',
     'TEXT_FILTER_COLOR_VALUE' => 'Color Value',
     'TEXT_FILTER_TITLE_CONTAINS' => 'Title Contains',
+    'TEXT_INHERITED' => 'Inherited: ',
     'TEXT_LABEL_FILTER_BY' => 'Filter By:',
     'TEXT_LABEL_NOT_SET_USE_DEFAULT' => 'Use Default?',
-    'TEXT_ORIGINAL' => 'Original: ',
     'TEXT_PLACEHOLDER_CHOOSE_COLOR' => 'Display only this color',
     'TEXT_PLACEHOLDER_CHOOSE_TITLE' => 'Display titles that contain ...',
 

@@ -1,5 +1,5 @@
 .row-hover:hover {
-    background-color: #f8f9fa; /* Bootstrap's .table-hover color */
+    background-color: #d3d3d3;
 }
 .save-button {position: fixed; bottom: 4rem; right: 2rem;}
 .row-hover > div {padding: .75rem;}
