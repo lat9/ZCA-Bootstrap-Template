@@ -2,7 +2,7 @@
 /**
  * attributes module
  *
- * BOOTSTRAP v3.8.0
+ * BOOTSTRAP v3.8.1
  *
  * Prepares attributes content for rendering in the template system
  * Prepares HTML for input fields with required uniqueness so template can display them as needed and keep collected data in proper fields
@@ -339,6 +339,7 @@ foreach ($products_options_names as $next_option_name) {
 
             $zco_notifier->notify('NOTIFY_ATTRIBUTES_MODULE_RADIO_SELECTED', $next_option, $data_properties);
 
+            $attributes_image = !empty($next_option['attributes_image']) ? zen_image(DIR_WS_IMAGES . $next_option['attributes_image'], '', '', '' ) . '  ' : '';
             switch ($next_option_name['products_options_images_style']) {
                 case '0':
                     $tmp_radio .=
@@ -349,26 +350,28 @@ foreach ($products_options_names as $next_option_name) {
                             '</label>' .
                         '</div>' . "\n";
                     break;
+
                 case '1':
                     $tmp_radio .=
-                        '<div class="custom-control custom-radio">' .
+                        '<div class="custom-control custom-radio mb-2">' .
                             zen_draw_radio_field($option_form_name, $products_options_value_id, $selected_attribute, 'id="' . $inputFieldId . '" ' . $data_properties . $field_disabled) .
                             '<label class="custom-control-label attribsRadioButton one" for="' . $inputFieldId . '">' .
-                                (!empty($next_option['attributes_image']) ? zen_image(DIR_WS_IMAGES . $next_option['attributes_image'], '', '', '' ) . '  ' : '') .
-                                $products_options_details .
+                                $attributes_image . $products_options_details .
                             '</label>' .
                         '</div>' . "\n";
                     break;
+
                 case '2':
                     $tmp_radio .=
                         '<div class="custom-control custom-radio">' .
                             zen_draw_radio_field($option_form_name, $products_options_value_id, $selected_attribute, 'id="' . $inputFieldId . '" ' . $data_properties . $field_disabled) .
                             '<label class="custom-control-label attribsRadioButton two" for="' . $inputFieldId . '">' .
                                 $products_options_details .
-                                (!empty($next_option['attributes_image']) ? '<br>' . zen_image(DIR_WS_IMAGES . $next_option['attributes_image'], '', '', '' ) : '') . 
-                            '</label>' .
+                            '</label><br>' .
+                            $attributes_image .
                         '</div>' . "\n";
                     break;
+
                 case '3':
                     $tmp_attributes_image_row++;
                     if ($tmp_attributes_image_row > $next_option_name['products_options_images_per_row']) {
@@ -376,26 +379,25 @@ foreach ($products_options_names as $next_option_name) {
                         $tmp_attributes_image_row = 1;
                     }
 
+                    $input_properties = 'class="position-relative" id="' . $inputFieldId . '" ' . $data_properties . $field_disabled;
+                    $tmp_attributes_image .= '<div class="custom-control custom-radio mb-2 attribImg">';
                     if (!empty($next_option['attributes_image'])) {
                         $tmp_attributes_image .=
-                            '<div class="custom-control custom-radio attribImg">' .
-                                zen_draw_radio_field($option_form_name, $products_options_value_id, $selected_attribute, 'id="' . $inputFieldId . '" ' . $data_properties . $field_disabled) .
-                                '<label class="custom-control-label attribsRadioButton three" for="' . $inputFieldId . '">' .
-                                    zen_image(DIR_WS_IMAGES . $next_option['attributes_image']) .
-                                    (zen_config('PRODUCT_IMAGES_ATTRIBUTES_NAMES') === '1' ? '<br>' . $next_option['products_options_values_name'] : '') .
-                                    $products_options_details_noname .
-                                '</label>' .
-                            '</div>' . "\n";
+                            zen_draw_radio_field($option_form_name, $products_options_value_id, $selected_attribute, $input_properties) .
+                            '<label class="custom-control-label attribsRadioButton three" for="' . $inputFieldId . '">' .
+                                zen_image(DIR_WS_IMAGES . $next_option['attributes_image']) .
+                                (zen_config('PRODUCT_IMAGES_ATTRIBUTES_NAMES') === '1' ? '<br>' . $next_option['products_options_values_name'] : '') .
+                                $products_options_details_noname .
+                            '</label>';
                     } else {
                         $tmp_attributes_image .=
-                            '<div class="custom-control custom-radio attribImg">' .
-                                zen_draw_radio_field($option_form_name,  $products_options_value_id, $selected_attribute, 'id="' . $inputFieldId . '" ' . $data_properties . $field_disabled) .
-                                '<br>' .
-                                '<label class="custom-control-label attribsRadioButton threeA" for="' . $inputFieldId . '">' .
-                                    $next_option['products_options_values_name'] . $products_options_details_noname .
-                                '</label>' .
-                            '</div>' . "\n";
+                            zen_draw_radio_field($option_form_name,  $products_options_value_id, $selected_attribute, $input_properties) .
+                            '<br>' .
+                            '<label class="custom-control-label attribsRadioButton threeA" for="' . $inputFieldId . '">' .
+                                $next_option['products_options_values_name'] . $products_options_details_noname .
+                            '</label>';
                     }
+                    $tmp_attributes_image .= '</div>' . "\n";
                     break;
 
                 case '4':
@@ -406,26 +408,25 @@ foreach ($products_options_names as $next_option_name) {
                         $tmp_attributes_image_row = 1;
                     }
 
+                    $input_properties = 'class="form-check-input position-static opacity-100 z-0 ml-0 mb-2" id="' . $inputFieldId . '" ' . $data_properties . $field_disabled;
+                    $tmp_attributes_image .= '<div class="form-check d-flex flex-column align-items-center attribImg">';
                     if (!empty($next_option['attributes_image'])) {
                         $tmp_attributes_image .=
-                            '<div class="custom-control custom-radio attribImg">' .
-                                '<label class="custom-control-label attribsRadioButton four" for="' . $inputFieldId . '">' .
-                                    zen_image(DIR_WS_IMAGES . $next_option['attributes_image']) .
-                                    (zen_config('PRODUCT_IMAGES_ATTRIBUTES_NAMES') === '1' ? '<br>' . $next_option['products_options_values_name'] : '') .
-                                    (!empty($products_options_details_noname) ? '<br>' . $products_options_details_noname : '') .
-                                '</label><br>' .
-                                zen_draw_radio_field($option_form_name, $products_options_value_id, $selected_attribute, 'id="' . $inputFieldId . '" ' . $data_properties . $field_disabled) .
-                            '</div>' . "\n";
+                            '<label class="form-check-label attribsRadioButton mb-2 attribsRadioButton four" for="' . $inputFieldId . '">' .
+                                zen_image(DIR_WS_IMAGES . $next_option['attributes_image']) .
+                                (zen_config('PRODUCT_IMAGES_ATTRIBUTES_NAMES') === '1' ? '<br>' . $next_option['products_options_values_name'] : '') .
+                                (!empty($products_options_details_noname) ? '<br>' . $products_options_details_noname : '') .
+                            '</label><br>' .
+                            zen_draw_radio_field($option_form_name, $products_options_value_id, $selected_attribute, $input_properties);
                     } else {
                         $tmp_attributes_image .=
-                            '<div class="custom-control custom-radio attribImg">' .
-                                '<label class="custom-control-label attribsRadioButton fourA" for="' . $inputFieldId . '">' .
-                                    $next_option['products_options_values_name'] .
-                                    (!empty($products_options_details_noname) ? '<br>' . $products_options_details_noname : '') .
-                                '</label><br>' .
-                                zen_draw_radio_field($option_form_name, $products_options_value_id, $selected_attribute, 'id="' . $inputFieldId . '" ' . $data_properties . $field_disabled) .
-                            '</div>' . "\n";
+                            '<label class="form-check-label attribsRadioButton mb-2attribsRadioButton fourA" for="' . $inputFieldId . '">' .
+                                $next_option['products_options_values_name'] .
+                                (!empty($products_options_details_noname) ? '<br>' . $products_options_details_noname : '') .
+                            '</label><br>' .
+                            zen_draw_radio_field($option_form_name, $products_options_value_id, $selected_attribute, $input_properties);
                     }
+                    $tmp_attributes_image .= '</div>' . "\n";
                     break;
 
                 case '5':
@@ -436,28 +437,27 @@ foreach ($products_options_names as $next_option_name) {
                         $tmp_attributes_image_row = 1;
                     }
 
+                    $input_properties = 'class="form-check-input position-static opacity-100 z-0 ml-0 mb-2" id="' . $inputFieldId . '" ' . $data_properties . $field_disabled;
+                    $tmp_attributes_image .= '<div class="form-check d-flex flex-column align-items-center attribImg">';
                     if (!empty($next_option['attributes_image'])) {
                         $tmp_attributes_image .=
-                            '<div class="custom-control custom-radio attribImg">' .
-                                zen_draw_radio_field($option_form_name, $products_options_value_id, $selected_attribute, 'id="' . $inputFieldId. '" ' . $data_properties . $field_disabled) .
-                                '<br>' .
-                                '<label class="custom-control-label attribsRadioButton five" for="' . $inputFieldId . '">' .
-                                    zen_image(DIR_WS_IMAGES . $next_option['attributes_image']) .
-                                    (zen_config('PRODUCT_IMAGES_ATTRIBUTES_NAMES') === '1' ? '<br>' . $next_option['products_options_values_name'] : '') .
-                                    (!empty($products_options_details_noname) ? '<br>' . $products_options_details_noname : '') .
-                                '</label>' .
-                            '</div>';
+                            zen_draw_radio_field($option_form_name, $products_options_value_id, $selected_attribute, $input_properties) .
+                            '<br>' .
+                            '<label class="form-check-label mb-2 attribsRadioButton five" for="' . $inputFieldId . '">' .
+                                zen_image(DIR_WS_IMAGES . $next_option['attributes_image']) .
+                                (zen_config('PRODUCT_IMAGES_ATTRIBUTES_NAMES') === '1' ? '<br>' . $next_option['products_options_values_name'] : '') .
+                                (!empty($products_options_details_noname) ? '<br>' . $products_options_details_noname : '') .
+                            '</label>';
                     } else {
                         $tmp_attributes_image .=
-                            '<div class="custom-control custom-radio attribImg">' .
-                                zen_draw_radio_field($option_form_name, $products_options_value_id, $selected_attribute, 'id="' . $inputFieldId . '" ' . $data_properties . $field_disabled) .
-                                '<br>' .
-                                '<label class="custom-control-label attribsRadioButton fiveA" for="' . $inputFieldId . '">' .
-                                    $next_option['products_options_values_name'] .
-                                    (!empty($products_options_details_noname) ? '<br>' . $products_options_details_noname : '') .
-                                '</label>' .
-                            '</div>';
+                            zen_draw_radio_field($option_form_name, $products_options_value_id, $selected_attribute, $input_properties) .
+                            '<br>' .
+                            '<label class="form-check-label mb-2 attribsRadioButton fiveA" for="' . $inputFieldId . '">' .
+                                $next_option['products_options_values_name'] .
+                                (!empty($products_options_details_noname) ? '<br>' . $products_options_details_noname : '') .
+                            '</label>';
                     }
+                    $tmp_attributes_image .= '</div>' . "\n";
                     break;
             }
         }
