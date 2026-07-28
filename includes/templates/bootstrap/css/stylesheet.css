@@ -1,7 +1,7 @@
 /**
  * Main Template CSS Stylesheet
  * 
- * BOOTSTRAP v3.4.0
+ * BOOTSTRAP v3.8.1
  *
  */
 .clearBoth {
@@ -85,6 +85,14 @@ table.tabTable td {
 #navCatTabs a:hover {
     border: 0.125rem solid #007faf;
 }
+
+/* Bootstrap 5 "helper" classes */
+.opacity-0   { opacity: 0; }
+.opacity-25  { opacity: 0.25; }
+.opacity-50  { opacity: 0.5; }
+.opacity-75  { opacity: 0.75; }
+.opacity-100 { opacity: 1; }
+.z-0 { z-index: 0; }
 
 /* These CSS media queries control how many columns of cards display on the login, checkout_shipping, checkout_payment & checkout_confirmation pages */
 /* Small devices (landscape phones, 576px and up) */
