@@ -45,7 +45,7 @@ if ($tplSetting->SHOW_CATEGORIES_BOX_SPECIALS === 'true') {
     if (!$show_this->EOF) {
 ?>
         <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="<?= zen_href_link(FILENAME_SPECIALS) ?>'">
+        <a class="dropdown-item" href="<?= zen_href_link(FILENAME_SPECIALS) ?>">
             <?= CATEGORIES_BOX_HEADING_SPECIALS ?>
         </a>
 <?php
