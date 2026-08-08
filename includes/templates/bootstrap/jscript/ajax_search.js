@@ -57,7 +57,17 @@ $(function() {
 
 //        console.log(e.type+': ('+keyword+'), '+e.key+', ('+$('#search-input').data('last-sent')+'), '+$('#search-input').data('in-progress'));
 
-        keyword = encodeURIComponent(keyword);
+        // -----
+        // Don't send if the minimum-keyword-length is not yet met, if the last keyword
+        // sent matches the current keyword or if a request is currently in-progress.
+        //
+        // Note: The keyword value is trimmed prior to length-checking, mimicking the server-side processing.
+        //
+        keyword = keyword.trim();
+        if (keyword.length < MIN_KW_LENGTH || $('#search-input').data('last-sent') === keyword || $('#search-input').data('in-progress') === 1) {
+            return;
+        }
+
         var separator = ($('#search-page').val().indexOf('?') == -1) ? '?' : '&';
         var searchLink = $('#search-page').val()+separator+'keyword='+keyword;
 
@@ -72,13 +82,6 @@ $(function() {
             return;
         }
 
-        // -----
-        // Don't send if the minimum-keyword-length is not yet met, if the last keyword
-        // sent matches the current keyword or if a request is currently in-progress.
-        //
-        if (keyword.length < MIN_KW_LENGTH || $('#search-input').data('last-sent') === keyword || $('#search-input').data('in-progress') === 1) {
-            return;
-        }
         $('#search-input').data('last-sent', keyword);
 
         $('#search-input').data('in-progress', 1);
@@ -90,7 +93,6 @@ $(function() {
             cache: false,
             headers: { 'cache-control': 'no-cache' },
             error: function (jqXHR, textStatus, errorThrown) {
-                console.log('error: status='+textStatus+', errorThrown = '+errorThrown+', override: '+jqXHR);
                 $('#search-input').data('in-progress', 0);
             },
         }).done(function(response) {

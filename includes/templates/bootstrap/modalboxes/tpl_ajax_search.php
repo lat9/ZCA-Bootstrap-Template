@@ -2,7 +2,7 @@
 // -----
 // Part of the Bootstrap template for Zen Cart.  Included by /includes/templates/bootstrap/common/tpl_main_page.php.
 //
-// Bootstrap v3.8.1
+// Bootstrap v3.8.0
 //
 if ($tplSetting->BS4_AJAX_SEARCH_ENABLE === 'true') {
     $ajax_search_parameter = ($tplSetting->BS4_AJAX_SEARCH_INC_DESC === 'true') ? 'search_in_description=1' : '';
@@ -16,7 +16,7 @@ if ($tplSetting->BS4_AJAX_SEARCH_ENABLE === 'true') {
                     <div class="form-group">
                         <form class="search-form">
                             <label for="search-input"><?= BUTTON_SEARCH_ALT ?>:</label>
-                            <input type="text" id="search-input" class="form-control" maxlength="64" placeholder="<?= TEXT_AJAX_SEARCH_PLACEHOLDER ?>">
+                            <input type="text" id="search-input" class="form-control" placeholder="<?= TEXT_AJAX_SEARCH_PLACEHOLDER ?>">
                             <input id="search-page" type="hidden" value="<?= zen_href_link(FILENAME_SEARCH_RESULT, $ajax_search_parameter) ?>">
                         </form>
                     </div>

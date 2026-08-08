@@ -35,11 +35,7 @@ class zcAjaxBootstrapSearch
         // First, check that the supplied keywords aren't empty (if so, there's nothing to be returned).
         //
         if ($tplSetting->BS4_AJAX_SEARCH_ENABLE === 'true' && !empty($_POST['keywords']) && is_string($_POST['keywords'])) {
-            // -----
-            // Spaces 'come in' as '%20'. They're converted here to their ' ' equivalent so that they don't count 3x
-            // towards the min/max length checks.
-            //
-            $keywords = str_replace('%20', ' ', $_POST['keywords']);
+            $keywords = trim($_POST['keywords']);
             if (mb_strlen($keywords) < self::MIN_KW_LENGTH || mb_strlen($keywords) > self::MAX_KW_LENGTH) {
                 return [
                     'searchHtml' => '',
@@ -47,12 +43,11 @@ class zcAjaxBootstrapSearch
             }
 
             // -----
-            // Restore the keywords to the posted value, keeping any '%20' spaces that might have
+            // Restore the keywords to the posted value, keeping all URL-encoded values spaces that might have
             // been sent. zen_parse_search_string starts by trimming the input keywords, which can
             // lose 'significant' trailing spaces ... e.g. the difference between searching for 'bug'
             // and 'bug '.
             //
-            $keywords = $_POST['keywords'];
             if (zen_parse_search_string(stripslashes($keywords), $search_keywords)) {
                 $from_clause =
                     '  FROM ' . TABLE_PRODUCTS . ' p
@@ -70,11 +65,6 @@ class zcAjaxBootstrapSearch
                     $search_fields[] = 'pd.products_description';
                 }
                 $where_clause .= zen_build_keyword_where_clause($search_fields, $keywords);
-
-                // -----
-                // Convert any '%20' characters in the where-clause to simple spaces for the actual query.
-                //
-                $where_clause = str_replace('%20', ' ', $where_clause);
 
                 $select_clause = 'SELECT DISTINCT p.products_image, p.products_id, p.products_sort_order, pd.products_name, p.master_categories_id, p.products_model';
                 $order_by_clause = ' ORDER BY p.products_sort_order, pd.products_name';
