@@ -1,36 +1,50 @@
 // -----
 // AJAX search for the Zen Cart Bootstrap template.
 //
-// BOOTSTRAP v3.7.9
+// BOOTSTRAP v3.8.1
 //
-jQuery(document).ready(function() {
+$(function() {
     // -----
     // When a search-icon is clicked, display the search form.
     //
-    jQuery('#search-icon, #mobile-search').on('click', function(event) {
-        jQuery('#search-wrapper').modal();
+    $('#search-icon, #mobile-search').on('click', function() {
+        $('#search-wrapper').modal();
     });
 
-    jQuery('#search-wrapper').on('shown.bs.modal', function() {
-        jQuery('#search-input').focus();
-        jQuery('#search-input').trigger('focus');
+    $('#search-wrapper').on('shown.bs.modal', function() {
+        $('#search-input').focus();
+        $('#search-input').trigger('focus');
     });
+
+    // -----
+    // Initialize the previous keyword value sent.
+    //
+    $('#search-input').data('last-sent', $('#search-input').val());
+    $('#search-input').data('in-progress', 0);
 
     // -----
     // When a 'keyup' (devices with keyboards) or 'touchend' (those without) condition 
     // is seen on the search-input, gather the current keywords, submit them to the 
     // AJAX handler and display the returned HTML in the search-content section.
     //
-    jQuery('#search-input').on('keyup touchend paste', function(event) {
+    const MIN_KW_LENGTH = 3;
+    const MAX_KW_LENGTH = 64;
+    $('#search-input').on('keyup keydown touchend paste cut', function(e) {
         // -----
         // The source of the current keyword depends on the type of event being
-        // handled.  For the 'paste' event, the value is present in the clipboard;
-        // otherwise, it's the value supplied by the event itself.
+        // handled.
+        // - For the 'paste' event, the value is present in the clipboard.
+        // - For the 'keydown' event, we're only watching for the 'Enter' key, which
+        //   will redirect to the base 'search' page.
+        // - Otherwise, the keyword is updated value in the form's input field.
         //
-        if (event.type !== 'paste') {
-            var keyword = this.value;
+        if (e.type === 'paste') {
+            var keyword = e.originalEvent.clipboardData.getData('text');
         } else {
-            var keyword = event.originalEvent.clipboardData.getData('text');
+            if (e.type === 'keydown' && e.key !== 'Enter') {
+                 return;
+            }
+            var keyword = $('#search-input').val();
         }
 
         // -----
@@ -39,14 +53,35 @@ jQuery(document).ready(function() {
         // for matching.
         //
         keyword = keyword.replace(/”|“/g, '"');
-        keyword.replace(/‘|’/g, "'");
+        keyword = keyword.replace(/‘|’/g, "'");
 
-        var separator = (jQuery('#search-page').val().indexOf('?') == -1) ? '?' : '&';
-        var searchLink = jQuery('#search-page').val()+separator+'keyword='+keyword;
-        if (event.keyCode == 13) {
+//        console.log(e.type+': ('+keyword+'), '+e.key+', ('+$('#search-input').data('last-sent')+'), '+$('#search-input').data('in-progress'));
+
+        keyword = encodeURIComponent(keyword);
+        var separator = ($('#search-page').val().indexOf('?') == -1) ? '?' : '&';
+        var searchLink = $('#search-page').val()+separator+'keyword='+keyword;
+
+        // -----
+        // If the keywords' length is more than the maximum or if the Enter key is pressed,
+        // force a submission to the non-AJAX search.
+        //
+        if (e.key === 'Enter' || keyword.length > MAX_KW_LENGTH) {
+            e.preventDefault();
+            $('#search-wrapper').modal('dispose');
             window.location.replace(searchLink);
+            return;
         }
 
+        // -----
+        // Don't send if the minimum-keyword-length is not yet met, if the last keyword
+        // sent matches the current keyword or if a request is currently in-progress.
+        //
+        if (keyword.length < MIN_KW_LENGTH || $('#search-input').data('last-sent') === keyword || $('#search-input').data('in-progress') === 1) {
+            return;
+        }
+        $('#search-input').data('last-sent', keyword);
+
+        $('#search-input').data('in-progress', 1);
         zcJS.ajax({
             url: 'ajax.php?act=ajaxBootstrapSearch&method=searchProducts',
             data: {
@@ -54,9 +89,14 @@ jQuery(document).ready(function() {
             },
             cache: false,
             headers: { 'cache-control': 'no-cache' },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log('error: status='+textStatus+', errorThrown = '+errorThrown+', override: '+jqXHR);
+                $('#search-input').data('in-progress', 0);
+            },
         }).done(function(response) {
-            jQuery('#search-content').html(response.searchHtml);
-            jQuery('#search-content .sugg-button').attr('href', searchLink);
+            $('#search-input').data('in-progress', 0);
+            $('#search-content').html(response.searchHtml);
+            $('#search-content .sugg-button').attr('href', searchLink);
         });
     });
 });
