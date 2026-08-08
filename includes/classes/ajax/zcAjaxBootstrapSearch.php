@@ -75,7 +75,7 @@ class zcAjaxBootstrapSearch
                 //
                 $zco_notifier->notify('NOTIFY_AJAX_BOOTSTRAP_SEARCH_CLAUSES', $search_keywords, $select_clause, $from_clause, $where_clause, $order_by_clause, $limit_clause);
 
-                $results = $db->Execute("SELECT COUNT(*) AS count FROM ($select_clause $from_clause $where_clause) AS items");
+                $results = $db->Execute("SELECT COUNT(DISTINCT p.products_id) AS count $from_clause $where_clause");
                 $search_results_count = (int)$results->fields['count'];
                 if ($search_results_count !== 0) {
                     $results = $db->Execute($select_clause . $from_clause . $where_clause . $order_by_clause . $limit_clause);
