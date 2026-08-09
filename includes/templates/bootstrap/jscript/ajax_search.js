@@ -23,67 +23,93 @@ $(function() {
     $('#search-input').data('in-progress', 0);
 
     // -----
-    // When a 'keyup' (devices with keyboards) or 'touchend' (those without) condition 
-    // is seen on the search-input, gather the current keywords, submit them to the 
-    // AJAX handler and display the returned HTML in the search-content section.
+    // When a cut or paste action is performed in the search-keywords, clear
+    // out the resultant matches, noting that this event will be followed by an
+    // input-event where the cut/paste result is available.
+    //
+    $('#search-input').on('cut paste', function(e) {
+        $('#search-input').data('last-sent', '');
+        $('#search-content').html('');
+    });
+
+    // -----
+    // A common function to retrieve the main-page search link.
+    //
+    function getSearchPageLink(keyword)
+    {
+        var separator = ($('#search-page').val().indexOf('?') == -1) ? '?' : '&';
+        return $('#search-page').val() + separator + 'keyword=' + encodeURIComponent(keyword);
+    }
+
+    // -----
+    // A common function to retrieve the current search keyword. Safari's "smart quotes" are replaced
+    // with 'vanilla' quotes for matching and then trimmed of starting/ending whitespace.
+    //
+    function getKeyword()
+    {
+        return $('#search-input').val().replace(/”|“/g, '"').replace(/‘|’/g, "'").trim();
+    }
+
+    // -----
+    // If the 'Enter' key is pressed, redirect to the non-AJAX search page with
+    // the current keywords.
+    //
+    $('#search-input').on('keydown', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            $('#search-wrapper').modal('dispose');
+            window.location.replace(getSearchPageLink(getKeyword()));
+            return;
+        }
+    });
+
+    // -----
+    // A 'generic' debounce function.
+    //
+    function debounce(func, delay)
+    {
+        let timeoutId;
+
+        return function (...args) {
+            // Clear the previous timer to reset the delay window
+            clearTimeout(timeoutId);
+
+            // Start a fresh timer for the current keystroke
+            timeoutId = setTimeout(() => {
+                func.apply(this, args);
+            }, delay);
+        };
+    }
+
+    // -----
+    // The actual search processing, debounced by event listener.
     //
     const MIN_KW_LENGTH = 3;
     const MAX_KW_LENGTH = 64;
-    $('#search-input').on('keyup keydown touchend paste cut', function(e) {
-        // -----
-        // The source of the current keyword depends on the type of event being
-        // handled.
-        // - For the 'paste' event, the value is present in the clipboard.
-        // - For the 'keydown' event, we're only watching for the 'Enter' key, which
-        //   will redirect to the base 'search' page.
-        // - Otherwise, the keyword is updated value in the form's input field.
-        //
-        if (e.type === 'paste') {
-            var keyword = e.originalEvent.clipboardData.getData('text');
-        } else {
-            if (e.type === 'keydown' && e.key !== 'Enter') {
-                 return;
-            }
-            var keyword = $('#search-input').val();
-        }
-
-        // -----
-        // If the "Enter/Go" key is pressed, send the customer to the advanced-search-results
-        // page with the current keywords.  Replacing Safari's "smart quotes" with 'vanilla' quotes
-        // for matching.
-        //
-        keyword = keyword.replace(/”|“/g, '"');
-        keyword = keyword.replace(/‘|’/g, "'");
-
-//        console.log(e.type+': ('+keyword+'), '+e.key+', ('+$('#search-input').data('last-sent')+'), '+$('#search-input').data('in-progress'));
+    function doSearch(e)
+    {
+        var keyword = getKeyword();
 
         // -----
         // Don't send if the minimum-keyword-length is not yet met, if the last keyword
         // sent matches the current keyword or if a request is currently in-progress.
         //
-        // Note: The keyword value is trimmed prior to length-checking, mimicking the server-side processing.
-        //
-        keyword = keyword.trim();
         if (keyword.length < MIN_KW_LENGTH || $('#search-input').data('last-sent') === keyword || $('#search-input').data('in-progress') === 1) {
             return;
         }
 
-        var separator = ($('#search-page').val().indexOf('?') == -1) ? '?' : '&';
-        var searchLink = $('#search-page').val()+separator+'keyword='+keyword;
-
         // -----
-        // If the keywords' length is more than the maximum or if the Enter key is pressed,
-        // force a submission to the non-AJAX search.
+        // If the keywords' length is more than the maximum, force a submission
+        // to the non-AJAX search.
         //
-        if (e.key === 'Enter' || keyword.length > MAX_KW_LENGTH) {
+        if (keyword.length > MAX_KW_LENGTH) {
             e.preventDefault();
             $('#search-wrapper').modal('dispose');
-            window.location.replace(searchLink);
+            window.location.replace(getSearchPageLink(keyword));
             return;
         }
 
         $('#search-input').data('last-sent', keyword);
-
         $('#search-input').data('in-progress', 1);
         zcJS.ajax({
             url: 'ajax.php?act=ajaxBootstrapSearch&method=searchProducts',
@@ -98,7 +124,19 @@ $(function() {
         }).done(function(response) {
             $('#search-input').data('in-progress', 0);
             $('#search-content').html(response.searchHtml);
-            $('#search-content .sugg-button').attr('href', searchLink);
+            $('#search-content .sugg-button').attr('href', getSearchPageLink(keyword));
         });
+    }
+
+    // -----
+    // Add a 500ms delay for each request.
+    //
+    const doDebouncedSearch = debounce(doSearch, 500);
+
+    // -----
+    // When the search-input field has been manipulated in some way ...
+    //
+    $('#search-input').on('input', function(e) {
+        doDebouncedSearch(e);
     });
 });

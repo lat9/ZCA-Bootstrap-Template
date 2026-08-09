@@ -12,7 +12,7 @@ class zcAjaxBootstrapSearch
     public const ALLOWED_METHODS = [
         'searchProducts',
     ];
-    
+
     // -----
     // Min/max keyword length; mimics similar values in jscript/ajax_search.js.
     //
@@ -42,12 +42,6 @@ class zcAjaxBootstrapSearch
                 ];
             }
 
-            // -----
-            // Restore the keywords to the posted value, keeping all URL-encoded values spaces that might have
-            // been sent. zen_parse_search_string starts by trimming the input keywords, which can
-            // lose 'significant' trailing spaces ... e.g. the difference between searching for 'bug'
-            // and 'bug '.
-            //
             if (zen_parse_search_string(stripslashes($keywords), $search_keywords)) {
                 $from_clause =
                     '  FROM ' . TABLE_PRODUCTS . ' p

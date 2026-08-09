@@ -2,7 +2,7 @@
 // -----
 // Header search, modified for the Bootstrap-4 template's AJAX search extension.
 //
-// Bootstrap v3.8.0
+// Bootstrap v3.8.1
 //
 /**
  * search_header ("sidebox") - this is a search field that appears in the navigation header
@@ -14,6 +14,13 @@
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
  * @version $Id: mc12345678 2019 Jan 28 Modified in v1.5.6b $
  */
+// -----
+// Don't render the header-based search form if we're already on the 'search' page.
+//
+if ($current_page_base === FILENAME_SEARCH) {
+    return;
+}
+
 $search_header_status = $db->Execute(
     "SELECT layout_box_name
        FROM " . TABLE_LAYOUT_BOXES . "
