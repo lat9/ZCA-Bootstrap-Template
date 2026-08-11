@@ -36,7 +36,8 @@ class zcAjaxBootstrapSearch
         //
         if ($tplSetting->BS4_AJAX_SEARCH_ENABLE === 'true' && !empty($_POST['keywords']) && is_string($_POST['keywords'])) {
             $keywords = trim($_POST['keywords']);
-            if (mb_strlen($keywords) < self::MIN_KW_LENGTH || mb_strlen($keywords) > self::MAX_KW_LENGTH) {
+            $kwLength = function_exists('mb_strlen') ? mb_strlen($keywords) : strlen($keywords);
+            if ($kwLength < self::MIN_KW_LENGTH || $kwLength > self::MAX_KW_LENGTH) {
                 return [
                     'searchHtml' => '',
                 ];
