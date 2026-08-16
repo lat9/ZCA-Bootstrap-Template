@@ -2,7 +2,7 @@
 /**
  * Side Box Template
  *
- * BOOTSTRAP 3.7.4
+ * BOOTSTRAP 3.8.0
  *
  * @package templateSystem
  * @copyright Copyright 2003-2018 Zen Cart Development Team
@@ -22,7 +22,7 @@ if ($is_carousel === false) {
         $content .=
             '<a class="list-group-item list-group-item-action" href="' . zen_href_link(zen_get_info_page($bestsellers_list[$i]['id']), 'products_id=' . $bestsellers_list[$i]['id']) . '">' .
                 $i . '. ' .
-                zen_trunc_string($bestsellers_list[$i]['name'], BEST_SELLERS_TRUNCATE, BEST_SELLERS_TRUNCATE_MORE) .
+                zen_trunc_string($bestsellers_list[$i]['name'], $tplSetting->BEST_SELLERS_TRUNCATE, $tplSetting->BEST_SELLERS_TRUNCATE_MORE) .
             '</a>';
     }
 

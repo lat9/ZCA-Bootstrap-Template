@@ -225,7 +225,7 @@ class BootstrapColors
         }
 
         if ($this->isChildTemplate() === true) {
-            $this->updateTemplateSettings($template_specific_colors);
+            $this->templateSelect->updateTemplateSettingsForKeys($this->selectedTemplate, $template_specific_colors, $this->getColorKeys());
         }
 
         return [$success_count, $fail_count];
@@ -291,7 +291,7 @@ class BootstrapColors
         }
 
         if ($this->isChildTemplate() === true) {
-            $this->updateTemplateSettings($template_specific_colors);
+            $this->templateSelect->updateTemplateSettingsForKeys($this->selectedTemplate, $template_specific_colors, $this->getColorKeys());
         }
 
         return [$update_count, $error_count];
@@ -413,39 +413,5 @@ class BootstrapColors
             }
         }
         return $template_specific_colors;
-    }
-
-    /**
-     * Updates a child template's `template_settings` with any changes to
-     * the child's colors.
-     *
-     * Once any previous color settings have been removed, the current child colors are created
-     * as an array and merged into any existing `$tpl_settings` array that might be present
-     * in that file.
-     *
-     * @since BOOTSTRAP 4.0.0
-     */
-    protected function updateTemplateSettings(array $template_specific_colors): void
-    {
-        // -----
-        // Retrieve the current `template_settings` from the database.
-        //
-        $this->templateSelect ??= new TemplateSelect();
-        $tpl_settings = $this->templateSelect->getTemplateSettings($this->selectedTemplate);
-        if ($tpl_settings === null) {
-            $tpl_settings = [];
-        }
-
-        // -----
-        // Remove any of the Bootstrap Color settings from the current template settings,
-        // merge the updated settings into the current array of settings and write the
-        // values back to the database.
-        //
-        foreach ($this->getColorKeys() as $key) {
-            unset($tpl_settings[$key]);
-        }
-
-        $tpl_settings = array_merge($tpl_settings, $template_specific_colors);
-        $this->templateSelect->setTemplateSettings($this->selectedTemplate, $tpl_settings);
     }
 }

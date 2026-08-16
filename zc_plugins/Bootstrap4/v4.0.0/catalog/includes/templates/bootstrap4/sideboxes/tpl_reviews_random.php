@@ -2,7 +2,7 @@
 /**
  * Side Box Template
  * 
- * BOOTSTRAP v3.7.0
+ * BOOTSTRAP v3.8.0
  *
  * @package templateSystem
  * @copyright Copyright 2003-2016 Zen Cart Development Team
@@ -32,12 +32,12 @@ while (!$random_review_sidebox_product->EOF) {
         $carousel_start .
         '<div class="card mb-3 p-3 sideBoxContentItem">' .
             '<a href="' . zen_href_link(FILENAME_PRODUCT_REVIEWS_INFO, 'products_id=' . $current_review['products_id'] . '&reviews_id=' . $current_review['reviews_id']) . '" title="' . zen_output_string_protected($current_review['products_name']) . '">' .
-                zen_image(DIR_WS_IMAGES . $random_review_sidebox_product->fields['products_image'], $current_review['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT) .
+                zen_image(DIR_WS_IMAGES . $current_review['products_image'], $current_review['products_name'], $tplSetting->SMALL_IMAGE_WIDTH, $tplSetting->SMALL_IMAGE_HEIGHT) .
                 '<br>' .
-                nl2br(zen_trunc_string(zen_output_string_protected(stripslashes($current_review['reviews_text'])), 60), true) .
+                nl2br(zen_trunc_string(zen_output_string_protected(stripslashes($current_review['reviews_text'])), 60), false) .
             '</a>' .
             '<div class="p-3 text-center rating">' .
-                zca_get_rating_stars($random_review_sidebox_product->fields['reviews_rating'], 'xs') .
+                zca_get_rating_stars($current_review['reviews_rating'], 'xs') .
             '</div>' .
         '</div>' .
         $carousel_end;

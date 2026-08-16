@@ -2,7 +2,7 @@
 /**
  * Side Box Template
  *
- * BOOTSTRAP v3.7.0
+ * BOOTSTRAP v3.8.0
  *
  *
  * @copyright Copyright 2003-2024 Zen Cart Development Team
@@ -44,10 +44,10 @@ foreach ($box_categories_array as $next_box_cat) {
     }
 
     if ($next_box_cat['has_sub_cat'] === true) {
-        $next_box_cat['name'] .= CATEGORIES_SEPARATOR;
+        $next_box_cat['name'] .= $tplSetting->CATEGORIES_SEPARATOR;
     }
 
-    if (($next_box_cat['top'] !== 'true' && SHOW_CATEGORIES_SUBCATEGORIES_ALWAYS !== '1') || zen_get_product_types_to_category($next_box_cat['path']) == 3) {
+    if (($next_box_cat['top'] !== 'true' && $tplSetting->SHOW_CATEGORIES_SUBCATEGORIES_ALWAYS !== '1') || zen_get_product_types_to_category($next_box_cat['path']) == 3) {
         // skip if this is for the document box (==3)
     } else {
         $content .=
@@ -63,9 +63,9 @@ foreach ($box_categories_array as $next_box_cat) {
             $content .= $next_box_cat['name'];
         }
 
-        if (SHOW_COUNTS === 'true') {
-            if ((CATEGORIES_COUNT_ZERO === '1' && $next_box_cat['count'] === 0) || $next_box_cat['count'] >= 1) {
-                $content .= '<span class="badge badge-pill">' . CATEGORIES_COUNT_PREFIX . $next_box_cat['count'] . CATEGORIES_COUNT_SUFFIX . '</span>';
+        if (zen_config('SHOW_COUNTS') === 'true') {
+            if (($tplSetting->CATEGORIES_COUNT_ZERO === '1' && $next_box_cat['count'] === 0) || $next_box_cat['count'] >= 1) {
+                $content .= '<span class="badge badge-pill">' . $tplSetting->CATEGORIES_COUNT_PREFIX . $next_box_cat['count'] . $tplSetting->CATEGORIES_COUNT_SUFFIX . '</span>';
             }
         }
 
@@ -73,13 +73,13 @@ foreach ($box_categories_array as $next_box_cat) {
     }
 }
 
-if (SHOW_CATEGORIES_BOX_SPECIALS === 'true') {
+if ($tplSetting->SHOW_CATEGORIES_BOX_SPECIALS === 'true') {
     $show_this = $db->Execute("SELECT s.products_id FROM " . TABLE_SPECIALS . " s WHERE s.status = 1 LIMIT 1");
     if (!$show_this->EOF) {
         $content .= '<a class="list-group-item list-group-item-action list-group-item-secondary" href="' . zen_href_link(FILENAME_SPECIALS) . '">' . CATEGORIES_BOX_HEADING_SPECIALS . '</a>';
     }
 }
-if (SHOW_CATEGORIES_BOX_PRODUCTS_NEW === 'true') {
+if ($tplSetting->SHOW_CATEGORIES_BOX_PRODUCTS_NEW === 'true') {
     // display limits
     $display_limit = zen_get_new_date_range();
 
@@ -92,13 +92,13 @@ if (SHOW_CATEGORIES_BOX_PRODUCTS_NEW === 'true') {
         $content .= '<a class="list-group-item list-group-item-action list-group-item-secondary" href="' . zen_href_link(FILENAME_PRODUCTS_NEW) . '">' . CATEGORIES_BOX_HEADING_WHATS_NEW . '</a>';
     }
 }
-if (SHOW_CATEGORIES_BOX_FEATURED_PRODUCTS === 'true') {
+if ($tplSetting->SHOW_CATEGORIES_BOX_FEATURED_PRODUCTS === 'true') {
     $show_this = $db->Execute("SELECT products_id FROM " . TABLE_FEATURED . " WHERE status = 1 LIMIT 1");
     if (!$show_this->EOF) {
         $content .= '<a class="list-group-item list-group-item-action list-group-item-secondary" href="' . zen_href_link(FILENAME_FEATURED_PRODUCTS) . '">' . CATEGORIES_BOX_HEADING_FEATURED_PRODUCTS . '</a>';
     }
 }
-if (defined('SHOW_CATEGORIES_BOX_FEATURED_CATEGORIES') && SHOW_CATEGORIES_BOX_FEATURED_CATEGORIES === 'true') {
+if ($tplSetting->SHOW_CATEGORIES_BOX_FEATURED_CATEGORIES === 'true') {
     $show_this = $db->Execute("SELECT categories_id FROM " . TABLE_FEATURED_CATEGORIES . " WHERE status = 1 LIMIT 1");
     if (!$show_this->EOF) {
         $content .=
@@ -107,7 +107,7 @@ if (defined('SHOW_CATEGORIES_BOX_FEATURED_CATEGORIES') && SHOW_CATEGORIES_BOX_FE
             '</a>' . "\n";
     }
 }
-if (SHOW_CATEGORIES_BOX_PRODUCTS_ALL === 'true') {
+if ($tplSetting->SHOW_CATEGORIES_BOX_PRODUCTS_ALL === 'true') {
     $content .= '<a class="list-group-item list-group-item-action  list-group-item-secondary" href="' . zen_href_link(FILENAME_PRODUCTS_ALL) . '">' . CATEGORIES_BOX_HEADING_PRODUCTS_ALL . '</a>';
 }
 

@@ -2,7 +2,7 @@
 /**
  * Side Box Template
  * 
- * BOOTSTRAP v3.5.0
+ * BOOTSTRAP v3.8.0
  *
  * @copyright Copyright 2003-2020 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
@@ -18,7 +18,7 @@ if ($_SESSION['cart']->count_contents() > 0) {
     // zc158 uses a renamed definition for the value, use it if present else use the legacy
     // definition.
     //
-    $quantity_suffix = (defined('CART_QUANTITY_SUFFIX')) ? CART_QUANTITY_SUFFIX : BOX_SHOPPING_CART_DIVIDER;
+    $quantity_suffix = $tplSetting->CART_QUANTITY_SUFFIX ?? $tplSetting->BOX_SHOPPING_CART_DIVIDER;
 
     $content .= '<ul class="list-group list-group-flush">';
     $products = $_SESSION['cart']->get_products();
