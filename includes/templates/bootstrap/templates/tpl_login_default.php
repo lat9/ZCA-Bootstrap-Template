@@ -59,7 +59,7 @@ if ($tplSetting->USE_SPLIT_LOGIN_MODE === 'True' || $ec_button_enabled) {
 
             <?= zen_draw_form('loginForm', zen_href_link(FILENAME_LOGIN, 'action=process' . (isset($_GET['gv_no']) ? '&gv_no=' . preg_replace('/[^0-9.,%]/', '', $_GET['gv_no']) : ''), 'SSL'), 'post', 'id="loginForm"') ?>
                 <label class="inputLabel" for="login-email-address"><?= ENTRY_EMAIL_ADDRESS ?></label>
-                <?= zen_draw_input_field('email_address', '', 'size="18" id="login-email-address" autofocus autocomplete="username" class="mb-2" placeholder="' . ENTRY_EMAIL_ADDRESS_TEXT . '"' . ((int)zen_config('ENTRY_EMAIL_ADDRESS_MIN_LENGTH') > 0 ? ' required' : ''), 'email') ?>
+                <?= zen_draw_input_field('email_address', '', 'size="18" id="login-email-address" autocomplete="username" class="mb-2" placeholder="' . ENTRY_EMAIL_ADDRESS_TEXT . '"' . ((int)zen_config('ENTRY_EMAIL_ADDRESS_MIN_LENGTH') > 0 ? ' required' : ''), 'email') ?>
 
                 <label class="inputLabel" for="login-password"><?= ENTRY_PASSWORD ?></label>
                 <?= zen_draw_password_field('password', '', 'size="18" id="login-password" autocomplete="current-password" class="mb-2" placeholder="' . ENTRY_REQUIRED_SYMBOL . '"' . ((int)zen_config('ENTRY_PASSWORD_MIN_LENGTH') > 0 ? ' required' : '')) ?>
@@ -101,7 +101,7 @@ if ($tplSetting->USE_SPLIT_LOGIN_MODE === 'True' || $ec_button_enabled) {
         <div class="tab-pane fade show active" id="nav-login" role="tabpanel" aria-labelledby="nav-login-tab">
             <?= zen_draw_form('loginForm', zen_href_link(FILENAME_LOGIN, 'action=process' . (isset($_GET['gv_no']) ? '&gv_no=' . preg_replace('/[^0-9.,%]/', '', $_GET['gv_no']) : ''), 'SSL'), 'post', 'id="loginForm"') ?>
                 <label class="inputLabel mt-3" for="login-email-address"><?= ENTRY_EMAIL_ADDRESS ?></label>
-                <?= zen_draw_input_field('email_address', '', zen_set_field_length(TABLE_CUSTOMERS, 'customers_email_address', '40') . ' id="login-email-address" autofocus autocomplete="username" class="mb-2"  placeholder="' . ENTRY_EMAIL_ADDRESS_TEXT . '"' . ((int)zen_config('ENTRY_EMAIL_ADDRESS_MIN_LENGTH') > 0 ? ' required' : ''), 'email') ?>
+                <?= zen_draw_input_field('email_address', '', zen_set_field_length(TABLE_CUSTOMERS, 'customers_email_address', '40') . ' id="login-email-address" autocomplete="username" class="mb-2"  placeholder="' . ENTRY_EMAIL_ADDRESS_TEXT . '"' . ((int)zen_config('ENTRY_EMAIL_ADDRESS_MIN_LENGTH') > 0 ? ' required' : ''), 'email') ?>
 
                 <label class="inputLabel" for="login-password"><?= ENTRY_PASSWORD ?></label>
                 <?= zen_draw_password_field('password', '', zen_set_field_length(TABLE_CUSTOMERS, 'customers_password', 40) . ' id="login-password" autocomplete="current-password" class="mb-2" placeholder="' . ENTRY_REQUIRED_SYMBOL . '"' . ((int)zen_config('ENTRY_PASSWORD_MIN_LENGTH') > 0 ? ' required' : '')) ?>
