@@ -39,10 +39,24 @@ img {
     transition: opacity 0.2s ease-out;
     opacity: 0;
 }
-
 #back-to-top.show {
     opacity: 1;
     z-index: 1;
+}
+.button_checkout,
+.button_continue_checkout,
+.small_edit,
+.button_confirm_order,
+.button_update,
+.button_delete_small,
+.button_add_address,
+.button_submit,
+.button_view,
+.button_send_a_gift_cert,
+.button_send,
+.pagination {
+    position: relative;
+    z-index: 2;
 }
 
 /* set height of scrollable area in mobile menu */
