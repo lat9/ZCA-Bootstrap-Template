@@ -54,6 +54,7 @@ img {
 .button_view,
 .button_send_a_gift_cert,
 .button_send,
+.carousel-control-next,
 .pagination {
     position: relative;
     z-index: 2;
