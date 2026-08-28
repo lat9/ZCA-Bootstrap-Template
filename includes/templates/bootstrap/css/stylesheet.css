@@ -43,17 +43,8 @@ img {
     opacity: 1;
     z-index: 1;
 }
-.button_checkout,
-.button_continue_checkout,
-.small_edit,
-.button_confirm_order,
-.button_update,
-.button_delete_small,
-.button_add_address,
-.button_submit,
-.button_view,
-.button_send_a_gift_cert,
-.button_send,
+input[name="password"],
+.btn,
 .carousel-control-next,
 .pagination {
     position: relative;
