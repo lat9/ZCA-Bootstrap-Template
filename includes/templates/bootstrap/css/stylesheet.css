@@ -45,9 +45,11 @@ img {
 }
 input[name="password"],
 .btn,
-.carousel-control-next,
 .pagination {
     position: relative;
+    z-index: 2;
+}
+.carousel-control-next {
     z-index: 2;
 }
 
