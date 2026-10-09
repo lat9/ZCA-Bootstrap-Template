@@ -8,6 +8,9 @@ class ScriptedInstaller extends ScriptedInstallBase
     use Zencart\PluginSupport\ScriptedInstallHelpers;
     use Zencart\Traits\InteractsWithPlugins;
 
+    private const CONFIG_GROUP_TITLE_SETTINGS = 'Bootstrap Template Settings';
+    private const CONFIG_GROUP_TITLE_COLORS = 'ZCA Bootstrap Colors';
+
     protected function executeInstall()
     {
         // -----
@@ -23,15 +26,25 @@ class ScriptedInstaller extends ScriptedInstallBase
         // causes the method to assign the sort-order based on the $cgi
         // value, if created.
         //
-        $cgi = $this->getOrCreateConfigGroupId('Bootstrap Template Settings', 'Bootstrap Template Settings', null);
+        $cgi = $this->getOrCreateConfigGroupId(self::CONFIG_GROUP_TITLE_SETTINGS, self::CONFIG_GROUP_TITLE_SETTINGS, null);
         $this->installTemplateSettings($cgi);
+
+        // -----
+        // "Mark" all configuration settings but the version as template-selectable.
+        //
+        $sql =
+            "UPDATE " . TABLE_CONFIGURATION . "
+                SET is_template_setting = 1
+              WHERE configuration_group_id = " . (int)$cgi . "
+                AND configuration_key != 'ZCA_BOOTSTRAP_VERSION'";
+        $this->executeInstallerSql($sql);
 
         // -----
         // Update the descriptions of some of the built-in configuration settings,
         // indicating their usage with the bootstrap template.
         //
         $this->updateConfigurationDescriptions();
-        
+
         // -----
         // Install (or update) the template's color-related settings.
         //
@@ -47,6 +60,26 @@ class ScriptedInstaller extends ScriptedInstallBase
 
     protected function executeUninstall()
     {
+        // -----
+        // Remove the various pages from the admin's menus.
+        //
+        zen_deregister_admin_pages(['toolsZCABootstrapColors', 'extrasZCABootstrapUninstall', 'configBootstrapTemplate']);
+
+        // -----
+        // Remove the "Bootstrap Colors" configuration values.
+        //
+        $this->executeInstallerSql(
+            "DELETE FROM " . TABLE_CONFIGURATION . "
+              WHERE configuration_key = 'ZCA_BOOTSTRAP_COLORS_VERSION'
+              LIMIT 1"
+        );
+        $this->deleteConfigurationGroup(self::CONFIG_GROUP_TITLE_COLORS, cascadeDeleteKeysToo: true);
+
+        // -----
+        // Remove the "Bootstrap Template" configuration values, if present.
+        //
+        $this->deleteConfigurationGroup(self::CONFIG_GROUP_TITLE_SETTINGS, cascadeDeleteKeysToo: true);
+
         return parent::executeUninstall();
     }
 
@@ -1232,7 +1265,7 @@ class ScriptedInstaller extends ScriptedInstallBase
         // -----
         // Determine the configuration-group-id for the template's color settings.
         //
-        $cgi = $this->getOrCreateConfigGroupId('ZCA Bootstrap Colors', 'ZCA Bootstrap Colors', null);
+        $cgi = $this->getOrCreateConfigGroupId(self::CONFIG_GROUP_TITLE_COLORS, self::CONFIG_GROUP_TITLE_COLORS, null);
         $this->executeInstallerSql(
             "UPDATE " . TABLE_CONFIGURATION_GROUP . "
                 SET visible = 0
