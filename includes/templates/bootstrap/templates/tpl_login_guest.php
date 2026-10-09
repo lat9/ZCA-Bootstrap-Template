@@ -3,7 +3,7 @@
 // Part of the One-Page Checkout plugin, provided under GPL 2.0 license by lat9 (cindy@vinosdefrutastropicales.com).
 // Copyright (C) 2017-2026, Vinos de Frutas Tropicales.  All rights reserved.
 //
-// Last updated: OPC v2.4.2/Bootstrap v3.8.0
+// Last updated: OPC v2.4.2/Bootstrap v3.8.1
 //
 ?>
 <div class="centerColumn" id="loginOpcDefault">
@@ -38,7 +38,7 @@ foreach ($column_blocks as $display_blocks) {
                 <div class="card-body">
                     <div class="card-text">
                         <?= TEXT_RETURNING_CUSTOMER_OPC ?>
-                        <?= zen_draw_form('login', zen_href_link(FILENAME_LOGIN, 'action=process' . $gv_no_param, 'SSL'), 'post', 'id="loginForm"') ?>
+                        <?= zen_draw_form('loginForm', zen_href_link(FILENAME_LOGIN, 'action=process' . $gv_no_param, 'SSL'), 'post', 'id="loginForm"') ?>
                         <div class="opc-label"><label for="login-email-address"><?= ENTRY_EMAIL_ADDRESS ?></label></div>
                         <?= zen_draw_input_field('email_address', '', 'size="18" id="login-email-address" autofocus placeholder="' . ENTRY_EMAIL_ADDRESS_TEXT . '"' . ((int)zen_config('ENTRY_EMAIL_ADDRESS_MIN_LENGTH') > 0 ? ' required' : ''), 'email') ?>
 

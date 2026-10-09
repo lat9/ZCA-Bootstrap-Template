@@ -39,10 +39,18 @@ img {
     transition: opacity 0.2s ease-out;
     opacity: 0;
 }
-
 #back-to-top.show {
     opacity: 1;
     z-index: 1;
+}
+input[name="password"],
+.btn,
+.pagination {
+    position: relative;
+    z-index: 2;
+}
+.carousel-control-next {
+    z-index: 2;
 }
 
 /* set height of scrollable area in mobile menu */
