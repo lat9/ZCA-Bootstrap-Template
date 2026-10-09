@@ -21,11 +21,31 @@ if ($tplSetting->USE_SPLIT_LOGIN_MODE === 'True' || $ec_button_enabled) {
 ?>
 <!--BOF PPEC split login- DO NOT REMOVE-->
 
+<!--bof returning customers card-->
+    <div id="returningCustomers-card" class="card mb-3">
+        <h2 id="returningCustomers-card-header" class="card-header"><?= HEADING_RETURNING_CUSTOMER_SPLIT ?></h2>
+        <div id="returningCustomers-card-body" class="card-body">
+            <div id="returningCustomers-content" class="content pb-3"><?= TEXT_RETURNING_CUSTOMER_SPLIT ?></div>
+
+            <?= zen_draw_form('loginForm', zen_href_link(FILENAME_LOGIN, 'action=process' . (isset($_GET['gv_no']) ? '&gv_no=' . preg_replace('/[^0-9.,%]/', '', $_GET['gv_no']) : ''), 'SSL'), 'post', 'id="loginForm"') ?>
+                <label class="inputLabel" for="login-email-address"><?= ENTRY_EMAIL_ADDRESS ?></label>
+                <?= zen_draw_input_field('email_address', '', 'size="18" id="login-email-address" autofocus autocomplete="username" class="mb-2" placeholder="' . ENTRY_EMAIL_ADDRESS_TEXT . '"' . ((int)zen_config('ENTRY_EMAIL_ADDRESS_MIN_LENGTH') > 0 ? ' required' : ''), 'email') ?>
+
+                <label class="inputLabel" for="login-password"><?= ENTRY_PASSWORD ?></label>
+                <?= zen_draw_password_field('password', '', 'size="18" id="login-password" autocomplete="current-password" class="mb-2" placeholder="' . ENTRY_REQUIRED_SYMBOL . '"' . ((int)zen_config('ENTRY_PASSWORD_MIN_LENGTH') > 0 ? ' required' : '')) ?>
+
+                <div id="returningCustomers-btn-toolbar" class="btn-toolbar justify-content-between" role="toolbar">
+                <?= '<a href="' . zen_href_link(FILENAME_PASSWORD_FORGOTTEN, '', 'SSL') . '">' . TEXT_PASSWORD_FORGOTTEN . '</a>' . zen_image_submit(BUTTON_IMAGE_LOGIN, BUTTON_LOGIN_ALT) ?>
+                </div>
+            <?= '</form>' ?>
+        </div>
+    </div>
+<!--eof returning customers card-->
+
 <!--bof new customers card-->
     <div id="newCustomers-card" class="card mb-3">
         <h2 id="newCustomers-card-header" class="card-header"><?= HEADING_NEW_CUSTOMER_SPLIT ?></h2>
         <div id="newCustomers-card-body" class="card-body">
-
 <?php
     // ** BEGIN PAYPAL EXPRESS CHECKOUT
     if ($ec_button_enabled) {
@@ -50,27 +70,6 @@ if ($tplSetting->USE_SPLIT_LOGIN_MODE === 'True' || $ec_button_enabled) {
         </div>
     </div>
 <!--eof new customers card-->
-
-<!--bof returning customers card-->
-    <div id="returningCustomers-card" class="card mb-3">
-        <h2 id="returningCustomers-card-header" class="card-header"><?= HEADING_RETURNING_CUSTOMER_SPLIT ?></h2>
-        <div id="returningCustomers-card-body" class="card-body">
-            <div id="returningCustomers-content" class="content pb-3"><?= TEXT_RETURNING_CUSTOMER_SPLIT ?></div>
-
-            <?= zen_draw_form('loginForm', zen_href_link(FILENAME_LOGIN, 'action=process' . (isset($_GET['gv_no']) ? '&gv_no=' . preg_replace('/[^0-9.,%]/', '', $_GET['gv_no']) : ''), 'SSL'), 'post', 'id="loginForm"') ?>
-                <label class="inputLabel" for="login-email-address"><?= ENTRY_EMAIL_ADDRESS ?></label>
-                <?= zen_draw_input_field('email_address', '', 'size="18" id="login-email-address" autocomplete="username" class="mb-2" placeholder="' . ENTRY_EMAIL_ADDRESS_TEXT . '"' . ((int)zen_config('ENTRY_EMAIL_ADDRESS_MIN_LENGTH') > 0 ? ' required' : ''), 'email') ?>
-
-                <label class="inputLabel" for="login-password"><?= ENTRY_PASSWORD ?></label>
-                <?= zen_draw_password_field('password', '', 'size="18" id="login-password" autocomplete="current-password" class="mb-2" placeholder="' . ENTRY_REQUIRED_SYMBOL . '"' . ((int)zen_config('ENTRY_PASSWORD_MIN_LENGTH') > 0 ? ' required' : '')) ?>
-
-                <div id="returningCustomers-btn-toolbar" class="btn-toolbar justify-content-between" role="toolbar">
-                <?= '<a href="' . zen_href_link(FILENAME_PASSWORD_FORGOTTEN, '', 'SSL') . '">' . TEXT_PASSWORD_FORGOTTEN . '</a>' . zen_image_submit(BUTTON_IMAGE_LOGIN, BUTTON_LOGIN_ALT) ?>
-                </div>
-            <?= '</form>' ?>
-        </div>
-    </div>
-<!--eof returning customers card-->
 
 <!--EOF PPEC split login- DO NOT REMOVE-->
 <?php
@@ -101,7 +100,7 @@ if ($tplSetting->USE_SPLIT_LOGIN_MODE === 'True' || $ec_button_enabled) {
         <div class="tab-pane fade show active" id="nav-login" role="tabpanel" aria-labelledby="nav-login-tab">
             <?= zen_draw_form('loginForm', zen_href_link(FILENAME_LOGIN, 'action=process' . (isset($_GET['gv_no']) ? '&gv_no=' . preg_replace('/[^0-9.,%]/', '', $_GET['gv_no']) : ''), 'SSL'), 'post', 'id="loginForm"') ?>
                 <label class="inputLabel mt-3" for="login-email-address"><?= ENTRY_EMAIL_ADDRESS ?></label>
-                <?= zen_draw_input_field('email_address', '', zen_set_field_length(TABLE_CUSTOMERS, 'customers_email_address', '40') . ' id="login-email-address" autocomplete="username" class="mb-2"  placeholder="' . ENTRY_EMAIL_ADDRESS_TEXT . '"' . ((int)zen_config('ENTRY_EMAIL_ADDRESS_MIN_LENGTH') > 0 ? ' required' : ''), 'email') ?>
+                <?= zen_draw_input_field('email_address', '', zen_set_field_length(TABLE_CUSTOMERS, 'customers_email_address', '40') . ' id="login-email-address" autofocus autocomplete="username" class="mb-2"  placeholder="' . ENTRY_EMAIL_ADDRESS_TEXT . '"' . ((int)zen_config('ENTRY_EMAIL_ADDRESS_MIN_LENGTH') > 0 ? ' required' : ''), 'email') ?>
 
                 <label class="inputLabel" for="login-password"><?= ENTRY_PASSWORD ?></label>
                 <?= zen_draw_password_field('password', '', zen_set_field_length(TABLE_CUSTOMERS, 'customers_password', 40) . ' id="login-password" autocomplete="current-password" class="mb-2" placeholder="' . ENTRY_REQUIRED_SYMBOL . '"' . ((int)zen_config('ENTRY_PASSWORD_MIN_LENGTH') > 0 ? ' required' : '')) ?>
