@@ -175,13 +175,14 @@ img {
     <h2>Version History</h2>
     <p>This section identifies the template's version history and changes, starting with its v2.0.0c release.  Prior version changes can be found in the root of the template's distribution zip-file (<code>CHANGELOG.txt</code>).</p>
     <ul>
-        <li>v3.8.1-beta3, 2026-08-26 (lat9, brittainmark, highburyeye)<ul>
+        <li>v3.8.1-beta2, 2026-10-09 (lat9, brittainmark, highburyeye, dbltoe)<ul>
             <li>BUGFIX: Correct language-constant 'mispelling' in Bootstrap Colors tool.</li>
             <li>BUGFIX: Correct attribute display for layout styles 3-5.</li>
             <li>BUGFIX: Correct <em>Specials</em> link in mobile menu.</li>
             <li>BUGFIX: 'Hardening' of AJAX search; note that the header-based search no longer displays on the <code>search</code> page.</li>
             <li>BUGFIX: Correct login form name (prevents email-address auto-focus); introduced in v3.8.0.</li>
             <li>BUGFIX: Push <em>back to top</em> button underneath important buttons.</li>
+            <li>BUGFIX: Swap login/create account blocks so that login focus doesn't 'lost' create-account block.</li>
             <li>The following files were changed:<ol>
                 <li>/includes/classes/ajax/zcAjaxBootstrapSearch.php</li>
                 <li>/includes/modules/bootstrap/attributes.php</li>
@@ -190,6 +191,7 @@ img {
                 <li>/includes/templates/bootstrap/css/stylesheet.css</li>
                 <li>/includes/templates/bootstrap/jscript/ajax_search.js</li>
                 <li>/includes/templates/bootstrap/jscript/ajax_search.min.js</li>
+                <li>/includes/templates/bootstrap/templates/tpl_login_default.php</li>
                 <li>/includes/templates/bootstrap/templates/tpl_login_guest.php</li>
                 <li>/YOUR_ADMIN/zca_bootstrap_colors.php</li>
                 <li>/YOUR_ADMIN/includes/init_includes/init_zca_bootstrap_template_admin.php</li>
