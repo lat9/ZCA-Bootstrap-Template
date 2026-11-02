@@ -24,5 +24,4 @@ require($template->get_template_dir('/tpl_modules_listing_display_order.php',DIR
 
 <?php require($template->get_template_dir('tpl_modules_product_listing.php',DIR_WS_TEMPLATE, $current_page_base,'templates'). '/tpl_modules_product_listing.php'); ?>
 
-
 </div>

@@ -15,7 +15,8 @@ function is_bootstrap_template(): bool
 {
     global $template_dir;
 
-    $templateRecord = new \Zencart\ResourceLoaders\TemplateResolver()->getTemplateRecord($template_dir);
+    $templateResolver = new \Zencart\ResourceLoaders\TemplateResolver();
+    $templateRecord = $templateResolver->getTemplateRecord($template_dir);
     return !empty($templateRecord['manifest']['template']['isBootstrap']);
 }
 

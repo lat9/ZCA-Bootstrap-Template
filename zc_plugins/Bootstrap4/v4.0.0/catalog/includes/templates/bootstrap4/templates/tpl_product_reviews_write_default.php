@@ -2,7 +2,7 @@
 /**
  * Page Template
  *
- * BOOTSTRAP v3.8.0
+ * BOOTSTRAP v4.0.0
  *
  * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
@@ -72,14 +72,6 @@ if (!empty($products_model)) {
 <!--bof products review write card-->
     <div id="productsReviewWrite-card" class="card">
         <div id="productsReviewWrite-card-header" class="card-header">
-<?php
-// -----
-// In zc200+, the name of the variable that contains the name of the reviewer has
-// changed from $customer to $reviewer.  Since this template still supports
-// zc157 and later, use $reviewer if present; otherwise, fall back to $customer.
-//
-$reviewer = $reviewer ?? $customer;
-?>
             <?= SUB_TITLE_FROM . ' ' . zen_output_string_protected($reviewer->fields['customers_firstname'] . ' ' . $reviewer->fields['customers_lastname']) ?>
         </div>
         <div id="productsReviewWrite-card-body" class="card-body">

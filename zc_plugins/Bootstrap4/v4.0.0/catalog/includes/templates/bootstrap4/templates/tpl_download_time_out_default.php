@@ -19,7 +19,6 @@
 
 <h1 id="downloadTimeOutDefault-pageHeading" class="pageHeading"><?php echo HEADING_TITLE; ?></h1>
 
-
 <div id="downloadTimeOutDefault-content" class="content"><?php echo TEXT_INFORMATION; ?></div>
 
-</div> 
+</div>
