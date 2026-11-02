@@ -4,7 +4,7 @@
  *
  * Inspired by https://bootsnipp.com/snippets/0egAD
  *
- * BOOTSTRAP v3.7.10
+ * BOOTSTRAP v3.8.1
  *
  * This file is used for generating a carousel for various centerboxes.
  *
