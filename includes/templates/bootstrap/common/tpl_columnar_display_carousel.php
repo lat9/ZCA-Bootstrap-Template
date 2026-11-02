@@ -4,7 +4,7 @@
  *
  * Inspired by https://bootsnipp.com/snippets/0egAD
  *
- * BOOTSTRAP v3.7.10
+ * BOOTSTRAP v3.8.1
  *
  * This file is used for generating a carousel for various centerboxes.
  *
@@ -93,7 +93,8 @@ $centerbox_carousel_wrapper_id = 'centerbox-carousel-' . $centerbox_carousel_cou
     <?= $title ?>
     <div class="card-body text-center"<?= $card_body_id ?>>
         <div id="<?= $centerbox_carousel_wrapper_id ?>" class="carousel slide multi-carousel <?= $carousel_fade ?>" data-ride="carousel">
-            <div class="carousel-inner">
+            <!-- Keep the products in one row until JavaScript builds the slides. -->
+            <div class="carousel-inner d-flex flex-nowrap">
 <?php
 $carousel_item_class = "$carousel_class_lg $carousel_class_md";
 foreach ($list_box_contents as $row => $cols) {
@@ -102,7 +103,7 @@ foreach ($list_box_contents as $row => $cols) {
             continue;
         }
 ?>
-                <div class="carousel-grid <?= $carousel_item_class ?> col-sm-1">
+                <div class="carousel-grid <?= $carousel_item_class ?> col-12">
                     <?= $col['text'] ?>
                 </div>
 <?php
@@ -138,6 +139,7 @@ if ($centerbox_carousel_count === 1) {
 var origin<?= $centerbox_carousel_count ?> = $('#<?= $centerbox_carousel_wrapper_id ?> .carousel-inner').prop('outerHTML');
 function multiCarousel<?= $centerbox_carousel_count ?>()
 {
+    $('#<?= $centerbox_carousel_wrapper_id ?> .carousel-inner').removeClass('d-flex flex-nowrap');
     if ($('#lg').is(':visible')) {
         do {
             $('#<?= $centerbox_carousel_wrapper_id ?> .carousel-inner').children('.carousel-grid:lt(<?= $products_per_row_large ?>)').wrapAll('<div class="carousel-item"><div class="row"></div></div>');
@@ -156,14 +158,19 @@ function multiCarousel<?= $centerbox_carousel_count ?>()
     }
 }
 
-$(window).on('load resize', function() {
+function refreshCarousel<?= $centerbox_carousel_count ?>()
+{
     $.when(
         $('#<?= $centerbox_carousel_wrapper_id ?> .carousel-inner').replaceWith(origin<?= $centerbox_carousel_count ?>),
         multiCarousel<?= $centerbox_carousel_count ?>()
     ).done(function() {
         $('#<?= $centerbox_carousel_wrapper_id ?>').animate({opacity: 1}, 'fast', 'linear');
     });
-});
+}
+
+// Build the slides as soon as the DOM is ready; retain image-load and resize updates.
+$(refreshCarousel<?= $centerbox_carousel_count ?>);
+$(window).on('load resize', refreshCarousel<?= $centerbox_carousel_count ?>);
 </script>
 <?php
 $zco_notifier->notify('NOTIFY_TPL_COLUMNAR_DISPLAY_CAROUSEL_END', $current_page_base, $list_box_contents, $title);
