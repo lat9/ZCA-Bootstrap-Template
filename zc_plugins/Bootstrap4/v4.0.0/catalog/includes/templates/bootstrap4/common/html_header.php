@@ -2,7 +2,7 @@
 /**
  * Common Template
  *
- * BOOTSTRAP v3.8.0
+ * BOOTSTRAP v4.0.0
  *
  * outputs the html header. i,e, everything that comes before the </head> tag.
  *
@@ -89,7 +89,7 @@ if (defined('ROBOTS_PAGES_TO_SKIP') && in_array($current_page_base, explode(',',
 <?php
 }
 ?>
-    <base href="<?= (($request_type === 'SSL') ? HTTPS_SERVER . DIR_WS_HTTPS_CATALOG : HTTP_SERVER . DIR_WS_CATALOG ) ?>">
+    <base href="<?= HTTP_SERVER . DIR_WS_CATALOG ?>">
 <?php
 if (defined('FAVICON')) {
 ?>
